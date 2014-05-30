@@ -1,9 +1,16 @@
-﻿using System.Web.Mvc;
+﻿/* ObjectIdBinder.cs
+* 
+* Purpose: A model binder for ObjectIds
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Created
+*/ 
+
+using System.Web.Mvc;
 using MongoDB.Bson;
 
 namespace TableTopTally.Helpers
 {
-
     /// <summary>
     /// A model binder for mongoDB objectIds
     /// </summary>

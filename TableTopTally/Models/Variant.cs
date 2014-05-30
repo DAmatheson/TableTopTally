@@ -1,4 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/* Variant.cs
+* 
+* Purpose: A class for game variants / setups
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Created
+*/ 
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

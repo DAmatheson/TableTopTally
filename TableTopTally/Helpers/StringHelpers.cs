@@ -1,4 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿/* StringHelpers.cs
+* 
+* Purpose: A string extension method for creating Url slugs from strings
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Implemented
+*/ 
+
+using System.Text.RegularExpressions;
 
 namespace TableTopTally.Helpers
 {

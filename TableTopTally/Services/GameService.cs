@@ -1,4 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/* GameService.cs
+* 
+* Purpose: A class with methods for CRUDing Game documents in MongoDB
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Created
+*/
+
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -13,14 +21,14 @@ namespace TableTopTally.Services
     /// </summary>
     public class GameService
     {
-        private readonly MongoHelper<Game> games;
+        private readonly MongoCollection<Game> gamesCollection;
 
         /// <summary>
         /// Initializes a new instance of the GameService class
         /// </summary>
         public GameService()
         {
-            games = new MongoHelper<Game>();
+            gamesCollection = MongoHelper.GetTableTopCollection<Game>();
         }
 
         /// <summary>
@@ -30,12 +38,12 @@ namespace TableTopTally.Services
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
         public bool Create(Game game)
         {
-            if ( !game.Variants.Any() )
+            if (!game.Variants.Any())
             {
                 game.Variants = new List<Variant>();
             }
 
-            return !games.Collection.Insert(game).HasLastErrorMessage;
+            return !gamesCollection.Insert(game).HasLastErrorMessage;
         }
 
         /// <summary>
@@ -45,7 +53,7 @@ namespace TableTopTally.Services
         /// <returns>A bool representing if the edit completed successfully</returns>
         public bool Edit(Game game)
         {
-            return !games.Collection.Update(
+            return !gamesCollection.Update(
                 Query.EQ("_id", game.GameId),
                 Update.Set("Name", game.Name).
                     Set("Url", game.Url)).
@@ -59,7 +67,7 @@ namespace TableTopTally.Services
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
         public bool Delete(ObjectId gameId)
         {
-            return !games.Collection.Remove(Query.EQ("_id", gameId), RemoveFlags.Single).
+            return !gamesCollection.Remove(Query.EQ("_id", gameId), RemoveFlags.Single).
                 HasLastErrorMessage;
         }
 
@@ -69,9 +77,9 @@ namespace TableTopTally.Services
         /// <returns>An IEnumerable of type Game sorted by Name</returns>
         public IEnumerable<Game> GetGames()
         {
-            // Unsure: Sort in mongo or C#?
+            // Unsure: Sort in mongo or C#? Also: Should I .ToList()? Doing so will take care of disposing the cursor
 
-            return games.Collection.FindAll().
+            return gamesCollection.FindAll().
                 SetFields(Fields.Exclude("Variants")).
                 SetSortOrder(SortBy.Ascending("Name"));
         }
@@ -84,7 +92,7 @@ namespace TableTopTally.Services
         public Game GetVariantlessGameByUrl(string gameUrl)
         {
             // Todo: Better name for this method. It will be used for editing a game's information
-            return games.Collection.Find(Query.EQ("Url", gameUrl)).
+            return gamesCollection.Find(Query.EQ("Url", gameUrl)).
                 SetFields(Fields.Exclude("Variants")).
                 Single();
         }
@@ -96,8 +104,8 @@ namespace TableTopTally.Services
         /// <returns>A Game object</returns>
         public Game GetGameById(ObjectId gameId)
         {
-            return games.Collection.Find(Query.EQ("_id", gameId)).
-                    Single();
+            return gamesCollection.Find(Query.EQ("_id", gameId)).
+                Single();
         }
 
         /// <summary>
@@ -109,7 +117,7 @@ namespace TableTopTally.Services
         {
             // UNSURE: Sort in mongo or C#?
 
-            var game = games.Collection.Find(Query.EQ("Url", gameUrl)).
+            var game = gamesCollection.Find(Query.EQ("Url", gameUrl)).
                 Single();
 
             game.Variants = game.Variants.OrderBy(c => c.Name).ToList();

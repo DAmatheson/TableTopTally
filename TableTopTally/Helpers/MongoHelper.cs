@@ -1,29 +1,42 @@
-﻿using System.Configuration;
+﻿/* MongoHelper.cs
+* 
+* Purpose: A helper class to simplify getting mongoDB collections
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Created
+*/ 
+
+using System.Configuration;
 using MongoDB.Driver;
 
 namespace TableTopTally.Helpers
 {
-    public class MongoHelper<T> where T : class
+    public static class MongoHelper
     {
-        /// <summary>
-        /// The mongoDB collection for type T
-        /// </summary>
-        public MongoCollection<T> Collection { get; private set; }
+        private static readonly MongoDatabase dbTableTopTally;
 
         /// <summary>
-        /// Initializes a instance of the MongoHelper class
+        /// Initializes the static properties of the class
         /// </summary>
-        public MongoHelper()
+        static MongoHelper()
         {
-            var con = new MongoConnectionStringBuilder(
+            var conn = new MongoConnectionStringBuilder(
                 ConfigurationManager.ConnectionStrings["MongoTableTopTally"].ConnectionString
-            );
+                );
 
-            var client = new MongoClient(con.ConnectionString);
+            var client = new MongoClient(conn.ConnectionString);
             var server = client.GetServer();
-            var db = server.GetDatabase(con.DatabaseName);
+            dbTableTopTally = server.GetDatabase(conn.DatabaseName);
+        }
 
-            Collection = db.GetCollection<T>(typeof(T).Name.ToLower());
+        /// <summary>
+        /// Gets and returns the collection for type T from mongoDB
+        /// </summary>
+        /// <typeparam name="T">The type of the collection you wish to get</typeparam>
+        /// <returns>The collection in Mongo's TableTopTally db for type T</returns>
+        public static MongoCollection<T> GetTableTopCollection<T>() where T : class
+        {
+            return dbTableTopTally.GetCollection<T>(typeof (T).Name.ToLower() + 's');
         }
     }
 }

@@ -1,6 +1,15 @@
-﻿using System.Collections.Generic;
+﻿/* VariantService.cs
+* 
+* Purpose: A class with methods for CRUDing a Game's variant documents in MongoDB
+* 
+* Revision History:
+*      Drew Matheson, 2014.05.29: Created
+*/ 
+
+using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
@@ -12,14 +21,14 @@ namespace TableTopTally.Services
     /// </summary>
     public class VariantService
     {
-        private readonly MongoHelper<Game> games;
+        private readonly MongoCollection<Game> gamesCollection;
 
         /// <summary>
         /// Initializes a new instance of the VariantService class
         /// </summary>
         public VariantService()
         {
-            games = new MongoHelper<Game>();
+            this.gamesCollection = MongoHelper.GetTableTopCollection<Game>();
         }
 
         /// <summary>
@@ -30,8 +39,8 @@ namespace TableTopTally.Services
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
         public bool Create(ObjectId gameId, Variant variant)
         {
-            return !games.Collection.Update(
-                Query.EQ("_id", gameId), 
+            return !this.gamesCollection.Update(
+                Query.EQ("_id", gameId),
                 Update.PushWrapped("Variants", variant)).
                 HasLastErrorMessage;
         }
@@ -45,7 +54,7 @@ namespace TableTopTally.Services
         public bool Edit(ObjectId gameId, Variant variant)
         {
             // Bug: I think currently this would keep adding ScoreItems to the Variant
-            return !games.Collection.Update(
+            return !this.gamesCollection.Update(
                 Query.And(
                     Query.EQ("_id", gameId),
                     Query.ElemMatch("Variants", Query.EQ("_id", variant.VariantId))),
@@ -63,8 +72,8 @@ namespace TableTopTally.Services
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
         public bool Delete(ObjectId gameId, ObjectId variantId)
         {
-            return !games.Collection.Update(
-                Query.EQ("_id", gameId), 
+            return !this.gamesCollection.Update(
+                Query.EQ("_id", gameId),
                 Update.Pull("Variants", Query.EQ("_id", variantId))).
                 HasLastErrorMessage;
         }
@@ -78,9 +87,10 @@ namespace TableTopTally.Services
         public Game GetVariantByUrl(string gameUrl, string variantUrl)
         {
             return
-                games.Collection.Find(Query.EQ("Url", gameUrl)).
-                    SetFields(Fields.Include("_id", "Url").
-                    ElemMatch("Variants", Query.EQ("Url", variantUrl))).
+                this.gamesCollection.Find(Query.EQ("Url", gameUrl)).
+                    SetFields(
+                        Fields.Include("_id", "Url").
+                            ElemMatch("Variants", Query.EQ("Url", variantUrl))).
                     Single();
         }
 
@@ -92,17 +102,17 @@ namespace TableTopTally.Services
         /// <returns>A Game object with the matching Variant</returns>
         public Game GetVariantById(ObjectId gameId, ObjectId variantId)
         {
+            // ElemMatch returns only the matching element from the array instead of all elements
             return
-                games.Collection.Find(Query.EQ("_id", gameId)).
+                this.gamesCollection.Find(Query.EQ("_id", gameId)).
                     SetFields(
                         Fields.Include("_id", "Url").
-                        ElemMatch("Variants", Query.EQ("_id", variantId))).
+                            ElemMatch("Variants", Query.EQ("_id", variantId))).
                     Single();
-
 
             // Unsure: Other option, but it seems redundant to me
             //return
-            //    games.Collection.Find(
+            //    gamesCollection.Find(
             //        Query.And(
             //            Query.EQ("_id", gameId), 
             //            Query.ElemMatch("Variant", Query.EQ("_id", variantId)))).
@@ -119,7 +129,7 @@ namespace TableTopTally.Services
         /// <returns>An IOrderedEnumerable of the variants ordered by Name</returns>
         public IEnumerable<Variant> GetVariants(string gameUrl)
         {
-            var game = games.Collection.Find(Query.EQ("Url", gameUrl)).
+            var game = this.gamesCollection.Find(Query.EQ("Url", gameUrl)).
                 SetFields(Fields.Include("Variants")).
                 Single();
 
