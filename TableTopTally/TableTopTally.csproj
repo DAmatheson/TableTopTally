@@ -198,6 +198,7 @@
     <Compile Include="Models\Variant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\PlaySessionService.cs" />
     <Compile Include="Services\VariantService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

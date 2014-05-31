@@ -20,20 +20,21 @@ namespace TableTopTally.Helpers
         /// </summary>
         static MongoHelper()
         {
-            var conn = new MongoConnectionStringBuilder(
-                ConfigurationManager.ConnectionStrings["MongoTableTopTally"].ConnectionString
-                );
+            var connString = ConfigurationManager.ConnectionStrings["MongoTableTopTally"].ConnectionString;
+            var url = new MongoUrl(connString);
 
-            var client = new MongoClient(conn.ConnectionString);
+            var client = new MongoClient(url);
             var server = client.GetServer();
-            dbTableTopTally = server.GetDatabase(conn.DatabaseName);
+
+            dbTableTopTally = server.GetDatabase(url.DatabaseName);
         }
 
         /// <summary>
-        /// Gets and returns the collection for type T from mongoDB
+        /// Gets the collection for type T from the tableTopTally MongoDB database with a default
+        /// document type of T
         /// </summary>
-        /// <typeparam name="T">The type of the collection you wish to get</typeparam>
-        /// <returns>The collection in Mongo's TableTopTally db for type T</returns>
+        /// <typeparam name="T">The default document type and the collection to get</typeparam>
+        /// <returns>The collection for type T</returns>
         public static MongoCollection<T> GetTableTopCollection<T>() where T : class
         {
             return dbTableTopTally.GetCollection<T>(typeof (T).Name.ToLower() + 's');

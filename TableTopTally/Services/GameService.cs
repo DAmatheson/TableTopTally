@@ -17,7 +17,7 @@ using TableTopTally.Models;
 namespace TableTopTally.Services
 {
     /// <summary>
-    /// Provides methods for CRUDing games in a mongoDB database
+    /// Provides methods for CRUDing games to a mongoDB database
     /// </summary>
     public class GameService
     {
