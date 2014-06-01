@@ -57,7 +57,7 @@ namespace TableTopTally.Services
             return !this.gamesCollection.Update(
                 Query.And(
                     Query.EQ("_id", gameId),
-                    Query.ElemMatch("Variants", Query.EQ("_id", variant.VariantId))),
+                    Query.ElemMatch("Variants", Query.EQ("_id", variant.Id))),
                 Update.
                     Set("Variants.$.Name", variant.Name).
                     PushEachWrapped("Variants.$.ScoreItems", variant.ScoreItems)).

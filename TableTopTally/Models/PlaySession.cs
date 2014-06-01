@@ -1,11 +1,10 @@
 ﻿/* PlaySession.cs
-* 
-* Purpose: Class for play sessions
-* 
-* Revision History:
-*      Drew Matheson, 2014.05.29: Created
- *     Drew Matheson, 2014.05.30: Added constructors, Date, Game Variant Creator Ids, Players, and Ranks
-*/
+ * 
+ * Purpose: Class for play sessions
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.05.29: Created
+ */
 
 using System;
 using System.Collections.Generic;
@@ -16,38 +15,32 @@ namespace TableTopTally.Models
 {
     public class PlaySession
     {
+        public PlaySession() { }
+
         /// <summary>
         /// Initializes a new instance of the PlaySession class
         /// </summary>
-        public PlaySession()
+        /// <param name="gameId">ObjectId for the sessions game</param>
+        /// <param name="variantId">ObjectId for the sessions game variant</param>
+        /// <param name="creatorId">Objectid for the player who created the session</param>
+        /// <param name="players">IEnumerable of type Player containing all the session's players</param>
+        public PlaySession(ObjectId gameId, ObjectId variantId, ObjectId creatorId, IEnumerable<Player> players)
         {
+            Id = ObjectId.GenerateNewId();
             Date = DateTime.Today;
+            Rounds = new List<Round>();
 
-            // Initialize the session with one round
-            Rounds = new List<Round> { new Round() };
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the PlaySession class and sets GameId and VariantId
-        /// </summary>
-        /// <param name="gameId">ObjectId of the session's game</param>
-        /// <param name="variantId">ObjectId of the session's game variant</param>
-        public PlaySession(ObjectId gameId, ObjectId variantId)
-        {
             GameId = gameId;
             VariantId = variantId;
-
-            Date = DateTime.Today;
-
-            // Initialize the session with one round
-            Rounds = new List<Round> { new Round() };
+            CreatorId = creatorId;
+            Players = players;
         }
 
         /// <summary>
         /// The Session's Id
         /// </summary>
         [BsonId]
-        public ObjectId SessionId { get; set; }
+        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The date of the session
@@ -55,18 +48,34 @@ namespace TableTopTally.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// A collection of all the Round's of the Session
+        /// A collection of all the Round's of the session
         /// </summary>
-        public IEnumerable<Round> Rounds { get; set; }
+        public IList<Round> Rounds { get; set; }
 
+        /// <summary>
+        /// The GameId for the session's game
+        /// </summary>
         public ObjectId GameId { get; set; }
 
+        /// <summary>
+        /// The VariantId for the session's game variant
+        /// </summary>
         public ObjectId VariantId { get; set; }
 
+        /// <summary>
+        /// The Id of the player who created the session
+        /// </summary>
         public ObjectId CreatorId { get; set; }
 
-        public IList<Player> Players { get; set; }
+        /// <summary>
+        /// A collection of all the Round's players
+        /// </summary>
+        /// <remarks>Unsure: IEnumerable because players won't be added later?</remarks>
+        public IEnumerable<Player> Players { get; set; }
 
-        public IList<Player> Ranks { get; set; }
+        /// <summary>
+        /// The Session's overall rankings
+        /// </summary>
+        public Ranking Ranks { get; set; }
     }
 }

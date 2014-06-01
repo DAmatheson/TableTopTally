@@ -1,11 +1,13 @@
 ﻿/* PlayerScore.cs
-* 
-* Purpose: A class for player's scores
-* 
-* Revision History:
-*      Drew Matheson, 2014.05.29: Created
-*/ 
+ * 
+ * Purpose: A class for player's scores
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.05.29: Created
+ */
 
+using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -13,11 +15,19 @@ namespace TableTopTally.Models
 {
     public class PlayerScore
     {
+        /// <remarks>Empty constructor used by the mongoDB C# driver to deserialize documents</remarks>
+        public PlayerScore() { }
+
         /// <summary>
-        /// The PlayerScore's Id
+        /// Initializes a new instance of the PlayerScore class
         /// </summary>
-        [BsonId]
-        public ObjectId PlayerScoreId { get; set; }
+        /// <param name="playerId">ObjectId for the player the instance represents</param>
+        public PlayerScore(ObjectId playerId)
+        {
+            ScoreItems = new Dictionary<ObjectId, float>();
+
+            PlayerId = playerId;
+        }
 
         /// <summary>
         /// The Player's Id
@@ -25,8 +35,26 @@ namespace TableTopTally.Models
         public ObjectId PlayerId { get; set; }
 
         /// <summary>
+        /// The key is the ObjectId of the scoring item, and the value is the player's score for that item
+        /// </summary>
+        public IDictionary<ObjectId, float> ScoreItems { get; set; }
+
+        /// <summary>
         /// The Player's score for the round
         /// </summary>
-        public float Score { get; set; }
+        [BsonIgnore]
+        public float ScoreTotal
+        {
+            get
+            {
+                float total = 0f;
+
+                if (ScoreItems != null && ScoreItems.Any())
+                {
+                    total = ScoreItems.Sum(scoreItem => scoreItem.Value);
+                }
+                return total;
+            }
+        }
     }
 }

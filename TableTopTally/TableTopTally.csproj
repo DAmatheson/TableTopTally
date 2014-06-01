@@ -192,6 +192,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerScore.cs" />
     <Compile Include="Models\PlaySession.cs" />
+    <Compile Include="Models\Ranking.cs" />
     <Compile Include="Models\Round.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ScoreItem.cs" />

@@ -1,39 +1,53 @@
 ﻿/* Variant.cs
-* 
-* Purpose: A class for game variants / setups
-* 
-* Revision History:
-*      Drew Matheson, 2014.05.29: Created
-*/ 
+ * 
+ * Purpose: A class for game variants / setups
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.05.29: Created
+ */ 
 
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Helpers;
 
 namespace TableTopTally.Models
 {
     public class Variant
     {
-        [ScaffoldColumn(false)]
+        public Variant() { }
+
+        /// <summary>
+        /// Initializes a new instance of the Variant class
+        /// </summary>
+        /// <param name="name">The name of the variant</param>
+        public Variant(string name)
+        {
+            Id = ObjectId.GenerateNewId();
+
+            // Todo: Consider not initializing and changing prop to IEnumerable
+            ScoreItems = new List<ScoreItem>();
+
+            Name = name;
+            Url = name.GenerateSlug();
+        }
+
         [BsonId]
-        public ObjectId VariantId { get; set; }
+        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The Variant's Name
         /// </summary>
-        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// The Url for the Variant
         /// </summary>
-        [ScaffoldColumn(false)]
         public string Url { get; set; }
 
         /// <summary>
         /// A collection of all  ScoreItems for the Variant
         /// </summary>
-        public IEnumerable<ScoreItem> ScoreItems { get; set; }
+        public IList<ScoreItem> ScoreItems { get; set; }
     }
 }

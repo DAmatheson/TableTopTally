@@ -54,7 +54,7 @@ namespace TableTopTally.Services
         public bool Edit(Game game)
         {
             return !gamesCollection.Update(
-                Query.EQ("_id", game.GameId),
+                Query.EQ("_id", game.Id),
                 Update.Set("Name", game.Name).
                     Set("Url", game.Url)).
                 HasLastErrorMessage;
