@@ -24,7 +24,7 @@ namespace TableTopTally.Models
         /// <param name="playerId">ObjectId for the player the instance represents</param>
         public PlayerScore(ObjectId playerId)
         {
-            ScoreItems = new Dictionary<ObjectId, float>();
+            ScoreItems = new Dictionary<ObjectId, double>();
 
             PlayerId = playerId;
         }
@@ -37,17 +37,17 @@ namespace TableTopTally.Models
         /// <summary>
         /// The key is the ObjectId of the scoring item, and the value is the player's score for that item
         /// </summary>
-        public IDictionary<ObjectId, float> ScoreItems { get; set; }
+        public IDictionary<ObjectId, double> ScoreItems { get; set; }
 
         /// <summary>
         /// The Player's score for the round
         /// </summary>
         [BsonIgnore]
-        public float ScoreTotal
+        public double ScoreTotal
         {
             get
             {
-                float total = 0f;
+                double total = 0f;
 
                 if (ScoreItems != null && ScoreItems.Any())
                 {
