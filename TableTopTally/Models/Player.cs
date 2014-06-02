@@ -7,11 +7,11 @@
  */ 
 
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Entities;
 
 namespace TableTopTally.Models
 {
-    public class Player
+    public class Player : MongoEntity
     {
         public Player() { }
 
@@ -24,12 +24,6 @@ namespace TableTopTally.Models
             Id = ObjectId.GenerateNewId();
             Name = name;
         }
-
-        /// <summary>
-        /// The Player's Id
-        /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The Player's Name

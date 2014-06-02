@@ -8,6 +8,7 @@
 
 using System.Configuration;
 using MongoDB.Driver;
+using TableTopTally.Entities;
 
 namespace TableTopTally.Helpers
 {
@@ -35,7 +36,7 @@ namespace TableTopTally.Helpers
         /// </summary>
         /// <typeparam name="T">The default document type and the collection to get</typeparam>
         /// <returns>The collection for type T</returns>
-        public static MongoCollection<T> GetTableTopCollection<T>() where T : class
+        public static MongoCollection<T> GetTableTopCollection<T>() where T : IMongoEntity
         {
             return dbTableTopTally.GetCollection<T>(typeof (T).Name.ToLower() + 's');
         }

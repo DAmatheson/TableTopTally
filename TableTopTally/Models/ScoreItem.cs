@@ -7,11 +7,11 @@
  */ 
 
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Entities;
 
 namespace TableTopTally.Models
 {
-    public class ScoreItem
+    public class ScoreItem : MongoEntity
     {
         public ScoreItem() { }
 
@@ -26,12 +26,6 @@ namespace TableTopTally.Models
             Name = name;
             Description = description;
         }
-
-        /// <summary>
-        /// The Scoring item's Id
-        /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The ScoreItems Name

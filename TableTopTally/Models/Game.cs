@@ -8,12 +8,12 @@
 
 using System.Collections.Generic;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Entities;
 using TableTopTally.Helpers;
 
 namespace TableTopTally.Models
 {
-    public class Game
+    public class Game : MongoEntity
     {
         public Game() { }
 
@@ -27,12 +27,6 @@ namespace TableTopTally.Models
             Name = name;
             Url = name.GenerateSlug();
         }
-
-        /// <summary>
-        /// The Game's Id
-        /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The Game's Name

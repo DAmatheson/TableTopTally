@@ -8,12 +8,12 @@
 
 using System.Collections.Generic;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Entities;
 using TableTopTally.Helpers;
 
 namespace TableTopTally.Models
 {
-    public class Variant
+    public class Variant : MongoEntity
     {
         public Variant() { }
 
@@ -31,9 +31,6 @@ namespace TableTopTally.Models
             Name = name;
             Url = name.GenerateSlug();
         }
-
-        [BsonId]
-        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The Variant's Name

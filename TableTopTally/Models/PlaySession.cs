@@ -9,11 +9,11 @@
 using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Entities;
 
 namespace TableTopTally.Models
 {
-    public class PlaySession
+    public class PlaySession : MongoEntity
     {
         public PlaySession() { }
 
@@ -35,12 +35,6 @@ namespace TableTopTally.Models
             CreatorId = creatorId;
             Players = players;
         }
-
-        /// <summary>
-        /// The Session's Id
-        /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
 
         /// <summary>
         /// The date of the session
