@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace TableTopTally.Entities
+namespace TableTopTally.MongoDB.Entities
 {
     public abstract class MongoEntity : IMongoEntity
     {

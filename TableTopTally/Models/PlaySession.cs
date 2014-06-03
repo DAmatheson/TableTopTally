@@ -9,7 +9,8 @@
 using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
-using TableTopTally.Entities;
+using TableTopTally.MongoDB;
+using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {

@@ -181,12 +181,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Entities\IMongoEntity.cs" />
-    <Compile Include="Entities\MongoEntity.cs" />
+    <Compile Include="MongoDB\Entities\IMongoEntity.cs" />
+    <Compile Include="MongoDB\Entities\MongoEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MongoHelper.cs" />
+    <Compile Include="MongoDB\MongoHelper.cs" />
     <Compile Include="Helpers\ObjectIdBinder.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -200,9 +200,9 @@
     <Compile Include="Models\ScoreItem.cs" />
     <Compile Include="Models\Variant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\PlaySessionService.cs" />
-    <Compile Include="Services\VariantService.cs" />
+    <Compile Include="MongoDB\Services\GameService.cs" />
+    <Compile Include="MongoDB\Services\PlaySessionService.cs" />
+    <Compile Include="MongoDB\Services\VariantService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

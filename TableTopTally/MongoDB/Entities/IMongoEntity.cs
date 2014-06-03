@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace TableTopTally.Entities
+namespace TableTopTally.MongoDB.Entities
 {
     public interface IMongoEntity
     {

@@ -14,7 +14,7 @@ using MongoDB.Driver.Builders;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
 
-namespace TableTopTally.Services
+namespace TableTopTally.MongoDB.Services
 {
     /// <summary>
     /// Provides methods for CRUDing games to a mongoDB database

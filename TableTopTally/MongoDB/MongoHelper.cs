@@ -4,13 +4,13 @@
 * 
 * Revision History:
 *      Drew Matheson, 2014.05.29: Created
-*/ 
+*/
 
 using System.Configuration;
 using MongoDB.Driver;
-using TableTopTally.Entities;
+using TableTopTally.MongoDB.Entities;
 
-namespace TableTopTally.Helpers
+namespace TableTopTally.MongoDB
 {
     public static class MongoHelper
     {
