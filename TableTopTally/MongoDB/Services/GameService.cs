@@ -8,52 +8,41 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using TableTopTally.Helpers;
 using TableTopTally.Models;
 
 namespace TableTopTally.MongoDB.Services
 {
     /// <summary>
-    /// Provides methods for CRUDing games to a mongoDB database
+    ///     Provides methods for CRUDing games to a mongoDB database
     /// </summary>
-    public class GameService
+    public class GameService : MongoService<Game>, IGameService 
     {
-        private readonly MongoCollection<Game> gamesCollection;
-
         /// <summary>
-        /// Initializes a new instance of the GameService class
-        /// </summary>
-        public GameService()
-        {
-            gamesCollection = MongoHelper.GetTableTopCollection<Game>();
-        }
-
-        /// <summary>
-        /// Create a game in the database
+        ///     Create a game in the database
         /// </summary>
         /// <param name="game">Game object to be created</param>
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
-        public bool Create(Game game)
+        public override bool Create(Game game)
         {
+            // Unsure: Should setting game.Variants be done in controller, game constructor, or this service?
+
             if (!game.Variants.Any())
             {
                 game.Variants = new List<Variant>();
             }
 
-            return !gamesCollection.Insert(game).HasLastErrorMessage;
+            return !collection.Insert(game).HasLastErrorMessage;
         }
 
         /// <summary>
-        /// Updates the game in the database
+        ///     Updates the game in the database
         /// </summary>
         /// <param name="game">Game representing the game to be update</param>
         /// <returns>A bool representing if the edit completed successfully</returns>
         public bool Edit(Game game)
         {
-            return !gamesCollection.Update(
+            return !collection.Update(
                 Query.EQ("_id", game.Id),
                 Update.Set("Name", game.Name).
                     Set("Url", game.Url)).
@@ -61,55 +50,34 @@ namespace TableTopTally.MongoDB.Services
         }
 
         /// <summary>
-        /// Removes the game from the database
-        /// </summary>
-        /// <param name="gameId">ObjectId of the game to remove</param>
-        /// <returns>Returns a bool representing if the deletion completed successfully</returns>
-        public bool Delete(ObjectId gameId)
-        {
-            return !gamesCollection.Remove(Query.EQ("_id", gameId), RemoveFlags.Single).
-                HasLastErrorMessage;
-        }
-
-        /// <summary>
-        /// Gets all of the games in the database sorted by Name and without Variants
+        ///     Gets all of the games in the database sorted by Name and without Variants
         /// </summary>
         /// <returns>An IEnumerable of type Game sorted by Name</returns>
         public IEnumerable<Game> GetGames()
         {
             // Unsure: Sort in mongo or C#? Also: Should I .ToList()? Doing so will take care of disposing the cursor
 
-            return gamesCollection.FindAll().
+            return collection.FindAll().
                 SetFields(Fields.Exclude("Variants")).
                 SetSortOrder(SortBy.Ascending("Name"));
         }
 
         /// <summary>
-        /// Gets a game by its Url value and returns the result without its variants
+        ///     Gets a game by its Url value and returns the result without its variants
         /// </summary>
         /// <param name="gameUrl">Url value of the game to find</param>
         /// <returns>A Game object with an empty Variants property</returns>
         public Game GetVariantlessGameByUrl(string gameUrl)
         {
             // Todo: Better name for this method. It will be used for editing a game's information
-            return gamesCollection.Find(Query.EQ("Url", gameUrl)).
+            return collection.Find(Query.EQ("Url", gameUrl)).
                 SetFields(Fields.Exclude("Variants")).
                 Single();
         }
 
         /// <summary>
-        /// Gets a game by its ObjectId and returns the result as a Game object
-        /// </summary>
-        /// <param name="gameId">ObjectId of the game to find</param>
-        /// <returns>A Game object</returns>
-        public Game GetGameById(ObjectId gameId)
-        {
-            return gamesCollection.Find(Query.EQ("_id", gameId)).
-                Single();
-        }
-
-        /// <summary>
-        /// Gets a game by its Url value and returns the result as a Game with variants ordered by their Names
+        ///     Gets a game by its Url value and returns the result as a Game with variants ordered by 
+        ///     their Names
         /// </summary>
         /// <param name="gameUrl">Url value of the game to find</param>
         /// <returns>A Game object with variants ordered by their Names</returns>
@@ -117,7 +85,7 @@ namespace TableTopTally.MongoDB.Services
         {
             // UNSURE: Sort in mongo or C#?
 
-            var game = gamesCollection.Find(Query.EQ("Url", gameUrl)).
+            Game game = collection.Find(Query.EQ("Url", gameUrl)).
                 Single();
 
             game.Variants = game.Variants.OrderBy(c => c.Name).ToList();

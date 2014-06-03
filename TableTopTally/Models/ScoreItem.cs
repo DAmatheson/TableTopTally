@@ -7,7 +7,6 @@
  */ 
 
 using MongoDB.Bson;
-using TableTopTally.MongoDB;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
