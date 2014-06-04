@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/Color/@EntryValue">CornflowerBlue</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/MatchComments/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/Name/@EntryValue">Note</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/Pattern/@EntryValue">(?&lt;=\W|^)(?&lt;TAG&gt;NOTE)(\W|$)(.*)</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=17805EE7DD68AE458A7C07D1C530567C/TodoIconStyle/@EntryValue">Normal</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/Color/@EntryValue">RoyalBlue</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/MatchComments/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/Name/@EntryValue">Unsure</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/Pattern/@EntryValue">(?&lt;=\W|^)(?&lt;TAG&gt;UNSURE)(\W|$)(.*)</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=1B98D9D9E4AE5A4F85B30BB5D6A3B72E/TodoIconStyle/@EntryValue">Question</s:String></wpf:ResourceDictionary>
