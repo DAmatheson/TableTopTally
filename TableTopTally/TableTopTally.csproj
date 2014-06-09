@@ -181,6 +181,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Helpers\RankScores.cs" />
+    <Compile Include="Models\AccountHighScores.cs" />
+    <Compile Include="Models\VariantHighScore.cs" />
     <Compile Include="MongoDB\Entities\IMongoEntity.cs" />
     <Compile Include="MongoDB\Entities\MongoEntity.cs" />
     <Compile Include="Global.asax.cs">
