@@ -7,8 +7,6 @@
  */ 
 
 using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace TableTopTally.Models
 {
@@ -24,16 +22,14 @@ namespace TableTopTally.Models
         {
             if (initialize)
             {
-                Id = ObjectId.GenerateNewId();
                 Scores = new List<PlayerScore>();
             }
         }
 
         /// <summary>
-        /// The Round's Id
+        /// The round number
         /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public int Number { get; set; }
 
         /// <summary>
         /// A collection of all the PlayerScore's for the round

@@ -15,7 +15,6 @@ namespace TableTopTally.Models
 {
     public class PlayerScore
     {
-        /// <remarks>Empty constructor used by the mongoDB C# driver to deserialize documents</remarks>
         public PlayerScore() { }
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace TableTopTally.Models
         /// <param name="playerId">ObjectId for the player the instance represents</param>
         public PlayerScore(ObjectId playerId)
         {
-            ScoreItems = new Dictionary<ObjectId, double>();
+            ItemScores = new Dictionary<ObjectId, double>();
 
             PlayerId = playerId;
         }
@@ -37,7 +36,7 @@ namespace TableTopTally.Models
         /// <summary>
         /// The key is the ObjectId of the scoring item, and the value is the player's score for that item
         /// </summary>
-        public IDictionary<ObjectId, double> ScoreItems { get; set; }
+        public IDictionary<ObjectId, double> ItemScores { get; set; }
 
         /// <summary>
         /// The Player's score for the round
@@ -49,9 +48,9 @@ namespace TableTopTally.Models
             {
                 double total = 0f;
 
-                if (ScoreItems != null && ScoreItems.Any())
+                if (ItemScores != null && ItemScores.Any())
                 {
-                    total = ScoreItems.Sum(scoreItem => scoreItem.Value);
+                    total = ItemScores.Sum(scoreItem => scoreItem.Value);
                 }
                 return total;
             }

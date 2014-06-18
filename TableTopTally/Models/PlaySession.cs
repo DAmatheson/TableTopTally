@@ -22,9 +22,9 @@ namespace TableTopTally.Models
         /// </summary>
         /// <param name="gameId">ObjectId for the sessions game</param>
         /// <param name="variantId">ObjectId for the sessions game variant</param>
-        /// <param name="creatorId">Objectid for the player who created the session</param>
-        /// <param name="players">IEnumerable of type Player containing all the session's players</param>
-        public PlaySession(ObjectId gameId, ObjectId variantId, ObjectId creatorId, IEnumerable<Player> players)
+        /// <param name="gameGroupId">Objectid for the group who created the session</param>
+        /// <param name="players">IList&lt;Player&gt; containing all the session's players</param>
+        public PlaySession(ObjectId gameId, ObjectId variantId, ObjectId gameGroupId, IList<Player> players)
         {
             Id = ObjectId.GenerateNewId();
             Date = DateTime.Today;
@@ -32,7 +32,7 @@ namespace TableTopTally.Models
 
             GameId = gameId;
             VariantId = variantId;
-            CreatorId = creatorId;
+            GameGroupId = gameGroupId;
             Players = players;
         }
 
@@ -42,7 +42,7 @@ namespace TableTopTally.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// A collection of all the Round's of the session
+        /// A collection of all the Round's in the session
         /// </summary>
         public IList<Round> Rounds { get; set; }
 
@@ -57,19 +57,19 @@ namespace TableTopTally.Models
         public ObjectId VariantId { get; set; }
 
         /// <summary>
-        /// The Id of the player who created the session
+        /// The Id of the game group for the session
         /// </summary>
-        public ObjectId CreatorId { get; set; }
+        public ObjectId GameGroupId { get; set; }
 
         /// <summary>
         /// A collection of all the Round's players
         /// </summary>
         /// <remarks>Unsure: IEnumerable because players won't be added later?</remarks>
-        public IEnumerable<Player> Players { get; set; }
+        public IList<Player> Players { get; set; }
 
         /// <summary>
         /// The Session's overall rankings
         /// </summary>
-        public Ranking Ranks { get; set; }
+        public IList<Ranking> Ranks { get; set; }
     }
 }

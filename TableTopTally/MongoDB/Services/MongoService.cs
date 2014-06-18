@@ -28,7 +28,7 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
         public virtual bool Create(T entity)
         {
-            return collection.Insert(entity).HasLastErrorMessage;
+            return !collection.Insert(entity).HasLastErrorMessage;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
         public virtual bool Delete(ObjectId id)
         {
-            return collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).HasLastErrorMessage;
+            return !collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).HasLastErrorMessage;
         }
 
         /// <summary>

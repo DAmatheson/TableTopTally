@@ -20,17 +20,36 @@ namespace TableTopTally.Models
         /// <summary>
         /// Initializes a new instance of the Variant class
         /// </summary>
+        /// <param name="gameId">ObjectId of the game the variant is for</param>
+        /// <param name="groupId">ObjectId of the group who created the variant</param>
         /// <param name="name">The name of the variant</param>
-        public Variant(string name)
+        public Variant(ObjectId gameId, ObjectId groupId, string name)
         {
             Id = ObjectId.GenerateNewId();
 
-            // Todo: Consider not initializing and changing prop to IEnumerable
             ScoreItems = new List<ScoreItem>();
+
+            GameId = gameId;
+            GroupId = groupId;
 
             Name = name;
             Url = name.GenerateSlug();
         }
+
+        /// <summary>
+        /// The Game the variant is for
+        /// </summary>
+        public ObjectId GameId { get; set; }
+
+        /// <summary>
+        /// The GameGroup who created the variant
+        /// </summary>
+        public ObjectId GroupId { get; set; }
+
+        /// <summary>
+        /// Flag indicating whether to track historical high scores
+        /// </summary>
+        public bool TrackScores { get; set; }
 
         /// <summary>
         /// The Variant's Name

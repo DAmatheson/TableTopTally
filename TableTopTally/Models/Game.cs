@@ -6,7 +6,6 @@
  *      Drew Matheson, 2014.05.29: Created
  */ 
 
-using System.Collections.Generic;
 using MongoDB.Bson;
 using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
@@ -37,10 +36,5 @@ namespace TableTopTally.Models
         /// The Url for the Game
         /// </summary>
         public string Url { get; set; }
-
-        /// <summary>
-        /// A collection of all of the Game's Variants
-        /// </summary>
-        public IList<Variant> Variants { get; set; }
     }
 }

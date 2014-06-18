@@ -182,7 +182,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Helpers\RankScores.cs" />
-    <Compile Include="Models\AccountHighScores.cs" />
+    <Compile Include="Models\ScoreItemHighScore.cs" />
+    <Compile Include="Models\GameGroup.cs" />
+    <Compile Include="Models\RoundHighScore.cs" />
     <Compile Include="Models\VariantHighScore.cs" />
     <Compile Include="MongoDB\Entities\IMongoEntity.cs" />
     <Compile Include="MongoDB\Entities\MongoEntity.cs" />

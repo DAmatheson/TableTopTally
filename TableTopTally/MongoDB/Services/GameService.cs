@@ -19,23 +19,6 @@ namespace TableTopTally.MongoDB.Services
     public class GameService : MongoService<Game>, IGameService 
     {
         /// <summary>
-        ///     Create a game in the database
-        /// </summary>
-        /// <param name="game">Game object to be created</param>
-        /// <returns>Returns a bool representing if the creation completed successfully</returns>
-        public override bool Create(Game game)
-        {
-            // Unsure: Should setting game.Variants be done in controller, game constructor, or this service?
-
-            if (!game.Variants.Any())
-            {
-                game.Variants = new List<Variant>();
-            }
-
-            return !collection.Insert(game).HasLastErrorMessage;
-        }
-
-        /// <summary>
         ///     Updates the game in the database
         /// </summary>
         /// <param name="game">Game representing the game to be update</param>
@@ -63,19 +46,6 @@ namespace TableTopTally.MongoDB.Services
         }
 
         /// <summary>
-        ///     Gets a game by its Url value and returns the result without its variants
-        /// </summary>
-        /// <param name="gameUrl">Url value of the game to find</param>
-        /// <returns>A Game object with an empty Variants property</returns>
-        public Game GetVariantlessGameByUrl(string gameUrl)
-        {
-            // Todo: Better name for this method. It will be used for editing a game's information
-            return collection.Find(Query.EQ("Url", gameUrl)).
-                SetFields(Fields.Exclude("Variants")).
-                Single();
-        }
-
-        /// <summary>
         ///     Gets a game by its Url value and returns the result as a Game with variants ordered by 
         ///     their Names
         /// </summary>
@@ -87,8 +57,6 @@ namespace TableTopTally.MongoDB.Services
 
             Game game = collection.Find(Query.EQ("Url", gameUrl)).
                 Single();
-
-            game.Variants = game.Variants.OrderBy(c => c.Name).ToList();
 
             return game;
         }
