@@ -1,0 +1,18 @@
+﻿<h2>Games List</h2>
+
+<div class="row">
+    <div class="col-md-10">
+        <!-- col-md-4 -->
+        <ul class="games">
+            <li ng-repeat="game in games" class="thumbnail game-listings">
+                <a href="games/{{game.Id}}" class="thumb">
+                    <img ng-src="{{game.imageUrl}}" alt="{{game.name + ' box'}}">
+                </a>
+
+                <a href="games/{{game.Id}}">{{game.Name}}</a>
+
+                <p>Description</p>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿/* GamesController.cs
+ * 
+ * Purpose: API controller for Game objects
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.08.07: Created
+*/ 
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using MongoDB.Bson;
@@ -11,16 +20,17 @@ namespace TableTopTally.Controllers.API
     {
         //private readonly GameService gameService;
 
+        // Mock data for easier angular production / general testing
         private List<Game> games = new List<Game>()
         {
-            new Game("Pandemic"),
-            new Game("Caverna"),
-            new Game("Zombie Dice")
+            new Game("Pandemic") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2") },
+            new Game("Caverna") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b3") },
+            new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4") }
         };
 
         //public GamesController()
         //{
-            //gameService = new GameService();
+        //gameService = new GameService();
         //}
 
         // GET: api/Games
@@ -32,28 +42,35 @@ namespace TableTopTally.Controllers.API
         public IHttpActionResult Get()
         {
             //return gameService.GetGames();
-            return Json(games);
+            return Ok(games);
         }
 
         // GET: api/Games/5
         /// <summary>
-        /// Get game by its ObjectId
+        /// Get a game by its ObjectId
         /// </summary>
         /// <param name="id">ObjectId string of the game</param>
-        /// <returns>Json of the Game</returns>
+        /// <returns>The Game</returns>
         [HttpGet]
         public IHttpActionResult Get(string id)
         {
-            //var game = gameService.GetById(id);
+            ObjectId parsedId;
+            Game game = null;
 
-            var game = games.FirstOrDefault((g) => g.Id == ObjectId.Parse(id));
+            ObjectId.TryParse(id, out parsedId);
+
+            if (parsedId != ObjectId.Empty)
+            {
+                //game = gameService.GetById(parsedId);
+                game = games.FirstOrDefault((g) => g.Id == parsedId);
+            }
 
             if (game == null)
             {
                 return NotFound();
             }
 
-            return Json(game);
+            return Ok(game);
         }
 
         // POST: api/Games
@@ -65,7 +82,7 @@ namespace TableTopTally.Controllers.API
         [HttpPost]
         public IHttpActionResult Post(Game game)
         {
-            //gameService.Create(game);
+            //var success = gameService.Create(game);
 
             game.Id = ObjectId.GenerateNewId();
 
@@ -77,15 +94,61 @@ namespace TableTopTally.Controllers.API
         }
 
         // PUT: api/Games/5
+        /// <summary>
+        /// Updates the Game with the matching id
+        /// </summary>
+        /// <param name="id">The id of the game to update</param>
+        /// <param name="value">The new values to update</param>
+        /// <returns>Status code</returns>
         [HttpPut]
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(string id, [FromBody] string value)
         {
+            ObjectId parsedId;
+
+            ObjectId.TryParse(id, out parsedId);
+
+            if (parsedId != ObjectId.Empty)
+            {
+                var game = games.FirstOrDefault(g => g.Id == parsedId);
+                if (game != null)
+                {
+                    game.Name = value;
+                }
+
+                //var game = new Game { id = parsedId, values = value };
+                //var success = gameService.Edit(game);
+            }
+
+            return Ok();
         }
 
         // DELETE: api/Games/5
+        /// <summary>
+        /// Deletes the game with the matching id
+        /// </summary>
+        /// <param name="id">The id of the game to delete</param>
         [HttpDelete]
-        public void Delete(int id)
+        public IHttpActionResult Delete(string id)
         {
+            ObjectId parsedId;
+            bool removed = false;
+
+            ObjectId.TryParse(id, out parsedId);
+
+            if (parsedId != ObjectId.Empty)
+            {
+                //removed = gameService.Delete(id);
+
+                var game = games.FirstOrDefault(g => g.Id == parsedId);
+                removed = games.Remove(game);
+            }
+
+            if (!removed)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }
