@@ -1,18 +1,31 @@
-﻿<script type="text/javascript" src="js/randomPicker.js"></script>
+﻿<style>
+    input#txtNames
+    {
+        font-size: 16px;
+    }
+
+    p#output
+    {
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+
 <div class="jumbotron">
-    <h1>Board Game Scorer</h1>
+    <h1>TableTop Tally</h1>
     <p class="lead">Angular</p>
 </div>
+
 <div class="row">
     <div class="col-md-4">
         <h2>Random Name Picker</h2>
 
         <label for="txtNames">Enter Names: </label>
-        <input type="text" id="txtNames" />
+        <input type="text" id="txtNames" value="Ian Drew Brittany" />
 
         <br />
 
-        <button id="btnSubmit" onclick="randomName('txtNames', 'output');">Pick Name</button>
+        <button id="btnPickRandom" onclick="randomName('txtNames', 'output');">Pick Name</button>
 
         <br />
         <br />
@@ -20,3 +33,15 @@
         <p id="output">&nbsp;</p>
     </div>
 </div>
+
+<script type="text/javascript" src="/Scripts/randomPicker.js" async></script>
+
+<script type="text/javascript">
+    $("#txtNames").on("keyup", function (event)
+    {
+        if (event.which == 13)
+        {
+            $("#btnPickRandom").click();
+        }
+    });
+</script>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using MongoDB.Bson;
+using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
 
@@ -23,9 +24,9 @@ namespace TableTopTally.Controllers.API
         // Mock data for easier angular production / general testing
         private List<Game> games = new List<Game>()
         {
-            new Game("Pandemic") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2") },
-            new Game("Caverna") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b3") },
-            new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4") }
+            new Game("Pandemic") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2"), MinimumPlayers = 1, MaximumPlayers = 5},
+            new Game("Caverna") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b3"), MinimumPlayers = 3, MaximumPlayers = 6},
+            new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4"), MinimumPlayers = 2, MaximumPlayers = 10}
         };
 
         //public GamesController()
@@ -85,6 +86,7 @@ namespace TableTopTally.Controllers.API
             //var success = gameService.Create(game);
 
             game.Id = ObjectId.GenerateNewId();
+            game.Url = game.Name.GenerateSlug(game.Id);
 
             games.Add(game);
 

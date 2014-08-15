@@ -36,5 +36,15 @@ namespace TableTopTally.Models
         /// The Url for the Game
         /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// The Minimum number of players for the game
+        /// </summary>
+        public int MinimumPlayers { get; set; }
+
+        /// <summary>
+        /// The Maximum number of players for the game
+        /// </summary>
+        public int MaximumPlayers { get; set; }
     }
 }

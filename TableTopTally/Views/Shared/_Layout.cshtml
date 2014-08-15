@@ -13,12 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/" />
     <title>TableTop Tally</title>
-
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angular")
 </head>
 
 <body>
@@ -46,7 +41,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <p id="registerLink">Register</p>
+                        <a href="Account/Register">Register</a>
                     </li>
                 </ul>
             </div>
@@ -58,9 +53,14 @@
 
         <hr />
         <footer>
-            <p>TableTop Tally v<span app-version></span></p>
+            <p tt-app-version></p>
         </footer>
     </div>
 
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

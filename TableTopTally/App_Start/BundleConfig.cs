@@ -20,14 +20,11 @@ namespace TableTopTally
                         //"~/Scripts/Library/Angular/angular-cookies.js",
                         //"~/Scripts/Library/Angular/angular-loader.js",
                         "~/Scripts/Library/Angular/angular-resource.js",
-                        "~/Scripts/Library/Angular/angular-route.js",
+                        "~/Scripts/Library/Angular/angular-route.js"
                         //"~/Scripts/Library/Angular/angular-sanitize.js",
-                        //"~/Scripts/Library/Angular/angular-touch.js",
-                        "~/Scripts/Angular/*.js",
-                        "~/Scripts/Angular/Controllers/*.js",
-                        "~/Scripts/Angular/Directives/*.js",
-                        "~/Scripts/Angular/Filters/*.js",
-                        "~/Scripts/Angular/Services/*.js"));
+                        //"~/Scripts/Library/Angular/angular-touch.js"
+                        ).
+                        IncludeDirectory("~/Scripts/Angular", "*.js", true));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

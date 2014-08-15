@@ -218,7 +218,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Helpers\RankScores.cs" />
     <Compile Include="Models\ScoreItemHighScore.cs" />
     <Compile Include="Models\GameGroup.cs" />
@@ -251,6 +250,7 @@
     <Compile Include="MongoDB\Services\GameService.cs" />
     <Compile Include="MongoDB\Services\PlaySessionService.cs" />
     <Compile Include="MongoDB\Services\VariantService.cs" />
+    <Compile Include="RouteConstraints\QueryStringConstraint.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,8 +264,10 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Angular\app.js" />
+    <Content Include="Scripts\Angular\Controllers\CreateGameController.js" />
     <Content Include="Scripts\Angular\Controllers\GameDetailController.js" />
     <Content Include="Scripts\Angular\Controllers\GameListController.js" />
+    <Content Include="Scripts\Angular\Directives\ttSubmitDirective.js" />
     <Content Include="Scripts\Angular\Directives\VersionDirective.js" />
     <Content Include="Scripts\Angular\routes.js" />
     <Content Include="Scripts\Angular\Services\GameServices.js" />
@@ -619,8 +621,10 @@
     <Content Include="Scripts\Library\respond\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\Library\respond\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\randomPicker.js" />
+    <Content Include="Static\Partials\404.html" />
+    <Content Include="Static\Partials\CreateGame.html" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Index\Index.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Static\Partials\GameDetail.html" />
     <Content Include="Static\Partials\GameList.html" />
@@ -635,7 +639,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />

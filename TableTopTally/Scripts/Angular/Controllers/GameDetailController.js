@@ -15,14 +15,18 @@
 var ttControllers = angular.module('tableTopTally.controllers');
 
 // Controller for the partial gameDetail.html
-ttControllers.controller('GameDetailController', ['$scope', '$routeParams', 'GameDataService',
-    function ($scope, $routeParams, gameService)
+ttControllers.controller('GameDetailController', ['$scope', '$routeParams', 'gameDataService', 'tempRedirectionData',
+    function ($scope, $routeParams, gameService, tempRedirectionData)
     {
-        $scope.game = gameService.get({ gameId: $routeParams.gameId },
-            function (data)
-            {
-                $scope.name = data.Name;
-            }
-        );
+        var tempData = tempRedirectionData.getData();
+
+        if (tempData !== null)
+        {
+            $scope.game = tempData;
+        }
+        else
+        {
+            $scope.game = gameService.get({ gameId: $routeParams.gameId });
+        }
     }
 ]);

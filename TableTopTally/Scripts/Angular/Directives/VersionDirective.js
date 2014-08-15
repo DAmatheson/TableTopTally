@@ -12,12 +12,11 @@
 
 var ttDirectives = angular.module('tableTopTally.directives');
 
-ttDirectives.directive('appVersion', ['version',
+ttDirectives.directive('ttAppVersion', ['version',
     function (version)
     {
-        return function (scope, elm, attrs)
-        {
-            elm.text(version);
+        return {
+            template: "TableTop Tally v" + version
         };
     }
 ]);

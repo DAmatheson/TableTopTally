@@ -17,7 +17,7 @@ var ttServices = angular.module('tableTopTally.services');
 ttServices.value('version', '0.0.1');
 
 // Resource for games
-ttServices.factory('GameDataService', ['$resource',
+ttServices.factory('gameDataService', ['$resource',
     function ($resource)
     {
         return $resource('API/Games/:gameId', null,
@@ -30,23 +30,22 @@ ttServices.factory('GameDataService', ['$resource',
                 isArray: true
             },
             // Get a single game
-            get: // Example call: GameDetailService.get({ Id: *ObjectId* });
+            get: // Example call: gameService.get({ gameId: $routeParams.gameId });
             {
                 method: 'GET'
             },
-            post: // Example call: GameDetailService.post(null, postData);
+            // Create a game
+            post: // Example call: GameDetailService.post(postData[, callbackFunction]);
             {
                 method: 'POST',
                 url: 'API/Games/'
             },
-            update: // Example call: GameDetailService.update({ Id: *ObjectId* }, game);
+            // Update a game
+            update: // Example call: GameDetailService.update({ gameId: $routeParams.gameId }, game);
             {
                 method: 'PUT',
-                params:
-                {
-                    gameId: '@Id',
-                }
             },
+            // Delete a game
             delete: // Example call: GameDetailService.delete({ Id: *ObjectId* });
             {
                 method: 'DELETE',
@@ -55,3 +54,24 @@ ttServices.factory('GameDataService', ['$resource',
     }
 ]);
 
+// Service for passing data from a post or put action to the corresponding display controller
+ttServices.factory('tempRedirectionData', function()
+{
+    var tempCache = null;
+
+    return {
+        setData: function(data)
+        {
+            tempCache = data;
+        },
+        getData: function()
+        {
+            // Auto clear out temp data so stale data isn't used
+            var holdingCache = tempCache;
+
+            tempCache = null;
+
+            return holdingCache;
+        },
+    };
+});

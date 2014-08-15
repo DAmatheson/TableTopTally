@@ -15,9 +15,10 @@
 var ttControllers = angular.module('tableTopTally.controllers');
 
 // Controller for the partial gameList.html
-ttControllers.controller('GameListController', ['$scope', 'GameDataService',
+ttControllers.controller('GameListController', ['$scope', 'gameDataService',
     function ($scope, gameService)
     {
-        $scope.games = gameService.query(); // Get all the games
+        // Get all the games
+        $scope.games = gameService.query(); 
     }
 ]);

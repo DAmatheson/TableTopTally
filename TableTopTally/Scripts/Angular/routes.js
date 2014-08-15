@@ -16,22 +16,34 @@ var ttRoute = angular.module('tableTopTally.routes');
 ttRoute.config(['$routeProvider',
     function ($routeProvider)
     {
-        $routeProvider.when('/games',
+        $routeProvider.when("/",
+        {
+            templateUrl: 'Static/Partials/Home.html',
+        }).
+        when('/games',
         {
             templateUrl: 'Static/Partials/GameList.html',
             controller: 'GameListController'
-        });
-
-        $routeProvider.when('/games/:gameId',
+        }).
+        when('/games/create',
+        {
+            templateUrl: 'Static/Partials/CreateGame.html',
+            controller: 'CreateGameController'
+        }).
+        when('/games/:gameId', // Anything /games/* must come before this, or it is seen as :gameId 
         {
             templateUrl: 'Static/Partials/GameDetail.html',
             controller: 'GameDetailController'
+        }).
+        when('/Account/Register',
+        {
+            templateUrl: '/Account/Register?angular=true'
         });
 
+        // 404 page with link back to '/'
         $routeProvider.otherwise(
         {
-            templateUrl: 'Static/Partials/Home.html',
-            redirectTo: 'index'
+            templateUrl: 'Static/Partials/404.html'
         });
     }
 ]);
