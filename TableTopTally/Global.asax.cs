@@ -1,11 +1,10 @@
-﻿using System.Web.Http;
+﻿using MongoDB.Bson;
+using Newtonsoft.Json.Serialization;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using TableTopTally.Helpers;
-using MongoDB.Bson;
 
 namespace TableTopTally
 {
@@ -22,11 +21,13 @@ namespace TableTopTally
             // Add a binder for ObjectIds
             ModelBinders.Binders.Add(typeof(ObjectId), new ObjectIdBinder());
 
-            // Formatter for camelCase outgoing json properties
+            // Setting up the json formatter
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             var settings = jsonFormatter.SerializerSettings;
-            //settings.Formatting = Formatting.Indented; // Makes json properly indented so it is readable
+            
+            settings.Converters.Add(new ObjectIdConverter()); // Add json -> ObjectId converter
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //settings.Formatting = Formatting.Indented; // Makes json properly indented so it is readable
         }
     }
 }

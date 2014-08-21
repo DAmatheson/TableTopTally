@@ -1,0 +1,21 @@
+﻿<h2>Remove a Game</h2>
+
+<h4>Remove {{ game.name }}?</h4>
+
+<hr />
+
+<form name="{{ formName }}" class="form-horizontal" tt-submit novalidate>
+    <game-details></game-details>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <button class="btn btn-danger" ng-click="deleteGame()">
+                Remove Game
+            </button>
+            
+            <a class="btn btn-primary" href="games/">
+                Cancel
+            </a>
+        </div>
+    </div>
+</form>

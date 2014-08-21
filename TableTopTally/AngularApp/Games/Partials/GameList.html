@@ -1,0 +1,46 @@
+﻿<h2>
+    Games List
+</h2>
+
+
+<div class="row">
+    <div class="col-sm-8 col-md-10">
+        <a ng-href="games/create" class="bottom-20 btn btn-primary pull-right">
+            Create a game
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8 col-md-10">
+        <ul class="games">
+            <li ng-repeat="game in games" class="thumbnail game-listing">
+                <a ng-href="games/{{ game.id }}" class="thumb" ng-show="game.imageUrl">
+                    <img ng-src="{{ game.imageUrl }}" alt="{{ game.name + ' box' }}">
+                </a>
+
+                <div>
+                    <a ng-href="games/update/{{ game.id }}" class="pull-right">
+                        Edit
+                    </a>
+                </div>
+
+                <a ng-href="games/{{ game.id }}">
+                    {{ game.name }}
+                </a>
+
+                <div>
+                    <a ng-href="games/delete/{{ game.id }}" class="pull-right">
+                        Remove
+                    </a>
+                </div>
+
+                <p>
+                    Minimum Players: {{ game.minimumPlayers }}
+                    <br/>
+                    Maximum Players: {{ game.maximumPlayers }}
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>

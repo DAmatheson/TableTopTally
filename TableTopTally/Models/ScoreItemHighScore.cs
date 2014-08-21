@@ -1,7 +1,17 @@
-﻿using MongoDB.Bson;
+﻿/* ScoreItemHighScore.cs
+ * Purpose: A class for a single ScoreItem highscore
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.18: Created
+ */ 
+
+using MongoDB.Bson;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A single ScoreItem highscore
+    /// </summary>
     public class ScoreItemHighScore
     {
         /// <summary>

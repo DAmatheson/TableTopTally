@@ -7,12 +7,17 @@
  */ 
 
 using MongoDB.Bson;
+using TableTopTally.Annotations;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A single scoring item from a Game
+    /// </summary>
     public class ScoreItem : MongoEntity
     {
+        [UsedImplicitly]
         public ScoreItem() { }
 
         /// <summary>

@@ -1,0 +1,72 @@
+﻿<div class="text-danger">
+    <ul>
+        <li ng-show="tt.{{ formName }}.hasError({{ formName }}.name)">
+            <div ng-show="{{ formName }}.name.$error.required">
+                Enter the game's name.
+            </div>
+
+            <div ng-show="{{ formName }}.name.$error.minlength || {{ formName }}.name.$error.maxlength">
+                The name must be between 2 and 50 characters long.
+            </div>
+        </li>
+        
+        <li ng-show="!playerCountIsValid(game) &&  
+             {{ formName }}.minimumPlayers.$valid && {{ formName }}.maximumPlayers.$valid">
+            Minimum Players must be less than or equal to the Maximum Players.
+        </li>
+        
+        <li ng-show="tt.{{ formName }}.hasError({{ formName }}.minimumPlayers)">
+            <div ng-show="{{ formName }}.minimumPlayers.$error.required">
+                Enter the game's minimum number of players.
+                
+                <span ng-show="{{ formName }}.minimumPlayers.$error.number">
+                    Not a valid number.
+                </span>
+            </div>
+
+            <div ng-show="{{ formName }}.minimumPlayers.$error.min || 
+                 {{ formName }}.minimumPlayers.$error.max">
+                Minimum Players must be between 1 and 99.
+            </div>
+        </li>
+
+        <li ng-show="tt.{{ formName }}.hasError({{ formName }}.maximumPlayers)">
+            <div ng-show="{{ formName }}.maximumPlayers.$error.required">
+                Enter the game's maximum number of players.
+                
+                <span ng-show="{{ formName }}.maximumPlayers.$error.number">
+                    Not a valid number.
+                </span>
+            </div>
+            
+            <div ng-show="{{ formName }}.maximumPlayers.$error.min ||
+                 {{ formName }}.maximumPlayers.$error.max">
+                Maximum Players must be between 1 and 99.
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="form-group" ng-class="{'has-error': tt.{{ formName }}.hasError({{ formName }}.name)}">
+    <label class="col-md-2 control-label" for="name">Name</label>
+    <div class="col-md-10">
+        <input class="form-control" id="name" name="name" type="text" 
+               placeholder="Game Name" ng-model="game.name" ng-minlength="2" ng-maxlength="50" required />
+    </div>
+</div>
+
+<div class="form-group" ng-class="{'has-error': tt.{{ formName }}.hasError({{ formName }}.minimumPlayers)}">
+    <label class="col-md-2 control-label" for="minimumPlayers">Minimum Players</label>
+    <div class="col-md-10">
+        <input class="form-control" id="minimumPlayers" name="minimumPlayers" type="number"
+                placeholder="Min # Players" ng-model="game.minimumPlayers" min="1" max="99" required />
+    </div>
+</div>
+
+<div class="form-group" ng-class="{'has-error': tt.{{ formName }}.hasError({{ formName }}.maximumPlayers)}">
+    <label class="col-md-2 control-label" for="maximumPlayers">Maximum Players</label>
+    <div class="col-md-10">
+        <input class="form-control" id="maximumPlayers" name="maximumPlayers" type="number"
+                placeholder="Max # Players" ng-model="game.maximumPlayers" min="1" max="99" required />
+    </div>
+</div>

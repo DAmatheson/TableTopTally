@@ -8,12 +8,17 @@
 
 using System.Collections.Generic;
 using MongoDB.Bson;
+using TableTopTally.Annotations;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A player
+    /// </summary>
     public class Player : MongoEntity
     {
+        [UsedImplicitly]
         public Player() { }
 
         /// <summary>

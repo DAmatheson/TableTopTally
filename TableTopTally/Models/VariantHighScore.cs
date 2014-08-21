@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/* VariantHighScore.cs
+ * Purpose: A class for representing a Game Variant's various high scores
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.18: Created
+ */ 
+
+using System.Collections.Generic;
 using MongoDB.Bson;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A game Variant's various high scores
+    /// </summary>
     public class VariantHighScore : MongoEntity
     {
         /// <summary>
@@ -27,7 +37,7 @@ namespace TableTopTally.Models
         public ObjectId ScorerId { get; set; }
 
         /// <summary>
-        /// Highest session score
+        /// Highest overall session score
         /// </summary>
         public double SessionScore { get; set; }
 

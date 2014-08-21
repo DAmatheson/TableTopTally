@@ -1,4 +1,11 @@
-﻿using System.Web.Mvc;
+﻿/* HomeController.cs
+ * Purpose: Main controller for the angular app. Everything for Angular to handle gets sent to Index()
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.05.25: Created
+*/ 
+
+using System.Web.Mvc;
 
 namespace TableTopTally.Controllers
 {
@@ -6,7 +13,7 @@ namespace TableTopTally.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
         }
 
         public ActionResult Contact()

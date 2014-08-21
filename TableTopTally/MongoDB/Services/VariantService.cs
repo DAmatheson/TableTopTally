@@ -13,7 +13,7 @@ using TableTopTally.Models;
 namespace TableTopTally.MongoDB.Services
 {
     /// <summary>
-    ///     Provides methods for CRUDing game variants in a mongoDB database
+    /// Provides methods for CRUDing game variants in a mongoDB database
     /// </summary>
     public class VariantService : MongoService<Variant>, IVariantService
     {
@@ -28,7 +28,7 @@ namespace TableTopTally.MongoDB.Services
         }
 
         /// <summary>
-        ///     Updates the variant that belongs to the specified game
+        /// Updates the variant that belongs to the specified game
         /// </summary>
         /// <param name="variant">Variant representing the variant to update</param>
         /// <returns>Returns a bool representing if the edit completed successfully</returns>

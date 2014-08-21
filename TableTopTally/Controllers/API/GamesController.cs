@@ -1,16 +1,16 @@
 ﻿/* GamesController.cs
- * 
  * Purpose: API controller for Game objects
  * 
  * Revision History:
  *      Drew Matheson, 2014.08.07: Created
-*/ 
+*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using MongoDB.Bson;
+using TableTopTally.Annotations;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
@@ -19,7 +19,7 @@ namespace TableTopTally.Controllers.API
 {
     public class GamesController : ApiController
     {
-        //private readonly GameService gameService;
+        private readonly IGameService gameService;
 
         // Mock data for easier angular production / general testing
         private List<Game> games = new List<Game>()
@@ -29,10 +29,15 @@ namespace TableTopTally.Controllers.API
             new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4"), MinimumPlayers = 2, MaximumPlayers = 10}
         };
 
-        //public GamesController()
-        //{
-        //gameService = new GameService();
-        //}
+        [UsedImplicitly]
+        public GamesController() { }
+
+        public GamesController(List<Game> gameService)
+        {
+            //this.gameService = gameService;
+
+            games = gameService;
+        }
 
         // GET: api/Games
         /// <summary>
@@ -40,7 +45,7 @@ namespace TableTopTally.Controllers.API
         /// </summary>
         /// <returns>List of all the games</returns>
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult GetAllGames()
         {
             //return gameService.GetGames();
             return Ok(games);
@@ -53,7 +58,7 @@ namespace TableTopTally.Controllers.API
         /// <param name="id">ObjectId string of the game</param>
         /// <returns>The Game</returns>
         [HttpGet]
-        public IHttpActionResult Get(string id)
+        public IHttpActionResult GetGame(string id)
         {
             ObjectId parsedId;
             Game game = null;
@@ -81,18 +86,20 @@ namespace TableTopTally.Controllers.API
         /// <param name="game">Game to add</param>
         /// <returns>Status code and location of added resource</returns>
         [HttpPost]
-        public IHttpActionResult Post(Game game)
+        public IHttpActionResult PostGame(Game game)
         {
-            //var success = gameService.Create(game);
+            if (ModelState.IsValid)
+            {
+                game.Id = ObjectId.GenerateNewId();
+                game.Url = game.Name.GenerateSlug(game.Id);
 
-            game.Id = ObjectId.GenerateNewId();
-            game.Url = game.Name.GenerateSlug(game.Id);
+                games.Add(game);
+                //var success = gameService.Create(game);
 
-            games.Add(game);
+                return CreatedAtRoute("DefaultApi", new { controller = "Games", id = game.Id  }, game);
+            }
 
-            var location = Url.Link("DefaultApi", new { controller = "Games", id = game.Id });
-
-            return Created(location, game);
+            return BadRequest(ModelState);
         }
 
         // PUT: api/Games/5
@@ -100,28 +107,60 @@ namespace TableTopTally.Controllers.API
         /// Updates the Game with the matching id
         /// </summary>
         /// <param name="id">The id of the game to update</param>
-        /// <param name="value">The new values to update</param>
-        /// <returns>Status code</returns>
+        /// <param name="game">The game properties to update</param>
+        /// <returns>Status code and if successful, the new game</returns>
         [HttpPut]
-        public IHttpActionResult Put(string id, [FromBody] string value)
+        public IHttpActionResult PutGame(string id, Game game)
         {
-            ObjectId parsedId;
+            IHttpActionResult result;
 
-            ObjectId.TryParse(id, out parsedId);
-
-            if (parsedId != ObjectId.Empty)
+            if (ModelState.IsValid)
             {
-                var game = games.FirstOrDefault(g => g.Id == parsedId);
-                if (game != null)
+                Game gameToUpdate = null;
+
+                ObjectId parsedId;
+
+                ObjectId.TryParse(id, out parsedId);
+
+                // Unsure: Does making the id and game.Id match really prevent exploitation?
+                if (parsedId != ObjectId.Empty && parsedId == game.Id)
                 {
-                    game.Name = value;
+                    gameToUpdate = games.FirstOrDefault(g => g.Id == parsedId);
+
+                    // game.Id = parsedId;
+
+                    //var success = gameService.Edit(game);
+
+                    //if (success)
+                    //{
+                    //    result = Ok(game);
+                    //}
+                    //else
+                    //{
+                    //    result = NotFound();
+                    //}
                 }
 
-                //var game = new Game { id = parsedId, values = value };
-                //var success = gameService.Edit(game);
+                if (gameToUpdate != null)
+                {
+                    gameToUpdate.Name = game.Name;
+                    gameToUpdate.MinimumPlayers = game.MinimumPlayers;
+                    gameToUpdate.MaximumPlayers = game.MaximumPlayers;
+                    gameToUpdate.Url = game.Name.GenerateSlug(gameToUpdate.Id);
+
+                    result = Ok(gameToUpdate);
+                }
+                else
+                {
+                    result = NotFound();
+                }
+            }
+            else
+            {
+                result = BadRequest(ModelState);
             }
 
-            return Ok();
+            return result;
         }
 
         // DELETE: api/Games/5
@@ -130,7 +169,7 @@ namespace TableTopTally.Controllers.API
         /// </summary>
         /// <param name="id">The id of the game to delete</param>
         [HttpDelete]
-        public IHttpActionResult Delete(string id)
+        public IHttpActionResult DeleteGame(string id)
         {
             ObjectId parsedId;
             bool removed = false;
@@ -139,7 +178,7 @@ namespace TableTopTally.Controllers.API
 
             if (parsedId != ObjectId.Empty)
             {
-                //removed = gameService.Delete(id);
+                //removed = gameService.Delete(parsedId);
 
                 var game = games.FirstOrDefault(g => g.Id == parsedId);
                 removed = games.Remove(game);
@@ -150,7 +189,7 @@ namespace TableTopTally.Controllers.API
                 return NotFound();
             }
 
-            return Ok();
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }

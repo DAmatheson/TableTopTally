@@ -9,12 +9,17 @@
 using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
+using TableTopTally.Annotations;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A play session of a game variant
+    /// </summary>
     public class PlaySession : MongoEntity
     {
+        [UsedImplicitly]
         public PlaySession() { }
 
         /// <summary>

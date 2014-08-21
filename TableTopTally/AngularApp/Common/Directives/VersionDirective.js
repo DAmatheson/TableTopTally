@@ -6,7 +6,6 @@
 */
 
 /// <reference path="~/Scripts/Library/Angular/angular-resource.js"/>
-/// <reference path="~/Scripts/Angular/app.js"/>
 
 'use strict';
 

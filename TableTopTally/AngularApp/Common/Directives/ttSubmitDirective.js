@@ -1,4 +1,11 @@
-﻿var ttDirectives = angular.module('tableTopTally.directives');
+﻿/* ttSubmitDirective.js
+ * Purpose: Angular directive to simplify form validation
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.8.14
+ */
+
+var ttDirectives = angular.module('tableTopTally.directives');
 
 ttDirectives.directive('ttSubmit', ['$parse',
     function ($parse)
@@ -32,52 +39,71 @@ ttDirectives.directive('ttSubmit', ['$parse',
 
                         if (fieldModelController)
                         {
-                            return fieldModelController.$invalid && (fieldModelController.$dirty || this.attempted);
+                            return fieldModelController.$invalid &&
+                                (fieldModelController.$dirty || this.attempted);
                         }
                         else
                         {
-                            return formController && formController.$invalid && (formController.$dirty || this.attempted);
+                            return formController &&
+                                formController.$invalid &&
+                                (formController.$dirty || this.attempted);
                         }
                     };
                 }
             ],
-            compile: function(cElement, cAttributes, transclude)
+            compile: function(cElement, cAttributes)
             {
                 return {
+                    // Unsafe to do DOM element transformations in pre
                     pre: function(scope, formElement, attributes, controllers)
                     {
+                        // controllers order matches the require property's array order
                         var submitController = controllers[0];
                         var formController = (controllers.length > 1) ? controllers[1] : null;
 
                         submitController.setFormController(formController);
 
-                        scope.tt = scope.tt || {};
+                        scope.tt = scope.tt || {}; // Assign an empty object to scope.tt if it isn't set
+
+                        // Assign the submit controller to a property named the same as the form.
                         scope.tt[attributes.name] = submitController;
                     },
+                    // Safe to do DOM element transformations in post
                     post: function(scope, formElement, attributes, controllers)
                     {
                         var submitController = controllers[0];
                         var formController = (controllers.length > 1) ? controllers[1] : null;
-                        var fn = $parse(attributes.rcSubmit);
+                        var fn = $parse(attributes.ttSubmit); // Parse tt-submit attribute Ang expression
 
-                        formElement.bind('submit', function(event)
+                        var formSubmitHandler = function(event)
                         {
-                            submitController.setAttempted();
-
-                            if (!scope.$$phase)
-                            {
-                                scope.$apply();
-                            }
-
-                            if (!formController.$valid)
-                            {
-                                return false;
-                            }
-
+                            // $apply updates the DOM to reflect scope changes
                             scope.$apply(function()
                             {
+                                // Set the submit attempted flag to true
+                                submitController.setAttempted();
+                            });
+
+                            if (!formController.$valid) // If the form is invalid
+                            {
+                                return false; // return false to cancel form submission
+                            }
+
+                            // Only called if the form is valid
+                            scope.$apply(function()
+                            {
+                                // Call the parsed angular expression from the tt-submit attribute
                                 fn(scope, { $event: event });
                             });
+                        }
+
+                        // On the submit event of the form, run formSubmitHandler
+                        formElement.on('submit', formSubmitHandler); 
+
+                        // When the scope is destroyed, remove the jQuery formSubmitHandler
+                        scope.$on('$destroy', function()
+                        {
+                            formElement.off('submit', formSubmitHandler);
                         });
                     }
                 };

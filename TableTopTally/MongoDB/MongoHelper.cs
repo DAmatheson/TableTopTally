@@ -12,6 +12,9 @@ using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.MongoDB
 {
+    /// <summary>
+    /// A helper class for connecting to MongoDB and getting MongoDB collections
+    /// </summary>
     public static class MongoHelper
     {
         private static readonly MongoDatabase dbTableTopTally;

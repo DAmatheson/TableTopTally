@@ -1,8 +1,18 @@
+/* RoundHighScore.cs
+ * Purpose: A class for a single Round's various high scores
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.18: Created
+ */ 
+
 using System.Collections.Generic;
 using MongoDB.Bson;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A Round's various high scores
+    /// </summary>
     public class RoundHighScore
     {
         /// <summary>
@@ -23,6 +33,6 @@ namespace TableTopTally.Models
         /// <summary>
         /// List of all highscores for the variant's ScoreItems
         /// </summary>
-        public List<ScoreItemHighScore> ScoreItemsHighScores { get; set; } 
+        public List<ScoreItemHighScore> ScoreItemsHighScores { get; set; }
     }
 }

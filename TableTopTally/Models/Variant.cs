@@ -8,13 +8,18 @@
 
 using System.Collections.Generic;
 using MongoDB.Bson;
+using TableTopTally.Annotations;
 using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A Game variant
+    /// </summary>
     public class Variant : MongoEntity
     {
+        [UsedImplicitly]
         public Variant() { }
 
         /// <summary>

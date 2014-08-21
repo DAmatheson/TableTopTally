@@ -7,11 +7,16 @@
  */ 
 
 using System.Collections.Generic;
+using TableTopTally.Annotations;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A Session round
+    /// </summary>
     public class Round
     {
+        [UsedImplicitly]
         public Round() { }
 
         /// <summary>

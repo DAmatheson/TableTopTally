@@ -7,27 +7,33 @@
 
 'use strict';
 
-// Declare app level module which depends on filters, services, directives, and controllers
+// Declare main app module which depends on filters, services, directives, and controllers
 var ttApp = angular.module('tableTopTally', [
-    'tableTopTally.routes',
-    //'tableTopTally.filters',
+    'games',
     'tableTopTally.services',
-    'tableTopTally.directives',
-    'tableTopTally.controllers'
+    'tableTopTally.directives'
 ]);
 
-ttApp.config(['$locationProvider',
-    function ($locationProvider)
+ttApp.config(['$locationProvider', '$routeProvider',
+    function ($locationProvider, $routeProvider)
     {
+        $routeProvider.when("/",
+        {
+            templateUrl: 'AngularApp/Home.html',
+        });
+
+        // 404 page with link back to '/'
+        $routeProvider.otherwise(
+        {
+            templateUrl: 'AngularApp/404.html'
+        });
+
         // use HTML5 History API (Removes /#/ after domain but requires proper handling on the server)
         $locationProvider.html5Mode(true);
     }
 ]);
 
-
 // Define common modules here rather than in their own files so that they don't override each other
 // or require a specific loading order to prevent overriding
-angular.module('tableTopTally.controllers', []);
-angular.module('tableTopTally.services', ['ngResource']); // ttt.services requires ngResource
-angular.module('tableTopTally.routes', ['ngRoute']); // ttt.routes requires ngRoute
+angular.module('tableTopTally.services', ['ngResource']); // tt.services requires ngResource
 angular.module('tableTopTally.directives', []);

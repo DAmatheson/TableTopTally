@@ -1,3 +1,10 @@
+/* randomPicker.js
+ * Purpose: Randomly pick a value
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.11 Created
+ */
+
 function randomName(namesId, outputId)
 {
     var reNameSplit = /[,?\s*]+/; // 0-1 commas, any # spaces, one or more repetitions

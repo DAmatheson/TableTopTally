@@ -10,11 +10,16 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TableTopTally.Annotations;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A player's scores from a round
+    /// </summary>
     public class PlayerScore
     {
+        [UsedImplicitly]
         public PlayerScore() { }
 
         /// <summary>

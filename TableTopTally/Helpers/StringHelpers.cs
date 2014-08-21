@@ -1,16 +1,20 @@
 ﻿/* StringHelpers.cs
-* 
-* Purpose: A string extension method for creating Url slugs from strings
-* 
-* Revision History:
-*      Drew Matheson, 2014.05.29: Implemented
-*/ 
+ * 
+ * Purpose: A string extension method for creating Url slugs from strings
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.05.29: Implemented
+ *      Drew Matheson, 2014.08.11: Added an overload that accepts an ObjectId and appends part of it
+ */ 
 
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
 
 namespace TableTopTally.Helpers
 {
+    /// <summary>
+    /// String extension methods
+    /// </summary>
     public static class StringHelpers
     {
         // Taken from http://predicatet.blogspot.ca/2009/04/improved-c-slug-generator-or-how-to.html
@@ -26,6 +30,12 @@ namespace TableTopTally.Helpers
             return str;
         }
 
+        /// <summary>
+        /// Creates a safe URL by combining phase with part of id
+        /// </summary>
+        /// <param name="phrase">The string phrase to make a URL out of</param>
+        /// <param name="id">The ObjectId to use as a way of making the URL essentially unique</param>
+        /// <returns>The string URL slug</returns>
         public static string GenerateSlug(this string phrase, ObjectId id)
         {
             string str = phrase.RemoveAccent().ToLower();
@@ -40,6 +50,11 @@ namespace TableTopTally.Helpers
         }
 
         // Taken from http://predicatet.blogspot.ca/2009/04/improved-c-slug-generator-or-how-to.html
+        /// <summary>
+        /// Replaces the characters with accent in a string with their ASCII equivalent character
+        /// </summary>
+        /// <param name="txt">The string to remove accents from</param>
+        /// <returns>The string with accents removed</returns>
         public static string RemoveAccent(this string txt)
         {
             byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);

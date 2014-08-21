@@ -1,6 +1,6 @@
 ﻿<div class="row">
-    <div class="game-images">
-        <!--<img ng-src="{{ mainImageUrl }}" alt="{{ name + ' image' }}" class="game" />-->
+    <div class="game-images" ng-show="game.imageUrl">
+        <img ng-src="{{ game.imageUrl }}" alt="{{ game.name + ' image' }}" class="game" />
     </div>
 
     <div class="col-md-4">

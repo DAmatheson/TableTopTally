@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/* RankScores.cs
+ * Purpose: Class with methods for ranking a Sessions Rounds Scores
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.09: Created
+ */ 
+
+using System.Collections.Generic;
 using System.Linq;
 using TableTopTally.Models;
 
 namespace TableTopTally.Helpers
 {
+    /// <summary>
+    /// Contains methods for ranking sessions' scores
+    /// </summary>
     public static class RankScores
     {
         /// <summary>
@@ -37,10 +47,10 @@ namespace TableTopTally.Helpers
         }
 
         /// <summary>
-        ///     
+        ///     Ranks the top 3 players by descending score
         /// </summary>
-        /// <param name="session"></param>
-        /// <returns></returns>
+        /// <param name="session">The session to be ranked</param>
+        /// <returns>A collection of the top 3 rankings</returns>
         public static IEnumerable<Ranking> RankSession(PlaySession session)
         {
             List<Ranking> ranks = (from player in session.Players

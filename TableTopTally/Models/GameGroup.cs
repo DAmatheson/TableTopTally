@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/* GameGroup.cs
+ * Purpose: Represents a all the things about and related to a gaming group
+ * 
+ * Revision History:
+ *      Drew Matheson, 2014.06.18: Created
+ */ 
+
+using System.Collections.Generic;
 using MongoDB.Bson;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
+    /// <summary>
+    /// A gaming group with members, list of owned games, and list of game variants
+    /// </summary>
     public class GameGroup : MongoEntity
     {
         /// <summary>

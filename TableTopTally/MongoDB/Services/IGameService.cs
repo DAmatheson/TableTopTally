@@ -11,7 +11,7 @@ using TableTopTally.Models;
 
 namespace TableTopTally.MongoDB.Services
 {
-    internal interface IGameService : IMongoService<Game>
+    public interface IGameService : IMongoService<Game>
     {
         bool Edit(Game game);
 
