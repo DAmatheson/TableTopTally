@@ -4,6 +4,14 @@
 
 <hr />
 
+<div class="text-danger">
+    <ul>
+        <li ng-show="tt.apiErrors.statusError" class="list-unstyled text-center alert alert-danger">
+            {{ tt.apiErrors.statusError }}
+        </li>
+    </ul>
+</div>
+
 <form name="{{ formName }}" class="form-horizontal" tt-submit novalidate>
     <game-details></game-details>
 
@@ -12,7 +20,7 @@
             <button class="btn btn-danger" ng-click="deleteGame()">
                 Remove Game
             </button>
-            
+
             <a class="btn btn-primary" href="games/">
                 Cancel
             </a>

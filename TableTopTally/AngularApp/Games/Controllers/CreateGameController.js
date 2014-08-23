@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial CreateGame.html
 gamesControllers.controller('CreateGameController',
-    ['$scope', '$location', 'gameDataService', 'tempRedirectionData',
+    ['$scope', '$location', 'gameDataService', 'tempRedirectionData', 'apiErrorParser',
 
-    function ($scope, $location, gameService, tempRedirectionData)
+    function ($scope, $location, gameService, tempRedirectionData, apiErrorParser)
     {
         $scope.formName = "frmGame";
 
@@ -27,26 +27,35 @@ gamesControllers.controller('CreateGameController',
             if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
             {
                 gameService.create(game,
-                    function (data) // Success function
+                    function(data) // Success function
                     {
+                        // Display message showing creation was successful and redirection is happening
+
                         tempRedirectionData.setData(data);
 
                         $location.url('/games/' + data.id);
                     },
-                    function(httpResponse) // Error function
+                    function (httpResponse) // Error function
                     {
-                        // Error function goes here
+                        // Set up scope in case it hasn't been done
+                        $scope.tt = $scope.tt || {};
+                        $scope.tt.apiErrors = $scope.tt.apiErrors || {};
+
+                        // Add model errors to scope
+                        $scope.tt.apiErrors.modelErrors = apiErrorParser.parseModelErrors(httpResponse);
+                        $scope.tt.apiErrors.statusError = "Creation failed due to: " +
+                            apiErrorParser.parseStatusCode(httpResponse.status);
                     }
                 );
             }
-        }
+        };
 
-        $scope.playerCountIsValid = function (game)
+        $scope.playerCountIsValid = function(game)
         {
             // Validates that the min players is less than or equal to max players
 
             // game is included to prevent accessing its properties if it isn't passed in
             return game && game.minimumPlayers <= game.maximumPlayers;
-        }
+        };
     }
 ]);

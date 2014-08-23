@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial DeleteGame.html
 gamesControllers.controller('DeleteGameController',
-    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService',
+    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService', 'apiErrorParser',
 
-    function ($scope, $routeParams, $location, gameData, gameDataService)
+    function ($scope, $routeParams, $location, gameData, gameDataService, apiErrorParser)
     {
         $scope.game = gameData;
 
@@ -27,18 +27,23 @@ gamesControllers.controller('DeleteGameController',
             // Sends a deletion request. If successful redirect to game list, otherwise retry
 
             gameDataService.delete({ gameId: $routeParams.gameId },
-                function (value, responseHeaders) // Success function
+                function(value, responseHeaders) // Success function
                 {
                     // Display message saying deletion succeeded and redirection is happening
-                    alert(responseHeaders);
 
                     $location.url('/games/');
                 },
-                function(httpResponse) // Error function
+                function (httpResponse) // Error function
                 {
-                    // Display message saying deletion has failed and to try again later
+                    // Set up scope in case it hasn't been done
+                    $scope.tt = $scope.tt || {};
+                    $scope.tt.apiErrors = $scope.tt.apiErrors || {};
+
+                    // Add model errors to scope
+                    $scope.tt.apiErrors.statusError = "Deletion failed due to: " +
+                        apiErrorParser.parseStatusCode(httpResponse.status);
                 }
             );
-        }
+        };
     }
 ]);

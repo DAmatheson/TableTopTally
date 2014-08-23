@@ -1,0 +1,27 @@
+﻿<style>
+    input#txtNames
+    {
+        font-size: 16px;
+    }
+
+    p#output
+    {
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+
+<label for="txtValues">Enter Names: </label>
+<input type="text" id="txtValues" ng-model="tt.randomPicker.randomValues" />
+
+<br />
+
+<button id="btnPickRandom" class="btn btn-primary" 
+        ng-click="tt.randomPicker.pickValue()">
+    Pick Name
+</button>
+
+<br />
+<br />
+
+<p id="output">{{ tt.randomPicker.randomResult }}</p>

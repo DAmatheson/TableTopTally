@@ -5,11 +5,11 @@
  *      Drew Matheson, 2014.08.07: Created
 */
 
+using MongoDB.Bson;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using MongoDB.Bson;
 using TableTopTally.Annotations;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
@@ -88,6 +88,12 @@ namespace TableTopTally.Controllers.API
         [HttpPost]
         public IHttpActionResult PostGame(Game game)
         {
+            // Remove game.Id model error because POST actions don't include an Id for game
+            if (ModelState.ContainsKey("game.Id"))
+            {
+                ModelState["game.Id"].Errors.Clear();
+            }
+
             if (ModelState.IsValid)
             {
                 game.Id = ObjectId.GenerateNewId();
@@ -116,16 +122,14 @@ namespace TableTopTally.Controllers.API
 
             if (ModelState.IsValid)
             {
-                Game gameToUpdate = null;
+                Game gameToUpdate = null; // Note: No DB use only
 
                 ObjectId parsedId;
 
-                ObjectId.TryParse(id, out parsedId);
-
                 // Unsure: Does making the id and game.Id match really prevent exploitation?
-                if (parsedId != ObjectId.Empty && parsedId == game.Id)
+                if (ObjectId.TryParse(id, out parsedId) && parsedId == game.Id)
                 {
-                    gameToUpdate = games.FirstOrDefault(g => g.Id == parsedId);
+                    gameToUpdate = games.FirstOrDefault(g => g.Id == parsedId); // Note: No DB use only
 
                     // game.Id = parsedId;
 
@@ -141,7 +145,7 @@ namespace TableTopTally.Controllers.API
                     //}
                 }
 
-                if (gameToUpdate != null)
+                if (gameToUpdate != null) // Note: No DB use only
                 {
                     gameToUpdate.Name = game.Name;
                     gameToUpdate.MinimumPlayers = game.MinimumPlayers;

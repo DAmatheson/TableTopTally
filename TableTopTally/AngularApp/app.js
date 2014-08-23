@@ -9,6 +9,7 @@
 
 // Declare main app module which depends on filters, services, directives, and controllers
 var ttApp = angular.module('tableTopTally', [
+    'home',
     'games',
     'tableTopTally.services',
     'tableTopTally.directives'
@@ -17,11 +18,6 @@ var ttApp = angular.module('tableTopTally', [
 ttApp.config(['$locationProvider', '$routeProvider',
     function ($locationProvider, $routeProvider)
     {
-        $routeProvider.when("/",
-        {
-            templateUrl: 'AngularApp/Home.html',
-        });
-
         // 404 page with link back to '/'
         $routeProvider.otherwise(
         {

@@ -260,11 +260,16 @@
   <ItemGroup>
     <Content Include="AngularApp\404.html" />
     <Content Include="AngularApp\app.js" />
+    <Content Include="AngularApp\Common\Services\apiErrorParserService.js" />
     <Content Include="AngularApp\Common\Services\tempRedirectionDataService.js" />
     <Content Include="AngularApp\Common\Services\ValuesService.js" />
     <Content Include="AngularApp\Games\games.js" />
     <Content Include="AngularApp\Games\gamesRoutes.js" />
-    <Content Include="AngularApp\Home.html" />
+    <Content Include="AngularApp\Home\Home.html" />
+    <Content Include="AngularApp\Home\home.js" />
+    <Content Include="AngularApp\Common\RandomPicker\RandomPicker.html" />
+    <Content Include="AngularApp\Common\RandomPicker\randomPickerDirective.js" />
+    <Content Include="AngularApp\Home\homeRoutes.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -634,7 +639,6 @@
     <Content Include="Scripts\Library\respond\respond.min.js" />
     <Content Include="Scripts\Library\Angular\version.json" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Scripts\randomPicker.js" />
     <Content Include="AngularApp\Games\Partials\DeleteGame.html" />
     <Content Include="AngularApp\Games\Partials\UpdateGame.html" />
     <Content Include="AngularApp\Games\Partials\CreateGame.html" />

@@ -13,8 +13,8 @@ ttDirectives.directive('ttSubmit', ['$parse',
         return {
             restrict: 'A', // Restrict this directive to attributes
             require: ['ttSubmit', '?form'], // The directive requires the controllers ttSubmit and the form's controller
-            controller: [
-                '$scope', function($scope)
+            controller:
+                function ()
                 {
                     this.attempted = false;
 
@@ -49,8 +49,7 @@ ttDirectives.directive('ttSubmit', ['$parse',
                                 (formController.$dirty || this.attempted);
                         }
                     };
-                }
-            ],
+                },
             compile: function(cElement, cAttributes)
             {
                 return {

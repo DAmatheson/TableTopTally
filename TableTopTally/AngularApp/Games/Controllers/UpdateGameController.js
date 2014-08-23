@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial UpdateGame.html
 gamesControllers.controller('UpdateGameController',
-    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService', 'tempRedirectionData',
+    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService', 'tempRedirectionData', 'apiErrorParser',
 
-    function ($scope, $routeParams, $location, gameData, gameDataService, tempRedirectionData)
+    function ($scope, $routeParams, $location, gameData, gameDataService, tempRedirectionData, apiErrorParser)
     {
         $scope.masterGame = gameData;
 
@@ -28,31 +28,38 @@ gamesControllers.controller('UpdateGameController',
         {
             // submits the game if valid and redirects to the detail page for the game
 
-            game.id = "blah";
-
             if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
             {
                 gameDataService.update({ gameId: $scope.masterGame.id }, game,
-                    function (data, responseHeaders) // Success function
+                    function(data, responseHeaders) // Success function
                     {
+                        // Display message saying update was successful and redirection is happening
+
                         tempRedirectionData.setData(data);
 
                         $location.url('/games/' + data.id);
                     },
-                    function (httpResponse) // Error function
+                    function(httpResponse) // Error function
                     {
-                        //console.log(httpResponse);
+                        // Set up scope in case it hasn't been done
+                        $scope.tt = $scope.tt || {};
+                        $scope.tt.apiErrors = $scope.tt.apiErrors || {};
+
+                        // Add model errors to scope
+                        $scope.tt.apiErrors.modelErrors = apiErrorParser.parseModelErrors(httpResponse);
+                        $scope.tt.apiErrors.statusError = "Updating failed due to: " +
+                            apiErrorParser.parseStatusCode(httpResponse.status);
                     }
                 );
             }
-        }
+        };
 
-        $scope.playerCountIsValid = function (game)
+        $scope.playerCountIsValid = function(game)
         {
             // Validates that the min players is less than or equal to max players
 
             // game is included to prevent accessing its properties if it isn't passed in
             return game && game.minimumPlayers <= game.maximumPlayers;
-        }
+        };
     }
 ]);
