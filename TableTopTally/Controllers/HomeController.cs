@@ -13,7 +13,7 @@ namespace TableTopTally.Controllers
     {
         public ActionResult Index()
         {
-            return PartialView();
+            return View();
         }
 
         public ActionResult Contact()

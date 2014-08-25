@@ -644,7 +644,7 @@
     <Content Include="AngularApp\Games\Partials\CreateGame.html" />
     <Content Include="AngularApp\Games\Partials\GameFormFields.html" />
     <Content Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Account\_Layout.cshtml" />
     <Content Include="AngularApp\Games\Partials\GameDetails.html" />
     <Content Include="AngularApp\Games\Partials\GameList.html" />
     <Content Include="Web.config" />
@@ -655,7 +655,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
@@ -673,6 +672,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AngularApp\Common\Filters\" />
