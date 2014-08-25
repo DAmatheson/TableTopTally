@@ -2,7 +2,7 @@
  *  Purpose: Angular sub-module for games in TableTop Tally
  *
  *  Revision History:
- *      Drew Matheson, 2014.8.20: Created
+ *      Drew Matheson, 2014.08.20: Created
 */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>

@@ -2,7 +2,7 @@
  * Purpose: Controller for the game deletion page in the games module
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.18: Created
+ *      Drew Matheson, 2014.08.18: Created
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>
@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial DeleteGame.html
 gamesControllers.controller('DeleteGameController',
-    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService', 'apiErrorParser',
+    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService',
 
-    function ($scope, $routeParams, $location, gameData, gameDataService, apiErrorParser)
+    function ($scope, $routeParams, $location, gameData, gameDataService)
     {
         $scope.game = gameData;
 
@@ -34,14 +34,8 @@ gamesControllers.controller('DeleteGameController',
                     $location.url('/games/');
                 },
                 function (httpResponse) // Error function
-                {
-                    // Set up scope in case it hasn't been done
-                    $scope.tt = $scope.tt || {};
-                    $scope.tt.apiErrors = $scope.tt.apiErrors || {};
-
-                    // Add model errors to scope
-                    $scope.tt.apiErrors.statusError = "Deletion failed due to: " +
-                        apiErrorParser.parseStatusCode(httpResponse.status);
+                { 
+                    $scope.tt.apiErrorDisplay.parseStatusCode(httpResponse.status, "Deletion");
                 }
             );
         };

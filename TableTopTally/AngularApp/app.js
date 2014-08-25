@@ -2,7 +2,7 @@
  *  Purpose: Angular app for TableTop Tally
  *
  *  Revision History:
- *      Drew Matheson, 2014.8.3: Created
+ *      Drew Matheson, 2014.08.03: Created
 */
 
 'use strict';

@@ -2,8 +2,8 @@
  *  Purpose: Routes for the games module
  * 
  *  Revision History:
- *      Drew Matheson, 2014.8.2: Created
- *      Drew Matheson, 2014.8.19: Added resolve property to whens so page isn't loaded until data returns
+ *      Drew Matheson, 2014.08.02: Created
+ *      Drew Matheson, 2014.08.19: Added resolve property to whens so page isn't loaded until data returns
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>

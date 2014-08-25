@@ -1,8 +1,8 @@
-﻿/* GameDetailController.js
+﻿/* GameListController.js
  *  Purpose: Controller for the game list partial in the games module
  * 
  *  Revision History:
- *      Drew Matheson, 2014.8.3: Created
+ *      Drew Matheson, 2014.08.03: Created
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>
@@ -12,7 +12,7 @@
 
 var gamesControllers = angular.module('games.controllers');
 
-// Controller for the partial gameList.html
+// Controller for the partial GameList.html
 gamesControllers.controller('GameListController', ['$scope', 'gameList',
     function ($scope, gameList)
     {

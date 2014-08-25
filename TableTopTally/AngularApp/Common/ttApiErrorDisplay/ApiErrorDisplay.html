@@ -1,0 +1,19 @@
+﻿<div id="apiErrorTopAlert" class="text-center alert alert-danger alert-dismissible ng-hide navbar-fixed-top ">
+    <button type="button" id="btnApiErrorTopAlert" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    {{ tt.apiErrorDisplay.statusError }}
+</div>
+
+<div id="apiErrorInline" class="list-group">
+    <div ng-show="tt.apiErrorDisplay.statusError" class="text-center list-group-item list-group-item-danger">
+        {{ tt.apiErrorDisplay.statusError }}
+    </div>
+    
+    <ul ng-show="tt.apiErrorDisplay.modelErrors" class="list-group-item list-group-item-warning">
+        <li ng-repeat="error in tt.apiErrorDisplay.modelErrors">
+            {{ error }}
+        </li>
+    </ul>
+</div>

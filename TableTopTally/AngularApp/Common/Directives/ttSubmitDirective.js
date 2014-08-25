@@ -2,7 +2,7 @@
  * Purpose: Angular directive to simplify form validation
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.14
+ *      Drew Matheson, 2014.08.14
  */
 
 var ttDirectives = angular.module('tableTopTally.directives');

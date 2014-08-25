@@ -2,7 +2,7 @@
  * Purpose: Directive for displaying the game form fields in the <game-form-fields> html element
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.18: Created
+ *      Drew Matheson, 2014.08.18: Created
  */
 
 'use strict';

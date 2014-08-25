@@ -1,8 +1,8 @@
-﻿/* randomPickerDirective.js
+﻿/* ttRandomPickerDirective.js
  * Purpose: Directive to randomly pick a value from text input
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.21: Created
+ *      Drew Matheson, 2014.08.21: Created
  */
 
 'use strict';
@@ -12,13 +12,13 @@ var ttDirectives = angular.module('tableTopTally.directives');
 ttDirectives.directive('ttRandomPicker', 
     function() 
     {
-        var controller = function (dateFilter)
+        var controller = function (dateFilter, randomNames)
         {
             // controller for the directive
 
             this.randomResult = "";
 
-            this.randomValues = "Ian Drew Brittany"; // intialize the value
+            this.randomValues = randomNames; // intialize the value
 
             this.pickValue = function pickValue()
             {
@@ -64,8 +64,8 @@ ttDirectives.directive('ttRandomPicker',
         return {
             restrict: 'E', // Restrict this directive to elements
             require: 'ttRandomPicker', // Require this controller for injecting it into the scope
-            templateUrl: 'AngularApp/Common/RandomPicker/RandomPicker.html',
-            controller: ['dateFilter',controller],
+            templateUrl: 'AngularApp/Common/ttRandomPicker/RandomPicker.html',
+            controller: ['dateFilter', 'randomNames',  controller],
             link: link
         }
     }

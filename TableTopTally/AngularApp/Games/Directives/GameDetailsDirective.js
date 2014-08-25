@@ -2,7 +2,7 @@
  * Purpose: Directive to display game details in the <game-details> html element
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.18: Created
+ *      Drew Matheson, 2014.08.18: Created
  */
 
 'use strict';

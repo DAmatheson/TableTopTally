@@ -2,7 +2,7 @@
  *  Purpose: Routes for the home module
  * 
  *  Revision History:
- *      Drew Matheson, 2014.8.21: Created
+ *      Drew Matheson, 2014.08.21: Created
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>

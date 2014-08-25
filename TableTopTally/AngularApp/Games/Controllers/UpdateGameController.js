@@ -2,7 +2,7 @@
  * Purpose: Controller for the game update/editing page in the games module
  * 
  * Revision History:
- *      Drew Matheson, 2014.8.17: Created
+ *      Drew Matheson, 2014.08.17: Created
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular.js"/>
@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial UpdateGame.html
 gamesControllers.controller('UpdateGameController',
-    ['$scope', '$routeParams', '$location', 'gameData', 'gameDataService', 'tempRedirectionData', 'apiErrorParser',
+    ['$scope', '$location', 'gameData', 'gameDataService', 'tempRedirectionData',
 
-    function ($scope, $routeParams, $location, gameData, gameDataService, tempRedirectionData, apiErrorParser)
+    function ($scope, $location, gameData, gameDataService, tempRedirectionData)
     {
         $scope.masterGame = gameData;
 
@@ -27,6 +27,8 @@ gamesControllers.controller('UpdateGameController',
         $scope.submitGame = function(game)
         {
             // submits the game if valid and redirects to the detail page for the game
+
+            game.id = "blah";
 
             if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
             {
@@ -41,14 +43,8 @@ gamesControllers.controller('UpdateGameController',
                     },
                     function(httpResponse) // Error function
                     {
-                        // Set up scope in case it hasn't been done
-                        $scope.tt = $scope.tt || {};
-                        $scope.tt.apiErrors = $scope.tt.apiErrors || {};
-
-                        // Add model errors to scope
-                        $scope.tt.apiErrors.modelErrors = apiErrorParser.parseModelErrors(httpResponse);
-                        $scope.tt.apiErrors.statusError = "Updating failed due to: " +
-                            apiErrorParser.parseStatusCode(httpResponse.status);
+                        // Parse httpResponse
+                        $scope.tt.apiErrorDisplay.parseResponse(httpResponse, "Updating");
                     }
                 );
             }

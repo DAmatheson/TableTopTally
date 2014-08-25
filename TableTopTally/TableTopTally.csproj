@@ -260,15 +260,16 @@
   <ItemGroup>
     <Content Include="AngularApp\404.html" />
     <Content Include="AngularApp\app.js" />
-    <Content Include="AngularApp\Common\Services\apiErrorParserService.js" />
+    <Content Include="AngularApp\Common\ttApiErrorDisplay\ApiErrorDisplay.html" />
+    <Content Include="AngularApp\Common\ttApiErrorDisplay\ttApiErrorDisplayDirective.js" />
     <Content Include="AngularApp\Common\Services\tempRedirectionDataService.js" />
     <Content Include="AngularApp\Common\Services\ValuesService.js" />
     <Content Include="AngularApp\Games\games.js" />
     <Content Include="AngularApp\Games\gamesRoutes.js" />
     <Content Include="AngularApp\Home\Home.html" />
     <Content Include="AngularApp\Home\home.js" />
-    <Content Include="AngularApp\Common\RandomPicker\RandomPicker.html" />
-    <Content Include="AngularApp\Common\RandomPicker\randomPickerDirective.js" />
+    <Content Include="AngularApp\Common\ttRandomPicker\RandomPicker.html" />
+    <Content Include="AngularApp\Common\ttRandomPicker\ttrandomPickerDirective.js" />
     <Content Include="AngularApp\Home\homeRoutes.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -306,7 +307,7 @@
     <Content Include="AngularApp\Games\Directives\GameDetailsDirective.js" />
     <Content Include="AngularApp\Games\Directives\GameFormFieldsDirective.js" />
     <Content Include="AngularApp\Common\Directives\ttSubmitDirective.js" />
-    <Content Include="AngularApp\Common\Directives\VersionDirective.js" />
+    <Content Include="AngularApp\Common\Directives\ttVersionDirective.js" />
     <Content Include="AngularApp\Games\Services\GameServices.js" />
     <Content Include="Scripts\Library\Angular\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\Library\Angular\i18n\angular-locale_af-za.js" />

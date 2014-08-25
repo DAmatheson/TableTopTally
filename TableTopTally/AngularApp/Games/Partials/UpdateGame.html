@@ -1,10 +1,9 @@
-﻿<h2>Edit a Game</h2>
-
-<h4>Editing {{ game.name }}</h4>
+﻿<h2>Editing {{ masterGame.name }}</h2>
 
 <hr />
 
 <form name="{{ formName }}" class="form-horizontal" tt-submit novalidate>
+    <tt-api-error-display></tt-api-error-display>
     <game-form-fields></game-form-fields>
 
     <div class="form-group">

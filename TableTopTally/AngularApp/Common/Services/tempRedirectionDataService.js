@@ -2,7 +2,7 @@
  *  Purpose: Service module for temporary storage of data when redirecting between controllers
  * 
  *  Revision History:
- *      Drew Matheson, 2014.8.7: Created
+ *      Drew Matheson, 2014.08.07: Created
  */
 
 'use strict';

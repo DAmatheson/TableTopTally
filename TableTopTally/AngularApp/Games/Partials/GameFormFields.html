@@ -1,13 +1,5 @@
 ﻿<div class="text-danger">
-    <ul>
-        <li ng-show="tt.apiErrors.statusError" class="list-unstyled text-center alert alert-danger">
-            {{ tt.apiErrors.statusError }}
-        </li>
-
-        <li ng-repeat="error in tt.apiErrors.modelErrors">
-            {{ error }} 
-        </li>
-
+    <ul >
         <li ng-show="tt.{{ formName }}.hasError({{ formName }}.name)">
             <div ng-show="{{ formName }}.name.$error.required">
                 Enter the game's name.

@@ -1,8 +1,8 @@
-﻿/* VersionDirective.js
+﻿/* ttVersionDirective.js
  *  Purpose: Angular version number directive
  *
  *  Revision History:
- *      Drew Matheson, 2014.8.7: Created
+ *      Drew Matheson, 2014.08.07: Created
 */
 
 /// <reference path="~/Scripts/Library/Angular/angular-resource.js"/>

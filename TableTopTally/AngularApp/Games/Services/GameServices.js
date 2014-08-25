@@ -2,8 +2,8 @@
  *  Purpose: Service module for getting data in the games module
  * 
  *  Revision History:
- *      Drew Matheson, 2014.8.3: Created
- *      Drew Matheson, 2014.8.19: Added timeouts to all requests that modify data
+ *      Drew Matheson, 2014.08.03: Created
+ *      Drew Matheson, 2014.08.19: Added timeouts to all requests that modify data
  */
 
 /// <reference path="~/Scripts/Library/Angular/angular-resource.js"/>
