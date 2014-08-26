@@ -1,5 +1,9 @@
-﻿<div id="apiErrorTopAlert" class="text-center alert alert-danger alert-dismissible ng-hide navbar-fixed-top ">
-    <button type="button" id="btnApiErrorTopAlert" class="close" data-dismiss="alert">
+﻿<div id="apiErrorTopAlert" class="text-center alert alert-danger navbar-fixed-top"
+        ng-show="tt.apiErrorDisplay.statusIsNew">
+    
+    <button type="button" id="btnApiErrorTopAlert" class="close" role="alert"
+            ng-click="tt.apiErrorDisplay.setStatusIsNew(false)">
+        
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
     </button>

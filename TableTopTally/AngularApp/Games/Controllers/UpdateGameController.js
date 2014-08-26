@@ -26,9 +26,7 @@ gamesControllers.controller('UpdateGameController',
 
         $scope.submitGame = function(game)
         {
-            // submits the game if valid and redirects to the detail page for the game
-
-            game.id = "blah";
+            // Submits the game if valid and redirects to the detail page for the game
 
             if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
             {
@@ -43,7 +41,6 @@ gamesControllers.controller('UpdateGameController',
                     },
                     function(httpResponse) // Error function
                     {
-                        // Parse httpResponse
                         $scope.tt.apiErrorDisplay.parseResponse(httpResponse, "Updating");
                     }
                 );

@@ -12,16 +12,20 @@ var ttDirectives = angular.module('tableTopTally.directives');
 ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
     function ($timeout)
     {
-        var controller = function ()
+        var controller = function ($scope)
         {
-            // controller for the directive
+            // Controller for the directive
 
-            this.modelErrors = [];
-            this.statusError = "";
+            this.modelErrors = []; // Holds the model error messages
+            this.statusError = ""; // Holds the status error message
+            this.statusIsNew = false; // Flag used to show/hide the status alert
 
-            // function to parse model errors
+            var statusTimeoutPromise;
+
             this.parseModelErrors = function (modelState)
             {
+                // Parser model errors and add them to the modelErrors property
+
                 var errors = [];
 
                 for (var key in modelState)
@@ -40,26 +44,32 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
 
             this.parseStatusCode = function (statusCode, actionDescription)
             {
-                var error = actionDescription + " failed due to: ";
+                // Parses statusCode into a message, sets statusIsNew to true
+
+                var error = actionDescription + " failed due to ";
 
                 switch (statusCode)
                 {
                     case 400:
-                        error += "Invalid Form Data";
+                        error += "invalid form data";
                         break;
                     case 404:
-                        error += "Not Found";
+                        error += "a Not Found error";
                         break;
                     default:
-                        error += "Generic Error";
+                        error += "a generic error";
                         break;
                 }
 
                 this.statusError = error;
+
+                this.setStatusIsNew(true);
             }
 
             this.parseResponse = function(httpResponse, actionDescription)
             {
+                // Parse both the status and model errors
+
                 if (!httpResponse)
                 {
                     throw "httpResponse was not passed to ttApiErrorParser's parseResponse function";
@@ -77,6 +87,39 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
                     this.parseStatusCode(httpResponse.status, actionDescription);
                 }
             }
+
+            this.setStatusIsNew = function(isNew)
+            {
+                // Set the statusIsNew flag to isNew
+
+                if (isNew === true)
+                {
+                    this.statusIsNew = isNew;
+
+                    var self = this; // Required to have access to 'this' within the $timeout
+
+                    // Set a timeout to change statusIsNew to false so the alert goes away
+                    statusTimeoutPromise = $timeout(function()
+                        {
+                            self.setStatusIsNew(false);
+                        },
+                        6000
+                    );
+                }
+                else if (isNew === false)
+                {
+                    this.statusIsNew = isNew;
+
+                    // Cancel the timeout in case the swap was called before the timer ended
+                    $timeout.cancel(statusTimeoutPromise);
+                }
+            }
+
+            $scope.$on('$destroy', function()
+            {
+                // Cancel the new status timer when the controller is destroyed
+                $timeout.cancel(statusTimeoutPromise);
+            });
         }
 
         var link = function (scope, element, attributes, apiErrorDisplayController)
@@ -88,48 +131,6 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
 
             // Assign the controller to tt.randomPicker
             scope.tt['apiErrorDisplay'] = apiErrorDisplayController;
-
-            // The promise returned by the timeout in statusError $watch
-            var statusErrorDisplayPromise;
-
-            var hideAlert = function()
-            {
-                // Hide the alert and unfix it from the top
-                $("#apiErrorTopAlert").addClass("ng-hide").removeClass("navbar-fixed-top");
-            }
-
-            scope.$watch('tt.apiErrorDisplay.statusError', function(newValue)
-            {
-                if (newValue !== "")
-                {
-                    // Fix the alert to the top and show it
-                    $("#apiErrorTopAlert").addClass("navbar-fixed-top").removeClass("ng-hide");
-
-                    // Create a timeout for removing the alert after 6 seconds
-                    statusErrorDisplayPromise = $timeout(hideAlert, 6000);
-                }
-            });
-
-            // function to cancel the timeout from the $watch on statusError
-            var cancelTimeout = function()
-            {
-                $timeout.cancel(statusErrorDisplayPromise);
-            }
-
-            // Cancel the timeout for hiding the alert if the dismiss button is clicked
-            $("#btnApiErrorTopAlert").on('click', function()
-            {
-                cancelTimeout();
-            });
-
-            scope.$on('$destroy', function ()
-            {
-                cancelTimeout(); // Cancel the timeout
-
-                $("#btnApiErrorTopAlert").off('click', cancelTimeout); // Remove the jQuery event watcher
-
-                hideAlert();
-            });
         }
 
         return {

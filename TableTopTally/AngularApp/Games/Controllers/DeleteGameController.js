@@ -34,7 +34,8 @@ gamesControllers.controller('DeleteGameController',
                     $location.url('/games/');
                 },
                 function (httpResponse) // Error function
-                { 
+                {
+                    // Parse only status code as deletion doesn't involve modelState
                     $scope.tt.apiErrorDisplay.parseStatusCode(httpResponse.status, "Deletion");
                 }
             );
