@@ -10,6 +10,6 @@
 'use strict';
 
 // Declare home sub-module which depends on its own routes
-var ttHome = angular.module('home', [
+angular.module('home', [
     'home.routes'
 ]);

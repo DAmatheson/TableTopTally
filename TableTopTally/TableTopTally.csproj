@@ -264,6 +264,8 @@
     <Content Include="AngularApp\Common\ttApiErrorDisplay\ttApiErrorDisplayDirective.js" />
     <Content Include="AngularApp\Common\Services\tempRedirectionDataService.js" />
     <Content Include="AngularApp\Common\Services\ValuesService.js" />
+    <Content Include="AngularApp\Common\ttApiSuccessDisplay\ApiSuccessDisplay.html" />
+    <Content Include="AngularApp\Common\ttApiSuccessDisplay\ttApiSuccessDisplayDirective.js" />
     <Content Include="AngularApp\Games\games.js" />
     <Content Include="AngularApp\Games\gamesRoutes.js" />
     <Content Include="AngularApp\Home\Home.html" />

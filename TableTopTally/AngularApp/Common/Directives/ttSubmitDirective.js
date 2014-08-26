@@ -5,6 +5,8 @@
  *      Drew Matheson, 2014.08.14
  */
 
+'use strict';
+
 var ttDirectives = angular.module('tableTopTally.directives');
 
 ttDirectives.directive('ttSubmit', ['$parse',
@@ -50,7 +52,7 @@ ttDirectives.directive('ttSubmit', ['$parse',
                         }
                     };
                 },
-            compile: function(cElement, cAttributes)
+            compile: function()
             {
                 return {
                     // Unsafe to do DOM element transformations in pre
@@ -94,7 +96,7 @@ ttDirectives.directive('ttSubmit', ['$parse',
                                 // Call the parsed angular expression from the tt-submit attribute
                                 fn(scope, { $event: event });
                             });
-                        }
+                        };
 
                         // On the submit event of the form, run formSubmitHandler
                         formElement.on('submit', formSubmitHandler); 

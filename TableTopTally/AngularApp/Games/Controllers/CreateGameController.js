@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial CreateGame.html
 gamesControllers.controller('CreateGameController',
-    ['$scope', '$location', 'gameDataService', 'tempRedirectionData',
+    ['$scope', '$location', 'gameDataService',
 
-    function ($scope, $location, gameService, tempRedirectionData)
+    function ($scope, $location, gameService)
     {
         $scope.formName = "frmGame";
 
@@ -29,11 +29,8 @@ gamesControllers.controller('CreateGameController',
                 gameService.create(game,
                     function(data) // Success function
                     {
-                        // Display message showing creation was successful and redirection is happening
-
-                        tempRedirectionData.setData(data);
-
-                        $location.url('/games/' + data.id);
+                        // Display message saying update was successful and redirection is happening
+                        $scope.tt.apiSuccessDisplay.show("Creation successful.", '/games/' + data.id, data);
                     },
                     function (httpResponse) // Error function
                     {

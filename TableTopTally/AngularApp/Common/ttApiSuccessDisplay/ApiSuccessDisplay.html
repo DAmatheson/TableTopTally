@@ -1,0 +1,11 @@
+﻿<div class="text-center alert alert-success navbar-fixed-top"
+        ng-show="tt.apiSuccessDisplay.successMessage">
+    
+    <button type="button" class="close" role="alert"
+            ng-click="tt.apiSuccessDisplay.redirectNow()">
+        
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    {{ tt.apiSuccessDisplay.successMessage }} Redirecting in {{ tt.apiSuccessDisplay.timeToRedirect }} seconds. Dismiss this message to redirect instantly
+</div>

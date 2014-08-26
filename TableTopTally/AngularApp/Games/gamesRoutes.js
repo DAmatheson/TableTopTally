@@ -76,7 +76,7 @@ gamesRoute.config(['$routeProvider',
                     {
                         var data = tempRedirectionData.getData();
 
-                        if (data == null)
+                        if (data === null)
                         {
                             data = gameDataService.get({ gameId: $route.current.params.gameId }).$promise;
                         }

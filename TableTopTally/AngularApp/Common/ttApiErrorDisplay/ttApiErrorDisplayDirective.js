@@ -12,7 +12,7 @@ var ttDirectives = angular.module('tableTopTally.directives');
 ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
     function ($timeout)
     {
-        var controller = function ($scope)
+        var controller = function($scope)
         {
             // Controller for the directive
 
@@ -22,7 +22,7 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
 
             var statusTimeoutPromise;
 
-            this.parseModelErrors = function (modelState)
+            this.parseModelErrors = function(modelState)
             {
                 // Parser model errors and add them to the modelErrors property
 
@@ -42,7 +42,7 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
                 this.modelErrors = errors;
             };
 
-            this.parseStatusCode = function (statusCode, actionDescription)
+            this.parseStatusCode = function(statusCode, actionDescription)
             {
                 // Parses statusCode into a message, sets statusIsNew to true
 
@@ -64,7 +64,7 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
                 this.statusError = error;
 
                 this.setStatusIsNew(true);
-            }
+            };
 
             this.parseResponse = function(httpResponse, actionDescription)
             {
@@ -86,7 +86,7 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
 
                     this.parseStatusCode(httpResponse.status, actionDescription);
                 }
-            }
+            };
 
             this.setStatusIsNew = function(isNew)
             {
@@ -113,16 +113,16 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
                     // Cancel the timeout in case the swap was called before the timer ended
                     $timeout.cancel(statusTimeoutPromise);
                 }
-            }
+            };
 
             $scope.$on('$destroy', function()
             {
                 // Cancel the new status timer when the controller is destroyed
                 $timeout.cancel(statusTimeoutPromise);
             });
-        }
+        };
 
-        var link = function (scope, element, attributes, apiErrorDisplayController)
+        var link = function(scope, element, attributes, apiErrorDisplayController)
         {
             // link function for the directive
 
@@ -130,8 +130,8 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
             scope.tt = scope.tt || {};
 
             // Assign the controller to tt.randomPicker
-            scope.tt['apiErrorDisplay'] = apiErrorDisplayController;
-        }
+            scope.tt.apiErrorDisplay = apiErrorDisplayController;
+        };
 
         return {
             restrict: 'E', // Restrict this directive to elements
@@ -139,6 +139,6 @@ ttDirectives.directive('ttApiErrorDisplay', ['$timeout',
             templateUrl: 'AngularApp/Common/ttApiErrorDisplay/ApiErrorDisplay.html',
             controller: controller,
             link: link
-        }
+        };
     }
 ]);

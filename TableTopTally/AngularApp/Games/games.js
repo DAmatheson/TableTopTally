@@ -10,7 +10,7 @@
 'use strict';
 
 // Declare games sub-module which depends on its own services, routes, directives, and controllers
-var ttGames = angular.module('games', [
+angular.module('games', [
     'games.services',
     'games.directives',
     'games.controllers',

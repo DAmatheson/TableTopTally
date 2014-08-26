@@ -10,9 +10,9 @@
 var ttDirectives = angular.module('tableTopTally.directives');
 
 ttDirectives.directive('ttRandomPicker', 
-    function() 
+    function()
     {
-        var controller = function (dateFilter, randomNames)
+        var controller = function(dateFilter, randomNames)
         {
             // controller for the directive
 
@@ -22,10 +22,10 @@ ttDirectives.directive('ttRandomPicker',
 
             this.pickValue = function pickValue()
             {
-                var output = randomValue(this.randomValues) + " " + dateFilter(new Date, "MM/dd @ h:mm:ss a" );
+                var output = randomValue(this.randomValues) + " " + dateFilter(new Date(), "MM/dd @ h:mm:ss a");
 
                 this.randomResult = output;
-            }
+            };
 
             function randomValue(randomValues)
             {
@@ -48,9 +48,9 @@ ttDirectives.directive('ttRandomPicker',
             {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
-        }
+        };
 
-        var link = function (scope, element, attributes, randomPickerController)
+        var link = function(scope, element, attributes, randomPickerController)
         {
             // link function for the directive
 
@@ -58,15 +58,15 @@ ttDirectives.directive('ttRandomPicker',
             scope.tt = scope.tt || {};
 
             // Assign the controller to tt.randomPicker
-            scope.tt['randomPicker'] = randomPickerController;
-        }
+            scope.tt.randomPicker = randomPickerController;
+        };
 
         return {
             restrict: 'E', // Restrict this directive to elements
             require: 'ttRandomPicker', // Require this controller for injecting it into the scope
             templateUrl: 'AngularApp/Common/ttRandomPicker/RandomPicker.html',
-            controller: ['dateFilter', 'randomNames',  controller],
+            controller: ['dateFilter', 'randomNames', controller],
             link: link
-        }
+        };
     }
 );

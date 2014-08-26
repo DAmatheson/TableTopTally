@@ -27,11 +27,10 @@ gamesControllers.controller('DeleteGameController',
             // Sends a deletion request. If successful redirect to game list, otherwise retry
 
             gameDataService.delete({ gameId: $routeParams.gameId },
-                function(value, responseHeaders) // Success function
+                function() // Success function
                 {
-                    // Display message saying deletion succeeded and redirection is happening
-
-                    $location.url('/games/');
+                    // Display message saying update was successful and redirection is happening
+                    $scope.tt.apiSuccessDisplay.show("Removal successful.", '/games/');
                 },
                 function (httpResponse) // Error function
                 {

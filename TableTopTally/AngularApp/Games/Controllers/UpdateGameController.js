@@ -14,9 +14,9 @@ var gamesControllers = angular.module('games.controllers');
 
 // Controller for the partial UpdateGame.html
 gamesControllers.controller('UpdateGameController',
-    ['$scope', '$location', 'gameData', 'gameDataService', 'tempRedirectionData',
+    ['$scope', '$location', 'gameData', 'gameDataService',
 
-    function ($scope, $location, gameData, gameDataService, tempRedirectionData)
+    function ($scope, $location, gameData, gameDataService)
     {
         $scope.masterGame = gameData;
 
@@ -31,13 +31,10 @@ gamesControllers.controller('UpdateGameController',
             if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
             {
                 gameDataService.update({ gameId: $scope.masterGame.id }, game,
-                    function(data, responseHeaders) // Success function
+                    function(data) // Success function
                     {
                         // Display message saying update was successful and redirection is happening
-
-                        tempRedirectionData.setData(data);
-
-                        $location.url('/games/' + data.id);
+                        $scope.tt.apiSuccessDisplay.show("Update successful.", '/games/' + data.id, data);
                     },
                     function(httpResponse) // Error function
                     {
