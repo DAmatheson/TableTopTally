@@ -9,13 +9,12 @@
                 The name must be between 2 and 50 characters long.
             </div>
         </li>
-        
-        <li ng-show="!playerCountIsValid(game) &&  
-             {{ formName }}.minimumPlayers.$valid && {{ formName }}.maximumPlayers.$valid">
-            Minimum Players must be less than or equal to the Maximum Players.
-        </li>
-        
+       
         <li ng-show="tt.{{ formName }}.hasError({{ formName }}.minimumPlayers)">
+            <div ng-show="{{formName}}.minimumPlayers.$error.lessOrEqual">
+                Minimum Players must not exceed the Maximum Players.
+            </div>
+
             <div ng-show="{{ formName }}.minimumPlayers.$error.required">
                 Enter the game's minimum number of players.
                 
@@ -59,7 +58,8 @@
     <label class="col-md-2 control-label" for="minimumPlayers">Minimum Players</label>
     <div class="col-md-10">
         <input class="form-control" id="minimumPlayers" name="minimumPlayers" type="number"
-                placeholder="Min # Players" ng-model="game.minimumPlayers" min="1" max="99" required />
+               placeholder="Min # Players" ng-model="game.minimumPlayers"
+               less-or-equal="{{ game.maximumPlayers }}" min="1" max="99" required />
     </div>
 </div>
 

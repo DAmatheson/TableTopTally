@@ -260,6 +260,7 @@
   <ItemGroup>
     <Content Include="AngularApp\404.html" />
     <Content Include="AngularApp\app.js" />
+    <Content Include="AngularApp\Common\Directives\lessOrEqualDirective.js" />
     <Content Include="AngularApp\Common\ttApiErrorDisplay\ApiErrorDisplay.html" />
     <Content Include="AngularApp\Common\ttApiErrorDisplay\ttApiErrorDisplayDirective.js" />
     <Content Include="AngularApp\Common\Services\tempRedirectionDataService.js" />

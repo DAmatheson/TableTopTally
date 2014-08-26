@@ -24,7 +24,7 @@ gamesControllers.controller('CreateGameController',
         {
             // submits the game if valid, and redirects to the detail page for the game
 
-            if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
+            if ($scope[$scope.formName].$valid)
             {
                 gameService.create(game,
                     function(data) // Success function
@@ -38,14 +38,6 @@ gamesControllers.controller('CreateGameController',
                     }
                 );
             }
-        };
-
-        $scope.playerCountIsValid = function(game)
-        {
-            // Validates that the min players is less than or equal to max players
-
-            // game is included to prevent accessing its properties if it isn't passed in
-            return game && game.minimumPlayers <= game.maximumPlayers;
         };
     }
 ]);

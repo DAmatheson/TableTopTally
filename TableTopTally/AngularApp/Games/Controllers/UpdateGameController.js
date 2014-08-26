@@ -28,7 +28,7 @@ gamesControllers.controller('UpdateGameController',
         {
             // Submits the game if valid and redirects to the detail page for the game
 
-            if ($scope.playerCountIsValid(game) && $scope[$scope.formName].$valid)
+            if ($scope[$scope.formName].$valid)
             {
                 gameDataService.update({ gameId: $scope.masterGame.id }, game,
                     function(data) // Success function
@@ -42,14 +42,6 @@ gamesControllers.controller('UpdateGameController',
                     }
                 );
             }
-        };
-
-        $scope.playerCountIsValid = function(game)
-        {
-            // Validates that the min players is less than or equal to max players
-
-            // game is included to prevent accessing its properties if it isn't passed in
-            return game && game.minimumPlayers <= game.maximumPlayers;
         };
     }
 ]);
