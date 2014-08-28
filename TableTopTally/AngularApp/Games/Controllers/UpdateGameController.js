@@ -5,43 +5,44 @@
  *      Drew Matheson, 2014.08.17: Created
  */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
-/// <reference path="~/AngularApp/Games/Services/GameServices.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    var gamesControllers = angular.module('games.controllers');
 
-var gamesControllers = angular.module('games.controllers');
-
-// Controller for the partial UpdateGame.html
-gamesControllers.controller('UpdateGameController',
-    ['$scope', '$location', 'gameData', 'gameDataService',
-
-    function ($scope, $location, gameData, gameDataService)
-    {
-        $scope.masterGame = gameData;
-
-        $scope.game = angular.copy(gameData);
-
-        $scope.formName = "frmEditGame";
-
-        $scope.submitGame = function(game)
+    // Controller for the partial UpdateGame.html
+    gamesControllers.controller('UpdateGameController', [
+        '$scope', '$location', 'game', 'gameData', 'layoutValues',
+        function($scope, $location, game, gameData, layoutValues)
         {
-            // Submits the game if valid and redirects to the detail page for the game
+            $scope.masterGame = game;
+            $scope.game = angular.copy(game);
 
-            if ($scope[$scope.formName].$valid)
+            $scope.formName = "frmEditGame";
+            $scope.title = 'Editing ' + $scope.masterGame.name;
+
+            layoutValues.setTitle($scope.title);
+
+            $scope.submitGame = function(updatedGame)
             {
-                gameDataService.update({ gameId: $scope.masterGame.id }, game,
-                    function(data) // Success function
-                    {
-                        // Display message saying update was successful and redirection is happening
-                        $scope.tt.apiSuccessDisplay.show("Update successful.", '/games/' + data.id, data);
-                    },
-                    function(httpResponse) // Error function
-                    {
-                        $scope.tt.apiErrorDisplay.parseResponse(httpResponse, "Updating");
-                    }
-                );
-            }
-        };
-    }
-]);
+                // Submits the game if valid and redirects to the detail page for the game
+
+                if ($scope[$scope.formName].$valid)
+                {
+                    gameData.update({ gameId: $scope.masterGame.id }, updatedGame,
+                        function(data) // Success function
+                        {
+                            // Display message saying update was successful and redirection is happening
+                            $scope.tt.apiSuccessDisplay.show('Update successful.', '/games/' + data.id, data);
+                        },
+                        function(httpResponse) // Error function
+                        {
+                            $scope.tt.apiErrorDisplay.parseResponse(httpResponse, 'Updating');
+                        }
+                    );
+                }
+            };
+        }
+    ]);
+})();

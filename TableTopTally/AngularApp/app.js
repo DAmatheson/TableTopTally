@@ -5,31 +5,38 @@
  *      Drew Matheson, 2014.08.03: Created
 */
 
-'use strict';
+(function()
+{
+    'use strict';
 
-// Declare main app module which depends on filters, services, directives, and controllers
-var ttApp = angular.module('tableTopTally', [
-    'home',
-    'games',
-    'tableTopTally.services',
-    'tableTopTally.directives'
-]);
+    // Declare main app module which depends on filters, services, directives, and controllers
+    var ttApp = angular.module('tableTopTally', [
+        'layout',
+        'home',
+        'games',
+        'notFound.controllers',
+        'tableTopTally.services',
+        'tableTopTally.directives'
+    ]);
 
-ttApp.config(['$locationProvider', '$routeProvider',
-    function ($locationProvider, $routeProvider)
-    {
-        // 404 page with link back to '/'
-        $routeProvider.otherwise(
+    ttApp.config([
+        '$locationProvider', '$routeProvider',
+        function($locationProvider, $routeProvider)
         {
-            templateUrl: 'AngularApp/404.html'
-        });
+            // 404 page with link back to '/'
+            $routeProvider.otherwise(
+            {
+                templateUrl: 'AngularApp/NotFound/404.html',
+                controller: 'notFoundController'
+            });
 
-        // use HTML5 History API (Removes /#/ after domain but requires proper handling on the server)
-        $locationProvider.html5Mode(true);
-    }
-]);
+            // use HTML5 History API (Removes /#/ after domain but requires proper handling on the server)
+            $locationProvider.html5Mode(true);
+        }
+    ]);
 
-// Define common modules here rather than in their own files so that they don't override each other
-// or require a specific loading order to prevent overriding
-angular.module('tableTopTally.services', ['ngResource']); // tt.services requires ngResource
-angular.module('tableTopTally.directives', []);
+    // Define common modules here rather than in their own files so that they don't override each other
+    // or require a specific loading order to prevent overriding
+    angular.module('tableTopTally.services', ['ngResource']); // tt.services requires ngResource
+    angular.module('tableTopTally.directives', []);
+})();

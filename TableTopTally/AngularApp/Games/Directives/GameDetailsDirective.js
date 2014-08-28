@@ -5,16 +5,19 @@
  *      Drew Matheson, 2014.08.18: Created
  */
 
-'use strict';
+(function()
+{
+    'use strict';
 
-var gamesDirectives = angular.module('games.directives');
+    var gamesDirectives = angular.module('games.directives');
 
-gamesDirectives.directive('gameDetails',
-    function ()
-    {
-        return {
-            restrict: 'E', // Restrict to element
-            templateUrl: 'AngularApp/Games/Partials/GameDetails.html'
-        };
-    }
-);
+    gamesDirectives.directive('gameDetails',
+        function()
+        {
+            return {
+                restrict: 'E', // Restrict to element
+                templateUrl: 'AngularApp/Games/Partials/GameDetails.html'
+            };
+        }
+    );
+})();

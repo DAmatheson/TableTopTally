@@ -5,11 +5,15 @@
  *      Drew Matheson, 2014.08.20: Created
 */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    // Declare home sub-module which depends on its own routes and controllers
+    angular.module('home', [
+        'home.routes',
+        'home.controllers'
+    ]);
 
-// Declare home sub-module which depends on its own routes
-angular.module('home', [
-    'home.routes'
-]);
+    angular.module('home.controllers', []);
+})();

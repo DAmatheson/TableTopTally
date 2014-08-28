@@ -258,22 +258,27 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AngularApp\404.html" />
+    <Content Include="AngularApp\NotFound\404.html" />
+    <Content Include="AngularApp\NotFound\notFoundController.js" />
     <Content Include="AngularApp\app.js" />
     <Content Include="AngularApp\Common\Directives\lessOrEqualDirective.js" />
-    <Content Include="AngularApp\Common\ttApiErrorDisplay\ApiErrorDisplay.html" />
-    <Content Include="AngularApp\Common\ttApiErrorDisplay\ttApiErrorDisplayDirective.js" />
+    <Content Include="AngularApp\Common\Services\layoutValuesService.js" />
+    <Content Include="AngularApp\Common\Directives\ttApiErrorDisplay\ApiErrorDisplay.html" />
+    <Content Include="AngularApp\Common\Directives\ttApiErrorDisplay\ttApiErrorDisplayDirective.js" />
     <Content Include="AngularApp\Common\Services\tempRedirectionDataService.js" />
     <Content Include="AngularApp\Common\Services\ValuesService.js" />
-    <Content Include="AngularApp\Common\ttApiSuccessDisplay\ApiSuccessDisplay.html" />
-    <Content Include="AngularApp\Common\ttApiSuccessDisplay\ttApiSuccessDisplayDirective.js" />
+    <Content Include="AngularApp\Common\Directives\ttApiSuccessDisplay\ApiSuccessDisplay.html" />
+    <Content Include="AngularApp\Common\Directives\ttApiSuccessDisplay\ttApiSuccessDisplayDirective.js" />
     <Content Include="AngularApp\Games\games.js" />
     <Content Include="AngularApp\Games\gamesRoutes.js" />
     <Content Include="AngularApp\Home\Home.html" />
     <Content Include="AngularApp\Home\home.js" />
-    <Content Include="AngularApp\Common\ttRandomPicker\RandomPicker.html" />
-    <Content Include="AngularApp\Common\ttRandomPicker\ttrandomPickerDirective.js" />
+    <Content Include="AngularApp\Common\Directives\ttRandomPicker\RandomPicker.html" />
+    <Content Include="AngularApp\Common\Directives\ttRandomPicker\ttrandomPickerDirective.js" />
+    <Content Include="AngularApp\Home\homeController.js" />
     <Content Include="AngularApp\Home\homeRoutes.js" />
+    <Content Include="AngularApp\Layout\layoutController.js" />
+    <Content Include="AngularApp\Layout\layout.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -311,7 +316,7 @@
     <Content Include="AngularApp\Games\Directives\GameFormFieldsDirective.js" />
     <Content Include="AngularApp\Common\Directives\ttSubmitDirective.js" />
     <Content Include="AngularApp\Common\Directives\ttVersionDirective.js" />
-    <Content Include="AngularApp\Games\Services\GameServices.js" />
+    <Content Include="AngularApp\Games\Services\GameDataService.js" />
     <Content Include="Scripts\Library\Angular\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\Library\Angular\i18n\angular-locale_af-za.js" />
     <Content Include="Scripts\Library\Angular\i18n\angular-locale_af.js" />

@@ -43,7 +43,7 @@ namespace TableTopTally.MongoDB.Services
             // Unsure: Sort in mongo or C#? Also: Should I .ToList()? Doing so will take care of disposing the cursor
 
             return collection.FindAll().
-                SetFields(Fields.Exclude("Variants")).
+                //SetFields(Fields.Exclude("Variants")).
                 SetSortOrder(SortBy.Ascending("Name"));
         }
 

@@ -6,85 +6,89 @@
  *      Drew Matheson, 2014.08.19: Added resolve property to whens so page isn't loaded until data returns
  */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
-/// <reference path="~/Scripts/Library/Angular/angular-route.js"/>
-/// <reference path="~/AngularApp/Games/games.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    var gamesRoute = angular.module('games.routes', ['ngRoute']);
 
-var gamesRoute = angular.module('games.routes', ['ngRoute']);
-
-gamesRoute.config(['$routeProvider',
-    function ($routeProvider)
-    {
-        $routeProvider.
-        when('/games',
+    gamesRoute.config([
+        '$routeProvider',
+        function($routeProvider)
         {
-            templateUrl: 'AngularApp/Games/Partials/GameList.html',
-            controller: 'GameListController',
-            resolve:
+            $routeProvider.
+                when('/games',
             {
-                gameList: ['gameDataService',
-                    function (gameDataService)
-                    {
-                        return gameDataService.query().$promise;
-                    }
-                ]
-            }
-        }).
-        when('/games/create',
-        {
-            templateUrl: 'AngularApp/Games/Partials/CreateGame.html',
-            controller: 'CreateGameController'
-        }).
-        when('/games/update/:gameId', // Anything /games/update/* must come before this
-        {
-            templateUrl: 'AngularApp/Games/Partials/UpdateGame.html',
-            controller: 'UpdateGameController',
-            resolve:
-            {
-                gameData: ['$route', 'gameDataService',
-                    function ($route, gameDataService)
-                    {
-                        return gameDataService.get({ gameId: $route.current.params.gameId }).$promise;
-                    }
-                ]
-            }
-        }).
-        when('/games/delete/:gameId', // Anything /games/delete/* must come before this
-        {
-            templateUrl: 'AngularApp/Games/Partials/DeleteGame.html',
-            controller: 'DeleteGameController',
-            resolve:
-            {
-                gameData: ['$route', 'gameDataService',
-                    function($route, gameDataService)
-                    {
-                        return gameDataService.get({ gameId: $route.current.params.gameId }).$promise;
-                    }
-                ]
-            }
-        }).
-        when('/games/:gameId', // Anything /games/* must come before this, or it is seen as :gameId 
-        {
-            templateUrl: 'AngularApp/Games/Partials/GameDetails.html',
-            controller: 'GameDetailController',
-            resolve:
-            {
-                gameData: ['$route', 'gameDataService', 'tempRedirectionData',
-                    function($route, gameDataService, tempRedirectionData)
-                    {
-                        var data = tempRedirectionData.getData();
-
-                        if (data === null)
+                templateUrl: 'AngularApp/Games/Partials/GameList.html',
+                controller: 'GameListController',
+                resolve:
+                {
+                    gameList: [
+                        'gameData',
+                        function(gameData)
                         {
-                            data = gameDataService.get({ gameId: $route.current.params.gameId }).$promise;
+                            return gameData.query().$promise;
                         }
+                    ]
+                }
+            }).
+            when('/games/create',
+            {
+                templateUrl: 'AngularApp/Games/Partials/CreateGame.html',
+                controller: 'CreateGameController'
+            }).
+            when('/games/update/:gameId', // Anything /games/update/* must come before this
+            {
+                templateUrl: 'AngularApp/Games/Partials/UpdateGame.html',
+                controller: 'UpdateGameController',
+                resolve:
+                {
+                    game: [
+                        '$route', 'gameData',
+                        function($route, gameData)
+                        {
+                            return gameData.get({ gameId: $route.current.params.gameId }).$promise;
+                        }
+                    ]
+                }
+            }).
+            when('/games/delete/:gameId', // Anything /games/delete/* must come before this
+            {
+                templateUrl: 'AngularApp/Games/Partials/DeleteGame.html',
+                controller: 'DeleteGameController',
+                resolve:
+                {
+                    game: [
+                        '$route', 'gameData',
+                        function($route, gameData)
+                        {
+                            return gameData.get({ gameId: $route.current.params.gameId }).$promise;
+                        }
+                    ]
+                }
+            }).
+            when('/games/:gameId', // Anything /games/* must come before this, or it is seen as :gameId 
+            {
+                templateUrl: 'AngularApp/Games/Partials/GameDetails.html',
+                controller: 'GameDetailController',
+                resolve:
+                {
+                    game: [
+                        '$route', 'gameData', 'tempRedirectionData',
+                        function($route, gameData, tempRedirectionData)
+                        {
+                            var data = tempRedirectionData.getData();
 
-                        return data;
-                    }
-                ]
-            }
-        });
-    }
-]);
+                            if (data === null)
+                            {
+                                data = gameData.get({ gameId: $route.current.params.gameId }).$promise;
+                            }
+
+                            return data;
+                        }
+                    ]
+                }
+            });
+        }
+    ]);
+})();

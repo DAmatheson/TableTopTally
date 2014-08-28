@@ -5,48 +5,51 @@
  *      Drew Matheson, 2014.08.14
  */
 
-'use strict';
-
-var ttDirectives = angular.module('tableTopTally.directives');
-
-// Example: <input type="number" name="min" less-or-equal="{{ max }}" />
-//          <input type="number" name="max" />
-//          <span ng-show="form.min.$error.lessOrEqual">Min cannot exceed max</span>
-
-// Compares if one model value is less than or equal to another and sets error if not
-ttDirectives.directive('lessOrEqual', function ()
+(function()
 {
-    var link = function(scope, elm, attrs, ngModelController)
+    'use strict';
+
+    var ttDirectives = angular.module('tableTopTally.directives');
+
+    // Example: <input type="number" name="min" less-or-equal="{{ max }}" />
+    //          <input type="number" name="max" />
+    //          <span ng-show="form.min.$error.lessOrEqual">Min cannot exceed max</span>
+
+    // Compares if one model value is less than or equal to another and sets error if not
+    ttDirectives.directive('lessOrEqual', function()
     {
-        var validate = function(viewValue)
+        var link = function(scope, elm, attrs, ngModelController)
         {
-            var compareToValue = attrs.lessOrEqual;
-
-            // If the value being compared isn't set, the value is valid
-            if (!compareToValue || viewValue <= compareToValue)
+            var validate = function(viewValue)
             {
-                ngModelController.$setValidity('lessOrEqual', true);
-            }
-            else
-            {
-                ngModelController.$setValidity('lessOrEqual', false);
-            }
+                var compareToValue = attrs.lessOrEqual;
 
-            return viewValue;
+                // If the value being compared isn't set, the value is valid
+                if (!compareToValue || viewValue <= compareToValue)
+                {
+                    ngModelController.$setValidity('lessOrEqual', true);
+                }
+                else
+                {
+                    ngModelController.$setValidity('lessOrEqual', false);
+                }
+
+                return viewValue;
+            };
+
+            ngModelController.$parsers.unshift(validate);
+
+            attrs.$observe('lessOrEqual', function(updatedAttrValue)
+            {
+                // Revalidate whenever the attribute value is changed
+                return validate(ngModelController.$viewValue);
+            });
         };
 
-        ngModelController.$parsers.unshift(validate);
-
-        attrs.$observe('lessOrEqual', function (updatedAttrValue)
-        {
-            // Revalidate whenever the attribute value is changed
-            return validate(ngModelController.$viewValue);
-        });
-    };
-
-    return {
-        restict: 'A',
-        require: 'ngModel',
-        link: link
-    };
-});
+        return {
+            restict: 'A',
+            require: 'ngModel',
+            link: link
+        };
+    });
+})();

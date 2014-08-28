@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 
-
 namespace TableTopTally
 {
     public static class WebApiConfig

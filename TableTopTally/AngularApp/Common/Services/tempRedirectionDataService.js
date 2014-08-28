@@ -5,28 +5,31 @@
  *      Drew Matheson, 2014.08.07: Created
  */
 
-'use strict';
-
-var ttServices = angular.module('tableTopTally.services');
-
-// Service for passing data from a post or put action to the corresponding display controller
-ttServices.factory('tempRedirectionData', function ()
+(function()
 {
-    var tempCache = null;
+    'use strict';
 
-    return {
-        setData: function (data)
-        {
-            tempCache = data;
-        },
-        getData: function ()
-        {
-            // Auto clear out temp data so stale data isn't used
-            var holdingCache = tempCache;
+    var ttServices = angular.module('tableTopTally.services');
 
-            tempCache = null;
+    // Service for passing data from a post or put action to the corresponding display controller
+    ttServices.factory('tempRedirectionData', function()
+    {
+        var tempCache = null;
 
-            return holdingCache;
-        },
-    };
-});
+        return {
+            setData: function(data)
+            {
+                tempCache = data;
+            },
+            getData: function()
+            {
+                // Auto clear out temp data so stale data isn't used
+                var holdingCache = tempCache;
+
+                tempCache = null;
+
+                return holdingCache;
+            },
+        };
+    });
+})();

@@ -5,18 +5,21 @@
  *      Drew Matheson, 2014.08.03: Created
  */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
-/// <reference path="~/AngularApp/Games/Services/GameServices.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    var gamesControllers = angular.module('games.controllers');
 
-var gamesControllers = angular.module('games.controllers');
+    // Controller for the partial GameList.html
+    gamesControllers.controller('GameListController', [
+        '$scope', 'gameList', 'layoutValues',
+        function($scope, gameList, layoutValues)
+        {
+            $scope.games = gameList;
+            $scope.title = 'Games List';
 
-// Controller for the partial GameList.html
-gamesControllers.controller('GameListController', ['$scope', 'gameList',
-    function ($scope, gameList)
-    {
-        // Get all the games
-        $scope.games = gameList;
-    }
-]);
+            layoutValues.setTitle($scope.title);
+        }
+    ]);
+})();

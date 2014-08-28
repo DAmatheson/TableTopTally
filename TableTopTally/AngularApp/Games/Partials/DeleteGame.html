@@ -1,16 +1,6 @@
-﻿<h2>Remove a Game</h2>
-
-<h4>Remove {{ game.name }}?</h4>
+﻿<h2> {{ title }}</h2>
 
 <hr />
-
-<div class="text-danger">
-    <ul>
-        <li ng-show="tt.apiErrors.statusError" class="list-unstyled text-center alert alert-danger">
-            {{ tt.apiErrors.statusError }}
-        </li>
-    </ul>
-</div>
 
 <form name="{{ formName }}" class="form-horizontal" tt-submit novalidate>
     <tt-api-success-display></tt-api-success-display>
@@ -23,7 +13,7 @@
                 Remove Game
             </button>
 
-            <a class="btn btn-primary" href="games/">
+            <a class="btn btn-default" href="games/">
                 Cancel
             </a>
         </div>

@@ -5,20 +5,21 @@
  *      Drew Matheson, 2014.08.21: Created
  */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
-/// <reference path="~/Scripts/Library/Angular/angular-route.js"/>
-/// <reference path="~/AngularApp/Home/home.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    var homeRoutes = angular.module('home.routes', ['ngRoute']);
 
-var homeRoutes = angular.module('home.routes', ['ngRoute']);
-
-homeRoutes.config(['$routeProvider',
-    function ($routeProvider)
-    {
-        $routeProvider.when("/",
+    homeRoutes.config([
+        '$routeProvider',
+        function($routeProvider)
         {
-            templateUrl: 'AngularApp/Home/Home.html'
-        });
-    }
-]);
+            $routeProvider.when("/",
+            {
+                templateUrl: 'AngularApp/Home/Home.html',
+                controller: 'homeController'
+            });
+        }
+    ]);
+})();

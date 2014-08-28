@@ -5,39 +5,43 @@
  *      Drew Matheson, 2014.08.15: Created
  */
 
-/// <reference path="~/Scripts/Library/Angular/angular.js"/>
-/// <reference path="~/AngularApp/Games/Services/GameServices.js"/>
+(function()
+{
+    'use strict';
 
-'use strict';
+    var gamesControllers = angular.module('games.controllers');
 
-var gamesControllers = angular.module('games.controllers');
-
-// Controller for the partial CreateGame.html
-gamesControllers.controller('CreateGameController',
-    ['$scope', '$location', 'gameDataService',
-
-    function ($scope, $location, gameService)
-    {
-        $scope.formName = "frmGame";
-
-        $scope.submitGame = function(game)
+    // Controller for the partial CreateGame.html
+    gamesControllers.controller('CreateGameController',
+    [
+        '$scope', '$location', 'gameData', 'layoutValues',
+        function($scope, $location, gameData, layoutValues)
         {
-            // submits the game if valid, and redirects to the detail page for the game
+            $scope.title = 'Create a Game';
 
-            if ($scope[$scope.formName].$valid)
+            layoutValues.setTitle($scope.title);
+
+            $scope.formName = 'frmGame';
+
+            $scope.submitGame = function(game)
             {
-                gameService.create(game,
-                    function(data) // Success function
-                    {
-                        // Display message saying update was successful and redirection is happening
-                        $scope.tt.apiSuccessDisplay.show("Creation successful.", '/games/' + data.id, data);
-                    },
-                    function (httpResponse) // Error function
-                    {
-                        $scope.tt.apiErrorDisplay.parseResponse(httpResponse, "Creation");
-                    }
-                );
-            }
-        };
-    }
-]);
+                // submits the game if valid, and redirects to the detail page for the game
+
+                if ($scope[$scope.formName].$valid)
+                {
+                    gameData.create(game,
+                        function(data) // Success function
+                        {
+                            // Display message saying update was successful and redirection is happening
+                            $scope.tt.apiSuccessDisplay.show('Creation successful.', '/games/' + data.id, data);
+                        },
+                        function(httpResponse) // Error function
+                        {
+                            $scope.tt.apiErrorDisplay.parseResponse(httpResponse, 'Creation');
+                        }
+                    );
+                }
+            };
+        }
+    ]);
+})();
