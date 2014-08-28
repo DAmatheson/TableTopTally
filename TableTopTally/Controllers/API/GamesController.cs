@@ -17,6 +17,7 @@ using TableTopTally.MongoDB.Services;
 
 namespace TableTopTally.Controllers.API
 {
+    [RoutePrefix("api/games")]
     public class GamesController : ApiController
     {
         private readonly IGameService gameService;
@@ -30,13 +31,21 @@ namespace TableTopTally.Controllers.API
         };
 
         [UsedImplicitly]
-        public GamesController() { }
+        public GamesController()
+        {
+            // Required because games is recreated at time an action in the controller is called
+            games[0].Url = games[0].Name.GenerateSlug(games[0].Id);
+            games[1].Url = games[1].Name.GenerateSlug(games[1].Id);
+            games[2].Url = games[2].Name.GenerateSlug(games[2].Id);
+        }
 
         public GamesController(List<Game> gameService)
         {
             //this.gameService = gameService;
 
             games = gameService;
+
+            
         }
 
         // GET: api/Games
@@ -55,21 +64,43 @@ namespace TableTopTally.Controllers.API
         /// <summary>
         /// Get a game by its ObjectId
         /// </summary>
-        /// <param name="id">ObjectId string of the game</param>
+        /// <param name="id">ObjectId of the game</param>
         /// <returns>The Game</returns>
+        [Route("{id:objectId}")]
         [HttpGet]
-        public IHttpActionResult GetGame(string id)
+        public IHttpActionResult GetGameById(ObjectId id)
         {
-            ObjectId parsedId;
+            ObjectId parsedId = id;
             Game game = null;
 
-            ObjectId.TryParse(id, out parsedId);
+            //ObjectId.TryParse(id, out parsedId);
 
             if (parsedId != ObjectId.Empty)
             {
                 //game = gameService.GetById(parsedId);
                 game = games.FirstOrDefault((g) => g.Id == parsedId);
             }
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(game);
+        }
+
+        // GET: api/Games/5
+        /// <summary>
+        /// Get a game by its ObjectId
+        /// </summary>
+        /// <param name="url">Url string of the game</param>
+        /// <returns>The Game</returns>
+        [Route("{url}")]
+        [HttpGet]
+        public IHttpActionResult GetGameByUrl(string url)
+        {
+            //Game game = gameService.GetById(parsedId);
+            Game game = games.FirstOrDefault((g) => g.Url == url);
 
             if (game == null)
             {
@@ -115,8 +146,9 @@ namespace TableTopTally.Controllers.API
         /// <param name="id">The id of the game to update</param>
         /// <param name="game">The game properties to update</param>
         /// <returns>Status code and if successful, the new game</returns>
+        [Route("{id:objectId}")]
         [HttpPut]
-        public IHttpActionResult PutGame(string id, Game game)
+        public IHttpActionResult PutGame([FromUri]ObjectId id, Game game)
         {
             IHttpActionResult result;
 
@@ -124,12 +156,10 @@ namespace TableTopTally.Controllers.API
             {
                 Game gameToUpdate = null; // Note: No DB use only
 
-                ObjectId parsedId;
-
                 // Unsure: Does making the id and game.Id match really prevent exploitation?
-                if (ObjectId.TryParse(id, out parsedId) && parsedId == game.Id)
+                if (id == game.Id)
                 {
-                    gameToUpdate = games.FirstOrDefault(g => g.Id == parsedId); // Note: No DB use only
+                    gameToUpdate = games.FirstOrDefault(g => g.Id == id); // Note: No DB use only
 
                     // game.Id = parsedId;
 
@@ -172,19 +202,17 @@ namespace TableTopTally.Controllers.API
         /// Deletes the game with the matching id
         /// </summary>
         /// <param name="id">The id of the game to delete</param>
+        [Route("{id:objectId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteGame(string id)
+        public IHttpActionResult DeleteGame([FromUri]ObjectId id)
         {
-            ObjectId parsedId;
             bool removed = false;
 
-            ObjectId.TryParse(id, out parsedId);
-
-            if (parsedId != ObjectId.Empty)
+            if (id != ObjectId.Empty)
             {
                 //removed = gameService.Delete(parsedId);
 
-                var game = games.FirstOrDefault(g => g.Id == parsedId);
+                var game = games.FirstOrDefault(g => g.Id == id);
                 removed = games.Remove(game);
             }
 

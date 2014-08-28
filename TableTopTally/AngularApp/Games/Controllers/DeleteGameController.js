@@ -26,7 +26,7 @@
             {
                 // Sends a deletion request. If successful redirect to game list, otherwise retry
 
-                gameData.delete({ gameId: $routeParams.gameId },
+                gameData.delete({ gameId: game.id }, //$routeParams.gameId },
                     function() // Success function
                     {
                         // Display message saying update was successful and redirection is happening

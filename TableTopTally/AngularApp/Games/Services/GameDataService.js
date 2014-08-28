@@ -4,6 +4,7 @@
  *  Revision History:
  *      Drew Matheson, 2014.08.03: Created
  *      Drew Matheson, 2014.08.19: Added timeouts to all requests that modify data
+ *      Drew Matheson, 2014.8.28: Added 404 handling to GET requests
  */
 
 (function()
@@ -14,8 +15,8 @@
 
     // Resource for games
     gamesServices.factory('gameData', [
-        '$resource',
-        function($resource)
+        '$resource', '$location', '$q',
+        function($resource, $location, $q)
         {
             return $resource('API/Games/:gameId', null,
             {
@@ -29,7 +30,19 @@
                 // Get a single game
                 get: // Example call: gameData.get({ gameId: $routeParams.gameId });
                 {
-                    method: 'GET'
+                    method: 'GET',
+                    interceptor:
+                    {
+                        responseError: function(httpResponse)
+                        {
+                            if (httpResponse.status === 404)
+                            {
+                                $location.url("/404").replace();
+                            }
+
+                            return $q.reject(httpResponse);
+                        }
+                    }
                 },
                 // Create a game
                 create: // Example call: gameData.post(postData[, successFunction [, errorFunction] ]);

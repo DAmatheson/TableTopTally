@@ -59,6 +59,9 @@
                         case 404:
                             error += "a Not Found error";
                             break;
+                        case 405:
+                            error += "the HTTP method not being allowed";
+                            break;
                         default:
                             error += "a generic error";
                             break;

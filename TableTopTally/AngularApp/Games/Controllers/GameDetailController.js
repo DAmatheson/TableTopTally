@@ -19,8 +19,6 @@
             $scope.game = game;
             $scope.title = $scope.game.name;
 
-            console.log('GameDetailController');
-
             layoutValues.setTitle($scope.title);
         }
     ]);

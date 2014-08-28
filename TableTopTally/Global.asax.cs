@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using TableTopTally.Binders;
 using TableTopTally.Helpers;
 
 namespace TableTopTally
@@ -19,7 +20,7 @@ namespace TableTopTally
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Add a binder for ObjectIds
-            ModelBinders.Binders.Add(typeof(ObjectId), new ObjectIdBinder());
+            ModelBinders.Binders.Add(typeof(ObjectId), new ObjectIdMvcBinder());
 
             // Setting up the json formatter
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;

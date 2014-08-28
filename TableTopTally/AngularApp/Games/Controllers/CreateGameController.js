@@ -33,7 +33,7 @@
                         function(data) // Success function
                         {
                             // Display message saying update was successful and redirection is happening
-                            $scope.tt.apiSuccessDisplay.show('Creation successful.', '/games/' + data.id, data);
+                            $scope.tt.apiSuccessDisplay.show('Creation successful.', '/games/' + data.url, data);
                         },
                         function(httpResponse) // Error function
                         {

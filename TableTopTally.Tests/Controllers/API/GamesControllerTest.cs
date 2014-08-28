@@ -35,16 +35,17 @@ namespace TableTopTally.Tests.Controllers.API
 
             Assert.IsNotNull(result.Content);
             Assert.AreEqual(games, result.Content);
+            Assert.AreEqual(games.Count, result.Content.Count);
         }
 
         [TestMethod]
-        public void GetGame_ValidId()
+        public void GetGame_ValidObjectId()
         {
             // Arrange
             var controller = new GamesController(games);
 
             // Act
-            var result = controller.GetGame(games[0].Id.ToString()) as OkNegotiatedContentResult<Game>;
+            var result = controller.GetGameById(games[0].Id) as OkNegotiatedContentResult<Game>;
 
             // Assert
             Assert.IsNotNull(result);
@@ -54,15 +55,46 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [TestMethod]
-        public void GetGame_InvalidId()
+        public void GetGame_InvalidObjectId()
         {
             // Arrange
             var controller = new GamesController(games);
 
             // Act
-            var result = controller.GetGame("");
+            var result = controller.GetGameById(ObjectId.Empty) as NotFoundResult;
 
             // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void GetGame_ValidUrl()
+        {
+            // Arrange
+            var controller = new GamesController(games);
+
+            // Act
+            var result = controller.GetGameByUrl(games[0].Url) as OkNegotiatedContentResult<Game>;
+
+            // Assert
+            Assert.IsNotNull(result);
+
+            Assert.IsNotNull(result.Content);
+            Assert.AreEqual(games[0], result.Content);
+        }
+
+        [TestMethod]
+        public void GetGame_InvalidUrl()
+        {
+            // Arrange
+            var controller = new GamesController(games);
+
+            // Act
+            var result = controller.GetGameByUrl("blah-00000");
+
+            // Assert
+            Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         }
 
@@ -102,6 +134,33 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [TestMethod]
+        public void PostGame_InvalidModel()
+        {
+            // Arrange
+            Game newGame = new Game("New Game")
+            {
+                MinimumPlayers = 1
+            };
+
+            GamesController controller = new GamesController(games);
+
+            // Act
+            controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
+            var result = controller.PostGame(newGame) as InvalidModelStateResult;
+
+            // Assert
+
+            // Result assertions
+            Assert.IsNotNull(result);
+
+            // Value assertions
+            Assert.IsFalse(result.ModelState.IsValid);
+            Assert.IsFalse(result.ModelState.IsValidField("MaximumPlayers"));
+            Assert.IsTrue(result.ModelState.ContainsKey("MaximumPlayers"));
+            Assert.AreEqual("Invalid Max Players", result.ModelState["MaximumPlayers"].Errors[0].ErrorMessage);
+        }
+
+        [TestMethod]
         public void PutGame_ValidModel()
         {
             // Arrange
@@ -115,7 +174,7 @@ namespace TableTopTally.Tests.Controllers.API
             GamesController controller = new GamesController(games);
 
             // Act
-            var result = controller.PutGame(games[0].Id.ToString(), newGame) as OkNegotiatedContentResult<Game>;
+            var result = controller.PutGame(games[0].Id, newGame) as OkNegotiatedContentResult<Game>;
 
             // Assert
 
@@ -132,7 +191,7 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [TestMethod]
-        public void PutGame_InvalidId()
+        public void PutGame_InvalidObjectId()
         {
             // Arrange
             Game updatedGame = new Game("Invalid ID")
@@ -145,7 +204,7 @@ namespace TableTopTally.Tests.Controllers.API
             GamesController controller = new GamesController(games);
 
             // Act
-            var result = controller.PutGame(updatedGame.Id.ToString(), updatedGame);
+            var result = controller.PutGame(updatedGame.Id, updatedGame);
 
             // Assert
             Assert.IsNotNull(result);
@@ -153,7 +212,7 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [TestMethod]
-        public void DeleteGame_ValidId()
+        public void DeleteGame_ValidObjectId()
         {
             // Arrange
             ObjectId pandemicId = games[0].Id;
@@ -161,7 +220,7 @@ namespace TableTopTally.Tests.Controllers.API
             GamesController controller = new GamesController(games);
 
             // Act
-            var result = controller.DeleteGame(pandemicId.ToString()) as StatusCodeResult;
+            var result = controller.DeleteGame(pandemicId) as StatusCodeResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -171,10 +230,10 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [TestMethod]
-        public void DeleteGame_InvalidId()
+        public void DeleteGame_InvalidObjectId()
         {
             // Arrange
-            String invalidId = ObjectId.Empty.ToString();
+            ObjectId invalidId = ObjectId.Empty;
 
             GamesController controller = new GamesController(games);
 

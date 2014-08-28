@@ -12,22 +12,22 @@
     <div class="col-sm-8 col-md-10">
         <ul class="games">
             <li ng-repeat="game in games" class="thumbnail game-listing">
-                <a ng-href="games/{{ game.id }}" class="thumb" ng-show="game.imageUrl">
+                <a ng-href="games/{{ game.url }}" class="thumb" ng-show="game.imageUrl">
                     <img ng-src="{{ game.imageUrl }}" alt="{{ game.name + ' box' }}">
                 </a>
 
                 <div>
-                    <a ng-href="games/update/{{ game.id }}" class="pull-right">
+                    <a ng-href="games/update/{{ game.url }}" class="pull-right">
                         Edit
                     </a>
                 </div>
 
-                <a ng-href="games/{{ game.id }}">
+                <a ng-href="games/{{ game.url }}">
                     {{ game.name }}
                 </a>
 
                 <div>
-                    <a ng-href="games/delete/{{ game.id }}" class="pull-right">
+                    <a ng-href="games/delete/{{ game.url }}" class="pull-right">
                         Remove
                     </a>
                 </div>
