@@ -31,6 +31,18 @@
                     // Display the message, redirect to the url in 6 seconds, and setup tempRedirectionData if 
                     // data is included
 
+                    // Cancel any previously running timers in case of quick resubmit
+                    if (redirectTimeoutPromise)
+                    {
+                        $timeout.cancel(redirectTimeoutPromise);
+                    }
+                    if (countdownPromise)
+                    {
+                        $interval.cancel(countdownPromise);
+
+                        this.timeToRedirect = 6;
+                    }
+
                     if (!message || !url)
                     {
                         throw "ttApiErrorDisplay.show requires a success message and a URL";
@@ -68,6 +80,7 @@
                 this.redirectNow = function()
                 {
                     $timeout.cancel(redirectTimeoutPromise);
+                    $interval.cancel(countdownPromise);
 
                     $location.url(this.url);
                 };
@@ -95,7 +108,7 @@
                 restrict: 'E', // Restrict this directive to elements
                 require: 'ttApiSuccessDisplay', // Require this controller for injecting it into the scope
                 templateUrl: 'AngularApp/Common/Directives/ttApiSuccessDisplay/ApiSuccessDisplay.html',
-                controller: controller,
+                controller: ['$scope', controller], // Inject $scope into controller
                 link: link
             };
         }

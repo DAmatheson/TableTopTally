@@ -12,7 +12,7 @@
     var ttDirectives = angular.module('tableTopTally.directives');
 
     ttDirectives.directive('ttApiErrorDisplay', [
-        '$timeout',
+        '$timeout', 
         function($timeout)
         {
             var controller = function($scope)
@@ -143,7 +143,7 @@
                 restrict: 'E', // Restrict this directive to elements
                 require: 'ttApiErrorDisplay', // Require this controller for injecting it into the scope
                 templateUrl: 'AngularApp/Common/Directives/ttApiErrorDisplay/ApiErrorDisplay.html',
-                controller: controller,
+                controller: ['$scope', controller], // Inject $scope into controller
                 link: link
             };
         }

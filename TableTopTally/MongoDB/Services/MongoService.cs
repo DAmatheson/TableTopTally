@@ -3,8 +3,9 @@
  * 
  * Revision History:
  *      Drew Matheson, 2014.06.17: Created
- */ 
+ */
 
+using System;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -17,7 +18,7 @@ namespace TableTopTally.MongoDB.Services
     /// Generic service for CRUD actions with MongoDB
     /// </summary>
     /// <typeparam name="T">MongoEntity of type <see cref="T"/></typeparam>
-    public abstract class MongoService<T> : IMongoService<T> where T : IMongoEntity
+    public abstract class MongoService<T> : IMongoService<T> where T : class, IMongoEntity
     {
         /// <summary>
         /// MongoCollection for type T
@@ -59,7 +60,18 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>A deserialization of the document to a <see cref="T"/> object</returns>
         public virtual T GetById(ObjectId id)
         {
-            return collection.Find(Query.EQ("_id", id)).Single();
+            T t;
+
+            try
+            {
+                t = collection.Find(Query.EQ("_id", id)).Single();
+            }
+            catch (InvalidOperationException)
+            {
+                t = null;
+            }
+
+            return t;
         }
     }
 }

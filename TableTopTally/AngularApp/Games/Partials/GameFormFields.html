@@ -6,7 +6,7 @@
             </div>
 
             <div ng-show="{{ formName }}.name.$error.minlength || {{ formName }}.name.$error.maxlength">
-                The name must be between 2 and 50 characters long.
+                The name must be between 1 and 50 characters long.
             </div>
         </li>
        
@@ -50,7 +50,7 @@
     <label class="col-md-2 control-label" for="name">Name</label>
     <div class="col-md-10">
         <input class="form-control" id="name" name="name" type="text" 
-               placeholder="Game Name" ng-model="game.name" ng-minlength="2" ng-maxlength="50" required />
+               placeholder="Game Name" ng-model="game.name" ng-minlength="1" ng-maxlength="70" required />
     </div>
 </div>
 

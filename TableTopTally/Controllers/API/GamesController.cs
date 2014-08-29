@@ -6,11 +6,8 @@
 */
 
 using MongoDB.Bson;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web.Http;
-using TableTopTally.Annotations;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
@@ -22,30 +19,9 @@ namespace TableTopTally.Controllers.API
     {
         private readonly IGameService gameService;
 
-        // Mock data for easier angular production / general testing
-        private List<Game> games = new List<Game>()
+        public GamesController(IGameService gameService)
         {
-            new Game("Pandemic") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2"), MinimumPlayers = 1, MaximumPlayers = 5},
-            new Game("Caverna") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b3"), MinimumPlayers = 3, MaximumPlayers = 6},
-            new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4"), MinimumPlayers = 2, MaximumPlayers = 10}
-        };
-
-        [UsedImplicitly]
-        public GamesController()
-        {
-            // Required because games is recreated at time an action in the controller is called
-            games[0].Url = games[0].Name.GenerateSlug(games[0].Id);
-            games[1].Url = games[1].Name.GenerateSlug(games[1].Id);
-            games[2].Url = games[2].Name.GenerateSlug(games[2].Id);
-        }
-
-        public GamesController(List<Game> gameService)
-        {
-            //this.gameService = gameService;
-
-            games = gameService;
-
-            
+            this.gameService = gameService;
         }
 
         // GET: api/Games
@@ -56,7 +32,8 @@ namespace TableTopTally.Controllers.API
         [HttpGet]
         public IHttpActionResult GetAllGames()
         {
-            //return gameService.GetGames();
+            var games = gameService.GetGames();
+
             return Ok(games);
         }
 
@@ -70,15 +47,11 @@ namespace TableTopTally.Controllers.API
         [HttpGet]
         public IHttpActionResult GetGameById(ObjectId id)
         {
-            ObjectId parsedId = id;
             Game game = null;
 
-            //ObjectId.TryParse(id, out parsedId);
-
-            if (parsedId != ObjectId.Empty)
+            if (id != ObjectId.Empty)
             {
-                //game = gameService.GetById(parsedId);
-                game = games.FirstOrDefault((g) => g.Id == parsedId);
+                game = gameService.GetById(id);
             }
 
             if (game == null)
@@ -99,8 +72,7 @@ namespace TableTopTally.Controllers.API
         [HttpGet]
         public IHttpActionResult GetGameByUrl(string url)
         {
-            //Game game = gameService.GetById(parsedId);
-            Game game = games.FirstOrDefault((g) => g.Url == url);
+            Game game = gameService.GetGameByUrl(url);
 
             if (game == null)
             {
@@ -130,10 +102,14 @@ namespace TableTopTally.Controllers.API
                 game.Id = ObjectId.GenerateNewId();
                 game.Url = game.Name.GenerateSlug(game.Id);
 
-                games.Add(game);
-                //var success = gameService.Create(game);
+                var success = gameService.Create(game);
 
-                return CreatedAtRoute("DefaultApi", new { controller = "Games", id = game.Id  }, game);
+                if (success)
+                {
+                    return CreatedAtRoute("DefaultApi", new { controller = "Games", id = game.Id  }, game);
+                }
+
+                return InternalServerError(); // Todo: Better response to failed mongo creation
             }
 
             return BadRequest(ModelState);
@@ -152,37 +128,14 @@ namespace TableTopTally.Controllers.API
         {
             IHttpActionResult result;
 
-            if (ModelState.IsValid)
+            // Unsure: Does making the id and game.Id match really prevent exploitation?
+            if (ModelState.IsValid && id == game.Id)
             {
-                Game gameToUpdate = null; // Note: No DB use only
+                var success = gameService.Edit(game);
 
-                // Unsure: Does making the id and game.Id match really prevent exploitation?
-                if (id == game.Id)
+                if (success)
                 {
-                    gameToUpdate = games.FirstOrDefault(g => g.Id == id); // Note: No DB use only
-
-                    // game.Id = parsedId;
-
-                    //var success = gameService.Edit(game);
-
-                    //if (success)
-                    //{
-                    //    result = Ok(game);
-                    //}
-                    //else
-                    //{
-                    //    result = NotFound();
-                    //}
-                }
-
-                if (gameToUpdate != null) // Note: No DB use only
-                {
-                    gameToUpdate.Name = game.Name;
-                    gameToUpdate.MinimumPlayers = game.MinimumPlayers;
-                    gameToUpdate.MaximumPlayers = game.MaximumPlayers;
-                    gameToUpdate.Url = game.Name.GenerateSlug(gameToUpdate.Id);
-
-                    result = Ok(gameToUpdate);
+                    result = Ok(game);
                 }
                 else
                 {
@@ -191,7 +144,14 @@ namespace TableTopTally.Controllers.API
             }
             else
             {
-                result = BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    result = BadRequest(ModelState);
+                }
+                else
+                {
+                    result = BadRequest("URL Id and game Id don't match.");
+                }
             }
 
             return result;
@@ -210,10 +170,7 @@ namespace TableTopTally.Controllers.API
 
             if (id != ObjectId.Empty)
             {
-                //removed = gameService.Delete(parsedId);
-
-                var game = games.FirstOrDefault(g => g.Id == id);
-                removed = games.Remove(game);
+                removed = gameService.Delete(id);
             }
 
             if (!removed)

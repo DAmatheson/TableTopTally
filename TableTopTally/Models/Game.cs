@@ -38,9 +38,9 @@ namespace TableTopTally.Models
         /// </summary>
         [Required(ErrorMessage = "Game name is required.", AllowEmptyStrings = false)]
         [StringLength(
-            50,
-            ErrorMessage = "The name must be between 2 and 50 characters",
-            MinimumLength = 2)
+            70,
+            ErrorMessage = "The name must be between 1 and 70 characters",
+            MinimumLength = 1)
         ]
         public string Name { get; set; }
 
