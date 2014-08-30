@@ -1,17 +1,13 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System.Net;
+﻿using MongoDB.Bson;
+using NUnit.Framework;
 using System.Web.Http.Results;
 using TableTopTally.Controllers.API;
-using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
 
 namespace TableTopTally.Tests.Controllers.API
 {
-    [TestClass]
+    [TestFixture]
     public class GamesControllerTest
     {
         //private readonly List<Game> games = new List<Game>()
@@ -133,7 +129,7 @@ namespace TableTopTally.Tests.Controllers.API
         //    Assert.AreEqual(newGame, result.Content);
         //}
 
-        [TestMethod]
+        [Test(Description = "Test the PostGame with invalid model state")]
         public void PostGame_InvalidModel()
         {
             // Arrange
@@ -213,7 +209,7 @@ namespace TableTopTally.Tests.Controllers.API
         //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         //}
 
-        [TestMethod]
+        [Test(Description = "Test PutGame with ObjectId's that don't match")]
         public void PutGame_UnmatchedIds()
         {
             // Arrange
@@ -226,10 +222,10 @@ namespace TableTopTally.Tests.Controllers.API
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(BadRequestErrorMessageResult));
+            Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
 
-        [TestMethod]
+        [Test(Description = "Test PutGame with invalid model state")]
         public void PutGame_InvalidModel()
         {
             // Arrange

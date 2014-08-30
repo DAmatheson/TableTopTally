@@ -20,21 +20,21 @@ namespace TableTopTally.Binders
                 return false;
             }
 
-            var result = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            if (result == null)
+            if (value == null)
             {
                 return false;
             }
 
-            ObjectId parsedId;
+            ObjectId parsedValue;
 
-            if (!ObjectId.TryParse(result.AttemptedValue, out parsedId) || parsedId == ObjectId.Empty)
+            if (!ObjectId.TryParse(value.AttemptedValue, out parsedValue) || parsedValue == ObjectId.Empty)
             {
                 return false;
             }
 
-            bindingContext.Model = parsedId;
+            bindingContext.Model = parsedValue;
 
             return true;
         }

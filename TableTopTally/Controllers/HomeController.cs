@@ -11,6 +11,7 @@ namespace TableTopTally.Controllers
 {
     public class HomeController : Controller
     {
+        [OutputCache(VaryByParam = "*", Duration = 0)] // Disable caching of index page on client
         public ActionResult Index()
         {
             return View();

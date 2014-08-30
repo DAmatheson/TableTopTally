@@ -1,13 +1,13 @@
-﻿using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System.Web.Mvc;
 using TableTopTally.Controllers;
 
 namespace TableTopTally.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class HomeControllerTest
     {
-        [TestMethod]
+        [Test]
         public void Index()
         {
             // Arrange
@@ -20,7 +20,7 @@ namespace TableTopTally.Tests.Controllers
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [Test]
         public void Contact()
         {
             // Arrange

@@ -14,8 +14,8 @@
     // Controller for the partial CreateGame.html
     gamesControllers.controller('CreateGameController',
     [
-        '$scope', '$location', 'gameData', 'layoutValues',
-        function($scope, $location, gameData, layoutValues)
+        '$scope', 'gameData', 'layoutValues',
+        function($scope, gameData, layoutValues)
         {
             $scope.title = 'Create a Game';
 

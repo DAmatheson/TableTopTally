@@ -2,8 +2,8 @@
  * Purpose: Setup file for Unity dependency injection
  * 
  * Revision History:
- *      Drew Matheson, 2014.08.28: Created
- */ 
+ *      Drew Matheson, 2014.08.28
+ */
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Web.Http.Dependencies;
 using Microsoft.Practices.Unity;
 using TableTopTally.MongoDB.Services;
 
-namespace TableTopTally.App_Start
+namespace TableTopTally
 {
     public class UnityConfig
     {
@@ -28,9 +28,10 @@ namespace TableTopTally.App_Start
     /// <summary>
     /// Implementation of IDependencyResolver that wraps a Unity container
     /// </summary>
+    // From: http://www.asp.net/web-api/overview/advanced/dependency-injection
     public class UnityResolver : IDependencyResolver
     {
-        protected IUnityContainer container;
+        private readonly IUnityContainer container;
 
         public UnityResolver(IUnityContainer container)
         {

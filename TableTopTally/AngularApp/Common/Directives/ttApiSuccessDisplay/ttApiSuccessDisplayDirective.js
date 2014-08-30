@@ -11,11 +11,10 @@
 
     var ttDirectives = angular.module('tableTopTally.directives');
 
-    ttDirectives.directive('ttApiSuccessDisplay', [
-        '$timeout', '$interval', '$location', 'tempRedirectionData',
-        function($timeout, $interval, $location, tempRedirectionData)
+    ttDirectives.directive('ttApiSuccessDisplay',
+        function()
         {
-            var controller = function($scope)
+            var controller = function ($scope, $timeout, $interval, $location, tempRedirectionData)
             {
                 // Controller for the directive
 
@@ -108,9 +107,10 @@
                 restrict: 'E', // Restrict this directive to elements
                 require: 'ttApiSuccessDisplay', // Require this controller for injecting it into the scope
                 templateUrl: 'AngularApp/Common/Directives/ttApiSuccessDisplay/ApiSuccessDisplay.html',
-                controller: ['$scope', controller], // Inject $scope into controller
+                controller: ['$scope', '$timeout', '$interval', '$location', 'tempRedirectionData',
+                             controller], // Dependencies to be injected into the controller
                 link: link
             };
         }
-    ]);
+    );
 })();

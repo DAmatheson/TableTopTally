@@ -4,19 +4,19 @@
  * 
  * Revision History:
  *      Drew Matheson, 2014.08.20: Created
-*/ 
+*/
 
-using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
+using NUnit.Framework;
+using System.ComponentModel.DataAnnotations;
 using TableTopTally.Helpers;
 
 namespace TableTopTally.Tests.Helpers
 {
-    [TestClass]
+    [TestFixture]
     public class ObjectIdModelValidatorTest
     {
-        [TestMethod]
+        [Test(Description = "Test the ObjectIdModelValidator with a valid ObjectId")]
         public void ValidObjectId()
         {
             // Arrange
@@ -30,7 +30,7 @@ namespace TableTopTally.Tests.Helpers
             Assert.AreSame(ValidationResult.Success, result);
         }
 
-        [TestMethod]
+        [Test(Description = "Test the ObjectIdModelValidator with an invalid ObjectId")]
         public void InvalidObjectId()
         {
             // Arrange
@@ -41,8 +41,8 @@ namespace TableTopTally.Tests.Helpers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof (ValidationResult));
-            Assert.AreEqual(result.ErrorMessage, "The Id must be a valid ObjectId.");
+            Assert.IsInstanceOf<ValidationResult>(result);
+            Assert.AreEqual("The Id must be a valid ObjectId.", result.ErrorMessage);
         }
     }
 }

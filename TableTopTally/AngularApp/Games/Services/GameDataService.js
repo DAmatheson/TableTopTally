@@ -14,7 +14,7 @@
     var gamesServices = angular.module('games.services');
 
     // Resource for games
-    gamesServices.factory('gameData', [
+    gamesServices.service('gameData', [
         '$resource', '$location', '$q',
         function($resource, $location, $q)
         {
@@ -27,11 +27,11 @@
                     url: 'API/Games/',
                     isArray: true
                 },
-                // Get a single game
+                // Get a single game, redirect to 404 if a game isn't returned
                 get: // Example call: gameData.get({ gameId: $routeParams.gameId });
                 {
                     method: 'GET',
-                    interceptor:
+                    interceptor: // If the response is a 404, redirect to /404 and resolve the promise
                     {
                         responseError: function(httpResponse)
                         {
@@ -45,24 +45,23 @@
                     }
                 },
                 // Create a game
-                create: // Example call: gameData.post(postData[, successFunction [, errorFunction] ]);
+                create: // Example call: gameData.post(postData[, successFunction[, errorFunction]]);
                 {
                     method: 'POST',
                     url: 'API/Games/',
                     timeout: 10000 // 10 second timeout on the request
                 },
                 // Update a game
-                update: // Example call: gameData.update({ gameId: $routeParams.gameId }, game);
+                update: // Example call: gameData.update(game[, successFunction[, errorFunction]]);
                 {
                     method: 'PUT',
-                    url: 'API/Games/:gameId',
+                    params: { gameId: '@id' }, // set :gameId to the id property of the passed in data
                     timeout: 10000 // 10 second timeout on the request
                 },
                 // Delete a game
-                delete: // Example call: gameData.delete({ gameId: $routeParams.gameId });
+                delete: // Example call: gameData.delete([successFunction[, errorFunction]]);
                 {
                     method: 'DELETE',
-                    url: 'API/Games/:gameId',
                     timeout: 10000 // 10 second timeout on the request
                 }
             });

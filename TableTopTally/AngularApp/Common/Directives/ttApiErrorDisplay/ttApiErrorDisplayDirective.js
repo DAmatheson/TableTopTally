@@ -11,11 +11,10 @@
 
     var ttDirectives = angular.module('tableTopTally.directives');
 
-    ttDirectives.directive('ttApiErrorDisplay', [
-        '$timeout', 
-        function($timeout)
+    ttDirectives.directive('ttApiErrorDisplay', 
+        function()
         {
-            var controller = function($scope)
+            var controller = function($scope, $timeout)
             {
                 // Controller for the directive
 
@@ -53,6 +52,9 @@
 
                     switch (statusCode)
                     {
+                        case 0: // Note: 0 seems to be the default status code upon rejection
+                            error += "the server taking too long to respond";
+                            break;
                         case 400:
                             error += "invalid form data";
                             break;
@@ -81,12 +83,12 @@
                         throw "httpResponse was not passed to ttApiErrorParser's parseResponse function";
                     }
 
-                    if (httpResponse.data && httpResponse.data.modelState)
+                    if (httpResponse.data && 'modelState' in httpResponse.data)
                     {
                         this.parseModelErrors(httpResponse.data.modelState);
                     }
 
-                    if (httpResponse.status)
+                    if ('status' in httpResponse) // status can be 0 which == false
                     {
                         actionDescription = actionDescription.trim() || "The action";
 
@@ -143,9 +145,9 @@
                 restrict: 'E', // Restrict this directive to elements
                 require: 'ttApiErrorDisplay', // Require this controller for injecting it into the scope
                 templateUrl: 'AngularApp/Common/Directives/ttApiErrorDisplay/ApiErrorDisplay.html',
-                controller: ['$scope', controller], // Inject $scope into controller
+                controller: ['$scope', '$timeout' , controller], // Inject $scope into controller
                 link: link
             };
         }
-    ]);
+    );
 })();

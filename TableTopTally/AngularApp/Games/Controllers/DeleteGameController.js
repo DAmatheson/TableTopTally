@@ -14,8 +14,8 @@
     // Controller for the partial DeleteGame.html
     gamesControllers.controller('DeleteGameController',
     [
-        '$scope', '$routeParams', '$location', 'game', 'gameData', 'layoutValues',
-        function($scope, $routeParams, $location, game, gameData, layoutValues)
+        '$scope', 'game', 'gameData', 'layoutValues',
+        function($scope, game, gameData, layoutValues)
         {
             $scope.game = game;
             $scope.title = 'Delete ' + $scope.game.name + '?';
@@ -26,7 +26,7 @@
             {
                 // Sends a deletion request. If successful redirect to game list, otherwise retry
 
-                gameData.delete({ gameId: game.id }, //$routeParams.gameId },
+                gameData.delete({ gameId: game.id }, // Can't get Id via routeParams so must be done here
                     function() // Success function
                     {
                         // Display message saying update was successful and redirection is happening

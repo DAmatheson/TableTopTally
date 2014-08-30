@@ -12,7 +12,7 @@
     var ttServices = angular.module('tableTopTally.services');
 
     // Service for passing data from a post or put action to the corresponding display controller
-    ttServices.factory('tempRedirectionData', function()
+    ttServices.service('tempRedirectionData', function()
     {
         var tempCache = null;
 

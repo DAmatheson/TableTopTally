@@ -12,7 +12,7 @@
     var ttServices = angular.module('tableTopTally.services');
 
     // Service for setting various page values
-    ttServices.factory('layoutValues', function ()
+    ttServices.service('layoutValues', function ()
     {
         var title = 'TableTop Tally';
 

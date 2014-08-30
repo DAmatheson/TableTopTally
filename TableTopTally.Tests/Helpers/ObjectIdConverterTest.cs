@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NUnit.Framework;
 using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Tests.Helpers
 {
-    [TestClass]
+    [TestFixture]
     public class ObjectIdConverterTest
     {
         private const string STRING_OBJECT_ID = "53e3a8ad6c46bc0c80ea13b2";
@@ -16,42 +16,49 @@ namespace TableTopTally.Tests.Helpers
 
         private class TestMongoEntity : MongoEntity { } // Class with only a ObjectId Id property
 
-        [TestMethod]
+        [Test(Description = "Test json.NET ObjectId converter with a valid ObjectId")]
         public void ValidObjectId()
         {
+            // Arrange
             var settings = new JsonSerializerSettings();
 
             settings.Converters.Add(new ObjectIdConverter()); // Add json -> ObjectId converter
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
+            // Act
             var testMongoEntity = JsonConvert.DeserializeObject<TestMongoEntity>(VALID_JSON, settings);
 
+            // Assert
             Assert.IsNotNull(testMongoEntity.Id);
-            Assert.IsInstanceOfType(testMongoEntity.Id, typeof(ObjectId));
+            Assert.IsInstanceOf<ObjectId>(testMongoEntity.Id);
             Assert.AreEqual(ObjectId.Parse(STRING_OBJECT_ID), testMongoEntity.Id);
         }
 
-        [TestMethod]
+        [Test(Description = "Test json.NET ObjectId converter with an invalid ObjectId")]
         public void InvalidObjectId()
         {
+            // Arrange
             var settings = new JsonSerializerSettings();
 
             settings.Converters.Add(new ObjectIdConverter()); // Add json -> ObjectId converter
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-
+            // Act
             var testMongoEntity = JsonConvert.DeserializeObject<TestMongoEntity>(INVALID_JSON, settings);
 
+            // Assert
             Assert.IsNotNull(testMongoEntity.Id);
-            Assert.IsInstanceOfType(testMongoEntity.Id, typeof(ObjectId));
+            Assert.IsInstanceOf<ObjectId>(testMongoEntity.Id);
             Assert.AreEqual(ObjectId.Empty, testMongoEntity.Id);
         }
 
-        [TestMethod]
+        [Test(Description = "Test json.NET ObjectId converter settings")]
         public void Settings()
         {
+            // Arrange
             var objectIdConverter = new ObjectIdConverter();
 
+            // Assert
             Assert.IsFalse(objectIdConverter.CanWrite);
             Assert.IsTrue(objectIdConverter.CanRead);
             Assert.IsTrue(objectIdConverter.CanConvert(typeof(ObjectId)));

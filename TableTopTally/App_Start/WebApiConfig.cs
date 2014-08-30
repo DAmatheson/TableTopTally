@@ -4,7 +4,6 @@ using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using System.Web.Http.Routing;
-using TableTopTally.App_Start;
 using TableTopTally.Binders;
 using TableTopTally.RouteConstraints;
 
