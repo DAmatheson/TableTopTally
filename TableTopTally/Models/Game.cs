@@ -8,10 +8,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using MongoDB.Bson;
-using TableTopTally.Annotations;
 using TableTopTally.Attributes;
-using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
@@ -19,20 +16,6 @@ namespace TableTopTally.Models
     [Bind(Include = "Name, MinimumPlayers, MaximumPlayers")]
     public class Game : MongoEntity
     {
-        [UsedImplicitly]
-        public Game() { }
-
-        /// <summary>
-        /// Initializes a new instance of the Game class
-        /// </summary>
-        /// <param name="name">The name of the game</param>
-        public Game(string name)
-        {
-            Id = ObjectId.GenerateNewId();
-            Name = name;
-            Url = name.GenerateSlug(Id);
-        }
-
         /// <summary>
         /// The Game's Name
         /// </summary>
@@ -46,6 +29,7 @@ namespace TableTopTally.Models
 
         /// <summary>
         /// The Url for the Game
+        /// Note: This is only set when the game is first created so that it doesn't change due to edits
         /// </summary>
         public string Url { get; set; }
 

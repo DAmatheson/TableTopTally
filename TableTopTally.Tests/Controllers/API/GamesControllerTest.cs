@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Results;
 using TableTopTally.Controllers.API;
+using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
 
@@ -27,9 +29,9 @@ namespace TableTopTally.Tests.Controllers.API
             // Arrange
             List<Game> games = new List<Game>
             {
-                new Game("Pandemic") { MinimumPlayers = 1, MaximumPlayers = 5},
-                new Game("Caverna") { MinimumPlayers = 3, MaximumPlayers = 6},
-                new Game("Zombie Dice") { MinimumPlayers = 2, MaximumPlayers = 10}
+                new Game { Name = "Pandemic", MinimumPlayers = 1, MaximumPlayers = 5},
+                new Game { Name = "Caverna", MinimumPlayers = 3, MaximumPlayers = 6},
+                new Game { Name = "Zombie Dice", MinimumPlayers = 2, MaximumPlayers = 10}
             };
 
             var gameServiceMock = GetGameServiceMock();
@@ -118,8 +120,7 @@ namespace TableTopTally.Tests.Controllers.API
             // Arrange
             ObjectId invalidID = ObjectId.Empty;
 
-            // Unsure: GSM isn't touched, needed?
-            var gameServiceMock = GetGameServiceMock();
+            var gameServiceMock = GetGameServiceMock(); // No call should be made to IGameService
 
             gameServiceMock.Setup(g => g.GetById(invalidID)).Returns<Game>(null);
 
@@ -177,8 +178,9 @@ namespace TableTopTally.Tests.Controllers.API
         public void PostGame_ValidModel()
         {
             // Arrange
-            Game newGame = new Game("New Game")
+            Game newGame = new Game
             {
+                Name = "New Game",
                 Id = ObjectId.Empty, // POSTed games don't provide an Id, so it would be ObjectId.Empty
                 MinimumPlayers = 1,
                 MaximumPlayers = 5,
@@ -217,13 +219,15 @@ namespace TableTopTally.Tests.Controllers.API
         public void PostGame_InvalidModel()
         {
             // Arrange
-            Game newGame = new Game("New Game")
+            Game newGame = new Game
             {
+                Name = "New Game",
                 MinimumPlayers = 1
             };
 
-            // Unsure: How to handle mock when it isn't actually used
-            GamesController controller = new GamesController(GetGameServiceMock().Object);
+            var gameServiceMock = GetGameServiceMock();
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
 
             // Act
             controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
@@ -245,11 +249,16 @@ namespace TableTopTally.Tests.Controllers.API
         public void PutGame_ValidModel()
         {
             // Arrange
-            Game updatedGame = new Game("Updated Pandemic")
+            Game updatedGame = new Game
             {
+                Name = "Updated Pandemic",
                 MinimumPlayers = 2,
                 MaximumPlayers = 6
             };
+
+            String oldUrl = "Pandemic".GenerateSlug(updatedGame.Id);
+
+            updatedGame.Url = oldUrl;
 
             var gameServiceMock = GetGameServiceMock();
 
@@ -270,7 +279,7 @@ namespace TableTopTally.Tests.Controllers.API
             Assert.AreEqual(updatedGame.Name, result.Content.Name);
             Assert.AreEqual(updatedGame.MinimumPlayers, result.Content.MinimumPlayers);
             Assert.AreEqual(updatedGame.MaximumPlayers, result.Content.MaximumPlayers);
-            Assert.AreEqual(updatedGame.Url, result.Content.Url);
+            Assert.AreEqual(oldUrl, result.Content.Url);
             Assert.AreEqual(updatedGame, result.Content);
         }
 
@@ -278,8 +287,9 @@ namespace TableTopTally.Tests.Controllers.API
         public void PutGame_NewGameCantUpdate()
         {
             // Arrange
-            Game newGame = new Game("New Game Can't Be Updated")
+            Game newGame = new Game
             {
+                Name = "New Game Can't Be Updated",
                 MinimumPlayers = 2,
                 MaximumPlayers = 6
             };
@@ -304,8 +314,9 @@ namespace TableTopTally.Tests.Controllers.API
             // Arrange
             Game updateGame = new Game();
 
-            // Unsure: How to handle mock when it isn't actually used
-            GamesController controller = new GamesController(GetGameServiceMock().Object);
+            var gameServiceMock = GetGameServiceMock();
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
 
             // Act
             var result = controller.PutGame(ObjectId.GenerateNewId(), updateGame);
@@ -319,13 +330,15 @@ namespace TableTopTally.Tests.Controllers.API
         public void PutGame_InvalidModel()
         {
             // Arrange
-            Game newGame = new Game("New Game")
+            Game newGame = new Game
             {
+                Name = "Updating Game",
                 MinimumPlayers = 1
             };
 
-            // Unsure: How to handle mock when it isn't actually used
-            GamesController controller = new GamesController(GetGameServiceMock().Object);
+            var gameServiceMock = GetGameServiceMock();
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
 
             controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
 
@@ -391,7 +404,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Arrange
             ObjectId invalidId = ObjectId.Empty;
 
-            // Unsure: Needed if there is a paramless ctor and no call is made to IGameService?
             var gameServiceMock = GetGameServiceMock(); // No call should be made to the IGameService
 
             GamesController controller = new GamesController(gameServiceMock.Object);
