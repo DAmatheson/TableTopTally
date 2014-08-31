@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using TableTopTally.Models;
 
@@ -32,8 +31,8 @@ namespace TableTopTally.MongoDB.Services
                 Update.Set("Name", game.Name).
                     Set("Url", game.Url).
                     Set("MinimumPlayers", game.MinimumPlayers).
-                    Set("MaximumPlayers", game.MaximumPlayers)).UpdatedExisting; //.
-            //HasLastErrorMessage;
+                    Set("MaximumPlayers", game.MaximumPlayers)).
+                UpdatedExisting;
         }
 
         /// <summary>

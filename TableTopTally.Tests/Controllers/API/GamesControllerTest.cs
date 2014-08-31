@@ -1,5 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using System.Net;
+using MongoDB.Bson;
+using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http.Results;
 using TableTopTally.Controllers.API;
 using TableTopTally.Models;
@@ -10,124 +14,204 @@ namespace TableTopTally.Tests.Controllers.API
     [TestFixture]
     public class GamesControllerTest
     {
-        //private readonly List<Game> games = new List<Game>()
-        //{
-        //    new Game("Pandemic") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2"), MinimumPlayers = 1, MaximumPlayers = 5},
-        //    new Game("Caverna") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b3"), MinimumPlayers = 3, MaximumPlayers = 6},
-        //    new Game("Zombie Dice") { Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b4"), MinimumPlayers = 2, MaximumPlayers = 10}
-        //};
+        private static Mock<IGameService> GetGameServiceMock()
+        {
+            var gameServiceMock = new Mock<IGameService>();
 
-        //[TestMethod]
-        //public void GetAllGames_ShouldReturnAllGames()
-        //{
-        //    // Arrange
-        //    var controller = new GamesController(games);
+            return gameServiceMock;
+        }
 
-        //    // Act
-        //    var result = controller.GetAllGames() as OkNegotiatedContentResult<List<Game>>;
+        [Test(Description = "Test that GetAllGames returns all games")]
+        public void GetAllGames_ShouldReturnAllGames()
+        {
+            // Arrange
+            List<Game> games = new List<Game>
+            {
+                new Game("Pandemic") { MinimumPlayers = 1, MaximumPlayers = 5},
+                new Game("Caverna") { MinimumPlayers = 3, MaximumPlayers = 6},
+                new Game("Zombie Dice") { MinimumPlayers = 2, MaximumPlayers = 10}
+            };
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
+            var gameServiceMock = GetGameServiceMock();
+                
+            gameServiceMock.Setup(g => g.GetGames()).Returns(games);
 
-        //    Assert.IsNotNull(result.Content);
-        //    Assert.AreEqual(games, result.Content);
-        //    Assert.AreEqual(games.Count, result.Content.Count);
-        //}
+            var controller = new GamesController(gameServiceMock.Object);
 
-        //[TestMethod]
-        //public void GetGame_ValidObjectId()
-        //{
-        //    // Arrange
-        //    var controller = new GamesController(games);
+            // Act
+            var result = controller.GetAllGames() as OkNegotiatedContentResult<IEnumerable<Game>>;
 
-        //    // Act
-        //    var result = controller.GetGameById(games[0].Id) as OkNegotiatedContentResult<Game>;
+            // Assert
+            Assert.IsNotNull(result);
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Content);
+            Assert.AreEqual(games, result.Content);
+            Assert.AreEqual(games.Count, result.Content.Count());
+        }
 
-        //    Assert.IsNotNull(result.Content);
-        //    Assert.AreEqual(games[0], result.Content);
-        //}
+        // Todo: Figure out what is returned if the db is empty
+        [Test(Description = "Test that GetAllGames works with an empty DB")]
+        public void GetAllGames_WorksWithEmptyDB()
+        {
+            // Arrange
+            IEnumerable<Game> emptyDb = new List<Game>();
 
-        //[TestMethod]
-        //public void GetGame_InvalidObjectId()
-        //{
-        //    // Arrange
-        //    var controller = new GamesController(games);
+            var gameServiceMock = GetGameServiceMock();
 
-        //    // Act
-        //    var result = controller.GetGameById(ObjectId.Empty) as NotFoundResult;
+            gameServiceMock.Setup(g => g.GetGames()).Returns(emptyDb);
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        //}
+            var controller = new GamesController(gameServiceMock.Object);
 
-        //[TestMethod]
-        //public void GetGame_ValidUrl()
-        //{
-        //    // Arrange
-        //    var controller = new GamesController(games);
+            // Act
+            var result = controller.GetAllGames() as OkNegotiatedContentResult<IEnumerable<Game>>;
 
-        //    // Act
-        //    var result = controller.GetGameByUrl(games[0].Url) as OkNegotiatedContentResult<Game>;
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(emptyDb.Count(), result.Content.Count());
+        }
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
+        [Test(Description = "Test GetGameById with a valid ObjectId that does exist in the DB")]
+        public void GetGameById_ValidObjectId()
+        {
+            // Arrange
+            var game = new Game { Id = ObjectId.GenerateNewId() };
 
-        //    Assert.IsNotNull(result.Content);
-        //    Assert.AreEqual(games[0], result.Content);
-        //}
+            var gameServiceMock = GetGameServiceMock();
 
-        //[TestMethod]
-        //public void GetGame_InvalidUrl()
-        //{
-        //    // Arrange
-        //    var controller = new GamesController(games);
+            gameServiceMock.Setup(g => g.GetById(game.Id)).Returns(game);
 
-        //    // Act
-        //    var result = controller.GetGameByUrl("blah-00000");
+            var controller = new GamesController(gameServiceMock.Object);
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        //}
+            // Act
+            var result = controller.GetGameById(game.Id) as OkNegotiatedContentResult<Game>;
 
-        //[TestMethod]
-        //public void PostGame_ValidModel()
-        //{
-        //    // Arrange
-        //    Game newGame = new Game("New Game")
-        //    {
-        //        MinimumPlayers = 1,
-        //        MaximumPlayers = 5
-        //    };
+            // Assert
+            Assert.IsNotNull(result);
 
-        //    GamesController controller = new GamesController(games);
+            Assert.IsNotNull(result.Content);
+            Assert.AreEqual(game, result.Content);
+        }
 
-        //    // Act
-        //    var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
+        [Test(Description = "Test GetGameById with a valid ObjectId that doesn't exist in the DB")]
+        public void GetGame_NotInDb()
+        {
+            // Arrange
+            ObjectId notInDbId = ObjectId.GenerateNewId();
 
-        //    // Assert
+            var gameServiceMock = GetGameServiceMock();
 
-        //    // Result assertions
-        //    Assert.IsNotNull(result);
+            gameServiceMock.Setup(g => g.GetById(notInDbId)).Returns<Game>(null);
 
-        //    // Route assertions
-        //    Assert.AreEqual("DefaultApi", result.RouteName);
-        //    Assert.AreEqual(newGame.Id, result.RouteValues["id"]);
-        //    Assert.AreEqual(newGame.Name, result.Content.Name);
-        //    Assert.AreEqual("Games", result.RouteValues["controller"]);
+            var controller = new GamesController(gameServiceMock.Object);
 
-        //    // Value assertions
-        //    Assert.AreEqual(newGame.Id, result.Content.Id);
-        //    Assert.AreEqual("New Game", result.Content.Name);
-        //    Assert.AreEqual("New Game".GenerateSlug(newGame.Id), result.Content.Url);
-        //    Assert.AreEqual(newGame.MinimumPlayers, result.Content.MinimumPlayers);
-        //    Assert.AreEqual(newGame.MaximumPlayers, result.Content.MaximumPlayers);
-        //    Assert.AreEqual(newGame, result.Content);
-        //}
+            // Act
+            var result = controller.GetGameById(notInDbId) as NotFoundResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test(Description = "Test GetGameById with an invalid ObjectId")]
+        public void GetGameById_InvalidObjectId()
+        {
+            // Arrange
+            ObjectId invalidID = ObjectId.Empty;
+
+            // Unsure: GSM isn't touched, needed?
+            var gameServiceMock = GetGameServiceMock();
+
+            gameServiceMock.Setup(g => g.GetById(invalidID)).Returns<Game>(null);
+
+            var controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.GetGameById(invalidID) as BadRequestErrorMessageResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+        }
+
+        [Test(Description = "Test GetGameByUrl with a valid Url")]
+        public void GetGame_ValidUrl()
+        {
+            // Arrange
+            var game = new Game { Url = "fake-url-8A801B" };
+
+            var gameServiceMock = GetGameServiceMock();
+
+            gameServiceMock.Setup(g => g.GetGameByUrl(game.Url)).Returns(game);
+
+            var controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.GetGameByUrl(game.Url) as OkNegotiatedContentResult<Game>;
+
+            // Assert
+            Assert.IsNotNull(result);
+
+            Assert.IsNotNull(result.Content);
+            Assert.AreEqual(game, result.Content);
+        }
+
+        [Test(Description = "Test GetGameByUrl with an invalid Url")]
+        public void GetGame_InvalidUrl()
+        {
+            // Arrange
+            var gameServiceMock = GetGameServiceMock();
+
+            gameServiceMock.Setup(g => g.GetGameByUrl("bad-url-8A0")).Returns((Game) null);
+
+            var controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.GetGameByUrl("bad-url-8A0");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test(Description = "Test PostGame with a valid Game model")]
+        public void PostGame_ValidModel()
+        {
+            // Arrange
+            Game newGame = new Game("New Game")
+            {
+                Id = ObjectId.Empty, // POSTed games don't provide an Id, so it would be ObjectId.Empty
+                MinimumPlayers = 1,
+                MaximumPlayers = 5,
+            };
+
+            var gameServiceMock = GetGameServiceMock();
+
+            gameServiceMock.Setup(g => g.Create(newGame)).Returns(true);
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
+
+            // Assert
+
+            // Result assertions
+            Assert.IsNotNull(result);
+
+            // 'Created at location' assertions
+            Assert.AreEqual("DefaultApi", result.RouteName);
+            Assert.AreEqual(newGame.Id, result.RouteValues["id"]);
+            Assert.AreEqual(newGame.Name, result.Content.Name);
+            Assert.AreEqual("Games", result.RouteValues["controller"]);
+
+            // Value assertions
+            Assert.AreEqual(newGame.Id, result.Content.Id);
+            Assert.AreEqual(newGame.Name, result.Content.Name);
+            Assert.AreEqual(newGame.Url, result.Content.Url);
+            Assert.AreEqual(newGame.MinimumPlayers, result.Content.MinimumPlayers);
+            Assert.AreEqual(newGame.MaximumPlayers, result.Content.MaximumPlayers);
+            Assert.AreEqual(newGame, result.Content);
+        }
 
         [Test(Description = "Test the PostGame with invalid model state")]
         public void PostGame_InvalidModel()
@@ -138,7 +222,8 @@ namespace TableTopTally.Tests.Controllers.API
                 MinimumPlayers = 1
             };
 
-            GamesController controller = new GamesController(new GameService());
+            // Unsure: How to handle mock when it isn't actually used
+            GamesController controller = new GamesController(GetGameServiceMock().Object);
 
             // Act
             controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
@@ -156,66 +241,71 @@ namespace TableTopTally.Tests.Controllers.API
             Assert.AreEqual("Invalid Max Players", result.ModelState["MaximumPlayers"].Errors[0].ErrorMessage);
         }
 
-        //[TestMethod]
-        //public void PutGame_ValidModel()
-        //{
-        //    // Arrange
-        //    Game newGame = new Game("Updated Pandemic")
-        //    {
-        //        Id = ObjectId.Parse("53e3a8ad6c46bc0c80ea13b2"),
-        //        MinimumPlayers = 2,
-        //        MaximumPlayers = 6
-        //    };
+        [Test(Description = "Test PutGame with a valid Game model that exists in the DB")]
+        public void PutGame_ValidModel()
+        {
+            // Arrange
+            Game updatedGame = new Game("Updated Pandemic")
+            {
+                MinimumPlayers = 2,
+                MaximumPlayers = 6
+            };
 
-        //    newGame.Url = newGame.Name.GenerateSlug(newGame.Id);
+            var gameServiceMock = GetGameServiceMock();
 
-        //    GamesController controller = new GamesController(games);
+            gameServiceMock.Setup(g => g.Edit(updatedGame)).Returns(true);
 
-        //    // Act
-        //    var result = controller.PutGame(newGame.Id, newGame) as OkNegotiatedContentResult<Game>;
+            GamesController controller = new GamesController(gameServiceMock.Object);
 
-        //    // Assert
+            // Act
+            var result = controller.PutGame(updatedGame.Id, updatedGame) as OkNegotiatedContentResult<Game>;
 
-        //    // Result assertions
-        //    Assert.IsNotNull(result);
+            // Assert
 
-        //    // Value assertions
-        //    Assert.AreEqual(newGame.Id, result.Content.Id);
-        //    Assert.AreEqual("Updated Pandemic", result.Content.Name);
-        //    Assert.AreEqual(2, result.Content.MinimumPlayers);
-        //    Assert.AreEqual(6, result.Content.MaximumPlayers);
-        //    Assert.AreEqual(newGame.Url, result.Content.Url);
-        //    Assert.AreEqual(games.FirstOrDefault(g => g.Id == newGame.Id), result.Content);
-        //}
+            // Result assertions
+            Assert.IsNotNull(result);
 
-        //[TestMethod]
-        //public void PutGame_NewGameCantUpdate()
-        //{
-        //    // Arrange
-        //    Game updatedGame = new Game("New Game Can't Be Updated")
-        //    {
-        //        Id = ObjectId.GenerateNewId(),
-        //        MinimumPlayers = 2,
-        //        MaximumPlayers = 6
-        //    };
+            // Value assertions
+            Assert.AreEqual(updatedGame.Id, result.Content.Id);
+            Assert.AreEqual(updatedGame.Name, result.Content.Name);
+            Assert.AreEqual(updatedGame.MinimumPlayers, result.Content.MinimumPlayers);
+            Assert.AreEqual(updatedGame.MaximumPlayers, result.Content.MaximumPlayers);
+            Assert.AreEqual(updatedGame.Url, result.Content.Url);
+            Assert.AreEqual(updatedGame, result.Content);
+        }
 
-        //    GamesController controller = new GamesController(games);
+        [Test(Description = "Test PutGame with a valid Game model that doesn't exist in the DB")]
+        public void PutGame_NewGameCantUpdate()
+        {
+            // Arrange
+            Game newGame = new Game("New Game Can't Be Updated")
+            {
+                MinimumPlayers = 2,
+                MaximumPlayers = 6
+            };
 
-        //    // Act
-        //    var result = controller.PutGame(updatedGame.Id, updatedGame);
+            var gameServiceMock = GetGameServiceMock();
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        //}
+            gameServiceMock.Setup(g => g.Edit(newGame)).Returns(false);
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.PutGame(newGame.Id, newGame);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
 
         [Test(Description = "Test PutGame with ObjectId's that don't match")]
         public void PutGame_UnmatchedIds()
         {
             // Arrange
-            Game updateGame = new Game("New Game - Url Id doesn't match");
+            Game updateGame = new Game();
 
-            GamesController controller = new GamesController(new GameService());
+            // Unsure: How to handle mock when it isn't actually used
+            GamesController controller = new GamesController(GetGameServiceMock().Object);
 
             // Act
             var result = controller.PutGame(ObjectId.GenerateNewId(), updateGame);
@@ -234,10 +324,12 @@ namespace TableTopTally.Tests.Controllers.API
                 MinimumPlayers = 1
             };
 
-            GamesController controller = new GamesController(new GameService());
+            // Unsure: How to handle mock when it isn't actually used
+            GamesController controller = new GamesController(GetGameServiceMock().Object);
+
+            controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
 
             // Act
-            controller.ModelState.AddModelError("MaximumPlayers", "Invalid Max Players");
             var result = controller.PutGame(newGame.Id, newGame) as InvalidModelStateResult;
 
             // Assert
@@ -252,38 +344,64 @@ namespace TableTopTally.Tests.Controllers.API
             Assert.AreEqual("Invalid Max Players", result.ModelState["MaximumPlayers"].Errors[0].ErrorMessage);
         }
 
-        //[TestMethod]
-        //public void DeleteGame_ValidObjectId()
-        //{
-        //    // Arrange
-        //    ObjectId pandemicId = games[0].Id;
+        [Test(Description = "Test DeleteGame with a valid ObjectId that exists in the DB")]
+        public void DeleteGame_ValidObjectId()
+        {
+            // Arrange
+            ObjectId pandemicId = ObjectId.GenerateNewId();
 
-        //    GamesController controller = new GamesController(games);
+            var gameServiceMock = GetGameServiceMock();
 
-        //    // Act
-        //    var result = controller.DeleteGame(pandemicId) as StatusCodeResult;
+            gameServiceMock.Setup(g => g.Delete(pandemicId)).Returns(true);
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+            GamesController controller = new GamesController(gameServiceMock.Object);
 
-        //    Assert.AreEqual(HttpStatusCode.NoContent, result.StatusCode);
-        //}
+            // Act
+            var result = controller.DeleteGame(pandemicId) as StatusCodeResult;
 
-        //[TestMethod]
-        //public void DeleteGame_InvalidObjectId()
-        //{
-        //    // Arrange
-        //    ObjectId invalidId = ObjectId.Empty;
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<StatusCodeResult>(result);
+            Assert.AreEqual(HttpStatusCode.NoContent, result.StatusCode);
+        }
 
-        //    GamesController controller = new GamesController(games);
+        [Test(Description = "Test DeleteGame with a valid ObjectId that doesn't exist in the DB")]
+        public void DeleteGame_NonExistingObjectId()
+        {
+            // Arrange
+            ObjectId notInDbId = ObjectId.GenerateNewId();
 
-        //    // Act
-        //    var result = controller.DeleteGame(invalidId);
+            var gameServiceMock = GetGameServiceMock();
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        //}
+            gameServiceMock.Setup(g => g.Delete(notInDbId)).Returns(false);
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.DeleteGame(notInDbId) as NotFoundResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test(Description = "Test DeleteGame with an invalid ObjectId")]
+        public void DeleteGame_InvalidObjectId()
+        {
+            // Arrange
+            ObjectId invalidId = ObjectId.Empty;
+
+            // Unsure: Needed if there is a paramless ctor and no call is made to IGameService?
+            var gameServiceMock = GetGameServiceMock(); // No call should be made to the IGameService
+
+            GamesController controller = new GamesController(gameServiceMock.Object);
+
+            // Act
+            var result = controller.DeleteGame(invalidId);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
     }
 }

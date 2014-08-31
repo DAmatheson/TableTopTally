@@ -47,11 +47,15 @@ namespace TableTopTally.Controllers.API
         [HttpGet]
         public IHttpActionResult GetGameById(ObjectId id)
         {
-            Game game = null;
+            Game game;
 
             if (id != ObjectId.Empty)
             {
                 game = gameService.GetById(id);
+            }
+            else
+            {
+                return BadRequest("The id specified isn't valid");
             }
 
             if (game == null)
