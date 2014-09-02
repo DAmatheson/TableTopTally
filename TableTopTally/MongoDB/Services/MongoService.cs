@@ -40,7 +40,22 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
         public virtual bool Create(T entity)
         {
-            return !collection.Insert(entity).HasLastErrorMessage;
+            //return !collection.Insert(entity).HasLastErrorMessage;
+
+            bool created;
+
+            try
+            {
+                collection.Insert(entity);
+
+                created = true;
+            }
+            catch (MongoDuplicateKeyException)
+            {
+                created = false;
+            }
+
+            return created;
         }
 
         /// <summary>
@@ -50,7 +65,7 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
         public virtual bool Delete(ObjectId id)
         {
-            return !collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).HasLastErrorMessage;
+            return collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).DocumentsAffected == 1;
         }
 
         /// <summary>

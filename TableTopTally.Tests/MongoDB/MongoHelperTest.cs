@@ -17,6 +17,8 @@ namespace TableTopTally.Tests.MongoDB
             // Assert
             Assert.IsNotNull(collection);
             Assert.IsInstanceOf<MongoCollection<Game>>(collection);
+            Assert.AreEqual("testTableTopTally", collection.Database.Name);
+            Assert.AreEqual("games", collection.Name);
         }
     }
 }

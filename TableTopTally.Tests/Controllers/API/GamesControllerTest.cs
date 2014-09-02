@@ -95,7 +95,7 @@ namespace TableTopTally.Tests.Controllers.API
         }
 
         [Test(Description = "Test GetGameById with a valid ObjectId that doesn't exist in the DB")]
-        public void GetGame_NotInDb()
+        public void GetGameById_NotInDb()
         {
             // Arrange
             ObjectId notInDbId = ObjectId.GenerateNewId();

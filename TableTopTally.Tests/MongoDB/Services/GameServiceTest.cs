@@ -19,8 +19,10 @@ namespace TableTopTally.Tests.MongoDB.Services
                 new Game { Name = "Game3", MinimumPlayers = 3, MaximumPlayers = 7 }
             };
 
-
-        [SetUp] // Clear out the collection before each test
+        /// <summary>
+        /// Clear out the games collection in the test database before each test
+        /// </summary>
+        [SetUp]
         public void ClearGamesCollection()
         {
             //Clear db
@@ -29,10 +31,11 @@ namespace TableTopTally.Tests.MongoDB.Services
             collection.Drop();
         }
 
+        /// <summary>
+        /// Fill the Games collection in the test database with mock data for testing
+        /// </summary>
         private void FillGamesCollection()
         {
-            //Fill db
-
             var service = new GameService();
 
             foreach (var game in mockGames)
@@ -43,7 +46,7 @@ namespace TableTopTally.Tests.MongoDB.Services
             }
         }
 
-        [Test(Description = "Test GetById with an empty collection")]
+        [Test(Description = "Test GetGames with an empty collection")]
         public void GetGames_EmptyCollection()
         {
             // Arrange
@@ -110,6 +113,164 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             // Act
             Game game = service.GetById(ObjectId.GenerateNewId());
+
+            // Assert
+            Assert.IsNull(game);
+        }
+
+        [Test(Description = "Test Delete with an Id that exists in the collection")]
+        public void Delete_IdInCollection()
+        {
+            // Arrange
+            FillGamesCollection();
+
+            var service = new GameService();
+
+            // Act
+            bool deleted = service.Delete(mockGames[0].Id);
+
+            // Assert
+            Assert.IsTrue(deleted);
+        }
+
+        [Test(Description = "Test Delete with an Id that doesn't exist in the collection")]
+        public void Delete_IdNotInCollection()
+        {
+            // Arrange
+            var service = new GameService();
+
+            // Act
+            bool deleted = service.Delete(ObjectId.GenerateNewId());
+
+            // Assert
+            Assert.IsFalse(deleted);
+        }
+
+        [Test(Description = "Test Create with an Id that doesn't exist in the collection")]
+        public void Create_ValidId()
+        {
+            // Arrange
+            FillGamesCollection();
+
+            Game game = new Game
+            {
+                Id = ObjectId.GenerateNewId(),
+                Name = "A New Game",
+                MinimumPlayers = 1,
+                MaximumPlayers = 2
+            };
+
+            game.Url = game.Name.GenerateSlug(game.Id);
+
+            var service = new GameService();
+
+            // Act
+            bool created = service.Create(game);
+
+            // Assert
+            Assert.IsTrue(created);
+        }
+
+        [Test(Description = "Test Create with an Id that exists in the collection")]
+        public void Create_InvalidId()
+        {
+            // Arrange
+            FillGamesCollection();
+
+            Game game = new Game
+            {
+                Id = mockGames[0].Id,
+                Name = "A invalid new game",
+                MinimumPlayers = 1,
+                MaximumPlayers = 2
+            };
+
+            game.Url = game.Name.GenerateSlug(mockGames[0].Id);
+
+            var service = new GameService();
+
+            // Act
+            bool created = service.Create(game);
+
+            // Assert
+            Assert.IsFalse(created);
+        }
+
+        [Test(Description = "Test Edit game with an Id that exists in the collection")]
+        public void Edit_Valid()
+        {
+            // Arrange
+            FillGamesCollection();
+
+            Game updatedGame = new Game
+            {
+                Id = mockGames[0].Id,
+                Name = mockGames[0].Name + " Edit",
+                MinimumPlayers = 3,
+                MaximumPlayers = 5,
+                Url = mockGames[0].Url
+            };
+
+            var service = new GameService();
+
+            // Act
+            bool success = service.Edit(updatedGame);
+
+            // Assert
+            Assert.IsTrue(success);
+        }
+
+        [Test(Description = "Test Edit with an Id that doesn't exist in the collection")]
+        public void Edit_InvalidId()
+        {
+            // Arrange
+            Game updatedGame = new Game
+            {
+                Id = ObjectId.GenerateNewId(),
+                Name = "Invalid Id For Update",
+                MinimumPlayers = 2,
+                MaximumPlayers = 3
+            };
+
+            updatedGame.Url = updatedGame.Name.GenerateSlug(updatedGame.Id);
+
+            var service = new GameService();
+
+            // Act
+            bool success = service.Edit(updatedGame);
+
+            // Assert
+            Assert.IsFalse(success);
+        }
+
+        [Test(Description = "Test GetGameByUrl with a Url that exists in the collection")]
+        public void GetGameByUrl_ValidUrl()
+        {
+            // Arrange
+            FillGamesCollection();
+
+            var service = new GameService();
+
+            // Act
+            Game game = service.GetGameByUrl(mockGames[0].Url);
+
+            // Assert
+            Assert.IsNotNull(game);
+            Assert.AreEqual(mockGames[0].Id, game.Id);
+            Assert.AreEqual(mockGames[0].Name, game.Name);
+            Assert.AreEqual(mockGames[0].MinimumPlayers, game.MinimumPlayers);
+            Assert.AreEqual(mockGames[0].MaximumPlayers, game.MaximumPlayers);
+            Assert.AreEqual(mockGames[0].Url, game.Url);
+        }
+
+        [Test(Description = "Test GetGameByUrl with a Url that doesn't exist in the collection")]
+        public void GetGameByUrl_InvalidUrl()
+        {
+            // Arrange
+            var service = new GameService();
+
+            // Act
+            Game game = service.GetGameByUrl("a-fake-url-0d9s8d");
 
             // Assert
             Assert.IsNull(game);
