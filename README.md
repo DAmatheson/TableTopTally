@@ -1,1 +1,1 @@
-Tabletop scorer made with ASP.Net MVC 5, WebAPI 2, and Angular
+Tabletop scorer made with ASP.NET MVC 5, WebAPI 2, AngularJS, and MongoDB
