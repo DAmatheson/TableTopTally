@@ -31,7 +31,7 @@ namespace TableTopTally.Tests.Helpers
             // Assert
             Assert.IsNotNull(testMongoEntity.Id);
             Assert.IsInstanceOf<ObjectId>(testMongoEntity.Id);
-            Assert.AreEqual(ObjectId.Parse(STRING_OBJECT_ID), testMongoEntity.Id);
+            Assert.That(testMongoEntity.Id, Is.EqualTo(ObjectId.Parse(STRING_OBJECT_ID)));
         }
 
         [Test(Description = "Test json.NET ObjectId converter with an invalid ObjectId")]
@@ -49,7 +49,7 @@ namespace TableTopTally.Tests.Helpers
             // Assert
             Assert.IsNotNull(testMongoEntity.Id);
             Assert.IsInstanceOf<ObjectId>(testMongoEntity.Id);
-            Assert.AreEqual(ObjectId.Empty, testMongoEntity.Id);
+            Assert.That(testMongoEntity.Id, Is.EqualTo(ObjectId.Empty));
         }
 
         [Test(Description = "Test json.NET ObjectId converter settings")]

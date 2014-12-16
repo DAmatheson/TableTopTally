@@ -42,7 +42,7 @@ namespace TableTopTally.Tests.Helpers
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ValidationResult>(result);
-            Assert.AreEqual("The Id must be a valid ObjectId.", result.ErrorMessage);
+            Assert.That(result.ErrorMessage, Is.EqualTo("The Id must be a valid ObjectId."));
         }
     }
 }

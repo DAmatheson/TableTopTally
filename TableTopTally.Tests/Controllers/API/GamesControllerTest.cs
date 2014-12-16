@@ -1,13 +1,11 @@
-﻿using System;
-using System.Net;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Http.Results;
 using TableTopTally.Controllers.API;
-using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
 
@@ -41,7 +39,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.GetAllGames() as OkNegotiatedContentResult<IEnumerable<Game>>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(games, result.Content);
+            Assert.That(result.Content, Is.EqualTo(games));
         }
 
         // Todo: Figure out what is returned if the db is empty
@@ -59,7 +57,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.GetAllGames() as OkNegotiatedContentResult<IEnumerable<Game>>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(emptyDb.Count(), result.Content.Count());
+            Assert.That(result.Content.Count(), Is.EqualTo(emptyDb.Count()));
         }
 
         [Test(Description = "Test GetGameById with a valid ObjectId that does exist in the DB")]
@@ -76,7 +74,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.GetGameById(game.Id) as OkNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(game, result.Content);
+            Assert.That(result.Content, Is.EqualTo(game));
         }
 
         [Test(Description = "Test GetGameById with a valid ObjectId that doesn't exist in the DB")]
@@ -125,7 +123,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.GetGameByUrl(game.Url) as OkNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(game, result.Content);
+            Assert.That(result.Content, Is.EqualTo(game));
         }
 
         [Test(Description = "Test GetGameByUrl with an invalid Url")]
@@ -163,12 +161,12 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(newGame.Id, result.Content.Id);
-            Assert.AreEqual(newGame.Name, result.Content.Name);
-            Assert.AreEqual(newGame.Url, result.Content.Url);
-            Assert.AreEqual(newGame.MinimumPlayers, result.Content.MinimumPlayers);
-            Assert.AreEqual(newGame.MaximumPlayers, result.Content.MaximumPlayers);
-            Assert.AreEqual(newGame, result.Content);
+            Assert.That(result.Content.Id, Is.EqualTo(newGame.Id));
+            Assert.That(result.Content.Name, Is.EqualTo(newGame.Name));
+            Assert.That(result.Content.Url, Is.EqualTo(newGame.Url));
+            Assert.That(result.Content.MinimumPlayers, Is.EqualTo(newGame.MinimumPlayers));
+            Assert.That(result.Content.MaximumPlayers, Is.EqualTo(newGame.MaximumPlayers));
+            Assert.That(result.Content, Is.EqualTo(newGame));
         }
 
         [Test(Description = "Test PostGame with valid data but a model error for empty Id")]
@@ -192,7 +190,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(newGame, result.Content);
+            Assert.That(result.Content, Is.EqualTo(newGame));
         }
 
         [Test(Description = "Test PostGame with a valid Game model to see if it returns the location")]
@@ -215,9 +213,9 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("DefaultApi", result.RouteName);
-            Assert.AreEqual("Games", result.RouteValues["controller"]);
-            Assert.AreEqual(newGame.Id, result.RouteValues["id"]);
+            Assert.That(result.RouteName, Is.EqualTo("DefaultApi"));
+            Assert.That(result.RouteValues["controller"], Is.EqualTo("Games"));
+            Assert.That(result.RouteValues["id"], Is.EqualTo(newGame.Id));
         }
 
         [Test(Description = "Test PostGame with a valid Game model to see if it returns the created game")]
@@ -240,7 +238,7 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.PostGame(newGame) as CreatedAtRouteNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(newGame, result.Content);
+            Assert.That(result.Content, Is.EqualTo(newGame));
         }
 
         [Test(Description = "Test PostGame with invalid model state")]
@@ -304,11 +302,11 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.PutGame(updatedGame.Id, updatedGame) as OkNegotiatedContentResult<Game>;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(updatedGame.Id, result.Content.Id);
-            Assert.AreEqual(updatedGame.Name, result.Content.Name);
-            Assert.AreEqual(updatedGame.MinimumPlayers, result.Content.MinimumPlayers);
-            Assert.AreEqual(updatedGame.MaximumPlayers, result.Content.MaximumPlayers);
-            Assert.AreEqual(updatedGame, result.Content);
+            Assert.That(result.Content.Id, Is.EqualTo(updatedGame.Id));
+            Assert.That(result.Content.Name, Is.EqualTo(updatedGame.Name));
+            Assert.That(result.Content.MinimumPlayers, Is.EqualTo(updatedGame.MinimumPlayers));
+            Assert.That(result.Content.MaximumPlayers, Is.EqualTo(updatedGame.MaximumPlayers));
+            Assert.That(result.Content, Is.EqualTo(updatedGame));
         }
 
         [Test(Description = "Test PutGame with a valid Game model that doesn't exist in the DB")]
@@ -387,7 +385,7 @@ namespace TableTopTally.Tests.Controllers.API
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<StatusCodeResult>(result);
-            Assert.AreEqual(HttpStatusCode.NoContent, result.StatusCode);
+            Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
         }
 
         [Test(Description = "Test DeleteGame with a valid ObjectId that doesn't exist in the DB")]
