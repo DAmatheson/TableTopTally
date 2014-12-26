@@ -260,7 +260,6 @@
     <Compile Include="Models\Variant.cs" />
     <Compile Include="MongoDB\Services\IGameService.cs" />
     <Compile Include="MongoDB\Services\IMongoService.cs" />
-    <Compile Include="MongoDB\Services\IPlaySessionService.cs" />
     <Compile Include="MongoDB\Services\IVariantService.cs" />
     <Compile Include="MongoDB\Services\MongoService.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -704,7 +703,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
