@@ -26,7 +26,7 @@ namespace TableTopTally
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             var settings = jsonFormatter.SerializerSettings;
             
-            settings.Converters.Add(new ObjectIdConverter()); // Add json -> ObjectId converter
+            settings.Converters.Add(new ObjectIdJsonConverter()); // Add json -> ObjectId converter
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //settings.Formatting = Formatting.Indented; // Makes json properly indented so it is readable
         }

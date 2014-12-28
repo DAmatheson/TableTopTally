@@ -233,7 +233,7 @@
     <Compile Include="Controllers\API\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Binders\ObjectIdApiBinder.cs" />
-    <Compile Include="Helpers\ObjectIdConverter.cs" />
+    <Compile Include="Helpers\ObjectIdJsonConverter.cs" />
     <Compile Include="Helpers\ObjectIdModelValidator.cs" />
     <Compile Include="Helpers\RankScores.cs" />
     <Compile Include="Models\ScoreItemHighScore.cs" />

@@ -1,4 +1,4 @@
-﻿/* ObjectIdConverter.cs
+﻿/* ObjectIdJsonConverter.cs
  * 
  * Purpose: Json.NET deserializing converter for ObjectIds
  * 
@@ -15,28 +15,16 @@ namespace TableTopTally.Helpers
     /// <summary>
     /// Json.NET converter for deserialization of json into ObjectIds
     /// </summary>
-    public class ObjectIdConverter : JsonConverter
+    public class ObjectIdJsonConverter : JsonConverter
     {
-        public override bool CanWrite
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanWrite { get { return false; } }
 
-        public override bool CanRead
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool CanRead { get { return true; } }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             // The default serialization works fine so it doesn't need to be handled here
-            throw new NotImplementedException();
+            throw new NotImplementedException("ObjectIdJsonConverter can't write json.");
         }
 
         public override object ReadJson(
@@ -51,7 +39,7 @@ namespace TableTopTally.Helpers
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof (ObjectId);
+            return objectType == typeof(ObjectId);
         }
     }
 }
