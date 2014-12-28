@@ -17,7 +17,7 @@ namespace TableTopTally.RouteConstraints
     /// </summary>
     public class QueryStringConstraint : IRouteConstraint
     {
-        private Regex Regex { get; set; }
+        private readonly Regex regex;
 
         /// <summary>
         /// Constructor that takes a regex string to match against.
@@ -26,7 +26,7 @@ namespace TableTopTally.RouteConstraints
         /// <param name="regex">Regex string to constrain the route by</param>
         public QueryStringConstraint(string regex)
         {
-            Regex = new Regex(regex, RegexOptions.IgnoreCase);
+            this.regex = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public bool Match(
@@ -37,11 +37,11 @@ namespace TableTopTally.RouteConstraints
             if (httpContext.Request.QueryString.AllKeys.Contains(parameterName))
             {
                 // Validate the matching querystring against the specified regex
-                return Regex.Match(httpContext.Request.QueryString[parameterName]).Success;
+                return regex.Match(httpContext.Request.QueryString[parameterName]).Success;
             }
             else if (values.ContainsKey(parameterName)) // Allows for ActionLink method to work properly
             {
-                return Regex.Match(values[parameterName].ToString()).Success;
+                return regex.Match(values[parameterName].ToString()).Success;
             }
 
             // Return false as the parameterName wasn't in the QueryString

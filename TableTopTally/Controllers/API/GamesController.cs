@@ -104,7 +104,7 @@ namespace TableTopTally.Controllers.API
             if (ModelState.IsValid)
             {
                 game.Id = ObjectId.GenerateNewId();
-                game.Url = game.Name.GenerateSlug(game.Id);
+                game.Url = game.Name.URLFriendly(game.Id);
 
                 var success = gameService.Create(game);
 

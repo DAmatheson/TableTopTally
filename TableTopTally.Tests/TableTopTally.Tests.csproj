@@ -117,6 +117,7 @@
     <Compile Include="UnitTests\Controllers\API\GamesControllerTest.cs" />
     <Compile Include="UnitTests\Helpers\ObjectIdConverterTest.cs" />
     <Compile Include="UnitTests\Helpers\ObjectIdModelValidatorTest.cs" />
+    <Compile Include="UnitTests\Helpers\UrlSlugTest.cs" />
     <Compile Include="UnitTests\MongoDB\MongoHelperTest.cs" />
     <Compile Include="Integration\MongoDB\Services\GameServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

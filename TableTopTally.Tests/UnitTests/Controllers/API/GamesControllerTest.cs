@@ -90,7 +90,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.GetGameById(notInDbId) as NotFoundResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
@@ -105,7 +104,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.GetGameById(ObjectId.Empty) as BadRequestErrorMessageResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
 
@@ -135,9 +133,8 @@ namespace TableTopTally.Tests.Controllers.API
             var controller = new GamesController(gameServiceStub.Object);
 
             // Act
-            var result = controller.GetGameByUrl("bad-url-8A0");
+            var result = controller.GetGameByUrl("bad-url-8A0") as NotFoundResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
@@ -279,7 +276,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.PostGame(newGame) as InternalServerErrorResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<InternalServerErrorResult>(result);
         }
 
@@ -327,7 +323,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.PutGame(newGame.Id, newGame);
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
@@ -343,7 +338,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.PutGame(ObjectId.GenerateNewId(), updateGame);
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
 
@@ -384,7 +378,6 @@ namespace TableTopTally.Tests.Controllers.API
             var result = controller.DeleteGame(validId) as StatusCodeResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<StatusCodeResult>(result);
             Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
         }
 
@@ -401,7 +394,6 @@ namespace TableTopTally.Tests.Controllers.API
             // Act
             var result = controller.DeleteGame(notInDbId) as NotFoundResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
@@ -416,9 +408,8 @@ namespace TableTopTally.Tests.Controllers.API
             GamesController controller = new GamesController(gameServiceStub.Object);
 
             // Act
-            var result = controller.DeleteGame(invalidId);
+            var result = controller.DeleteGame(invalidId) as NotFoundResult;
 
-            Assert.IsNotNull(result);
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
     }

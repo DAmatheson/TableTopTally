@@ -38,7 +38,7 @@ namespace TableTopTally.Models
             GroupId = groupId;
 
             Name = name;
-            Url = name.GenerateSlug();
+            Url = name.URLFriendly();
         }
 
         /// <summary>

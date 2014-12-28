@@ -40,7 +40,7 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             foreach (var game in mockGames)
             {
-                game.Url = game.Name.GenerateSlug(game.Id);
+                game.Url = game.Name.URLFriendly(game.Id);
 
                 service.Create(game);
             }
@@ -160,7 +160,7 @@ namespace TableTopTally.Tests.MongoDB.Services
                 MaximumPlayers = 2
             };
 
-            game.Url = game.Name.GenerateSlug(game.Id);
+            game.Url = game.Name.URLFriendly(game.Id);
 
             var service = new GameService();
 
@@ -185,7 +185,7 @@ namespace TableTopTally.Tests.MongoDB.Services
                 MaximumPlayers = 2
             };
 
-            game.Url = game.Name.GenerateSlug(mockGames[0].Id);
+            game.Url = game.Name.URLFriendly(mockGames[0].Id);
 
             var service = new GameService();
 
@@ -232,7 +232,7 @@ namespace TableTopTally.Tests.MongoDB.Services
                 MaximumPlayers = 3
             };
 
-            updatedGame.Url = updatedGame.Name.GenerateSlug(updatedGame.Id);
+            updatedGame.Url = updatedGame.Name.URLFriendly(updatedGame.Id);
 
             var service = new GameService();
 

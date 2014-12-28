@@ -247,7 +247,7 @@
     </Compile>
     <Compile Include="MongoDB\MongoHelper.cs" />
     <Compile Include="Binders\ObjectIdMvcBinder.cs" />
-    <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Helpers\UrlSlug.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Player.cs" />

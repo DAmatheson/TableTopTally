@@ -26,15 +26,12 @@ namespace TableTopTally.RouteConstraints
 
             if (values.TryGetValue(parameterName, out value) && value != null)
             {
-                ObjectId id;
-
                 if (value is ObjectId)
                 {
-                    id = (ObjectId) value;
-
-                    return id != ObjectId.Empty;
+                    return (ObjectId) value != ObjectId.Empty;
                 }
 
+                ObjectId id;
                 string valueString = Convert.ToString(value, CultureInfo.InvariantCulture);
 
                 if (ObjectId.TryParse(valueString, out id))
