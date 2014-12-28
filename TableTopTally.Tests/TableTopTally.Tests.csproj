@@ -118,7 +118,7 @@
     <Compile Include="UnitTests\Helpers\ObjectIdConverterTest.cs" />
     <Compile Include="UnitTests\Helpers\ObjectIdModelValidatorTest.cs" />
     <Compile Include="UnitTests\Helpers\UrlSlugTest.cs" />
-    <Compile Include="UnitTests\MongoDB\MongoHelperTest.cs" />
+    <Compile Include="Integration\MongoDB\MongoHelperTest.cs" />
     <Compile Include="Integration\MongoDB\Services\GameServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Controllers\HomeControllerTest.cs" />
@@ -135,7 +135,9 @@
       <Name>TableTopTally</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UnitTests\MongoDB\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

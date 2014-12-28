@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using NUnit.Framework;
 using TableTopTally.Controllers;
 
-namespace TableTopTally.Tests.Controllers
+namespace TableTopTally.Tests.UnitTests.Controllers
 {
     [TestFixture]
     public class HomeControllerTest

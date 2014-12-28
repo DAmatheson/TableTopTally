@@ -9,7 +9,7 @@ namespace TableTopTally.Tests.UnitTests.Helpers
     {
         [TestCase("")]
         [TestCase(null)]
-        [TestCase("      ")]
+        [TestCase(" ")]
         public void URLFriendly_EmptyInputs_ReturnEmptyString(string inputTitle)
         {
             string result = UrlSlug.URLFriendly(inputTitle);
@@ -183,11 +183,11 @@ namespace TableTopTally.Tests.UnitTests.Helpers
         public void URLFriendly_ObjectIdOverload_AppendsHexIdentifier()
         {
             string title = "a";
-            ObjectId id = new ObjectId("54a07c8a4a91a323e83d78d2");
+            ObjectId id = new ObjectId("53e3a8ad6c46bc0c80ea13b2");
 
             string result = UrlSlug.URLFriendly(title, id);
 
-            StringAssert.AreEqualIgnoringCase("a-8D1F10042DCA100", result);
+            StringAssert.AreEqualIgnoringCase("a-8D1807375173480", result);
         }
 
         [TestCase("àåáâäãåą", "aaaaaaaa")]

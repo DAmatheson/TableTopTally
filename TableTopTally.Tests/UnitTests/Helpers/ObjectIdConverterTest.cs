@@ -5,7 +5,7 @@ using NUnit.Framework;
 using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
 
-namespace TableTopTally.Tests.Helpers
+namespace TableTopTally.Tests.UnitTests.Helpers
 {
     [TestFixture]
     public class ObjectIdConverterTest

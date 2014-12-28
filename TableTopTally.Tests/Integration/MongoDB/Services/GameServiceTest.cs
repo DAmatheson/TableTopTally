@@ -1,18 +1,18 @@
-﻿using MongoDB.Bson;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
+using NUnit.Framework;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
 using TableTopTally.MongoDB;
 using TableTopTally.MongoDB.Services;
 
-namespace TableTopTally.Tests.MongoDB.Services
+namespace TableTopTally.Tests.Integration.MongoDB.Services
 {
     [TestFixture]
     public class GameServiceTest
     {
-        private static readonly List<Game> mockGames = new List<Game>
+        private static readonly List<Game> fakeGames = new List<Game>
             {
                 new Game { Name = "Game1", MinimumPlayers = 1, MaximumPlayers = 5 },
                 new Game { Name = "Game2", MinimumPlayers = 2, MaximumPlayers = 6 },
@@ -22,7 +22,7 @@ namespace TableTopTally.Tests.MongoDB.Services
         /// <summary>
         /// Clear out the games collection in the test database before each test
         /// </summary>
-        [SetUp]
+        [TearDown]
         public void ClearGamesCollection()
         {
             //Clear db
@@ -38,7 +38,7 @@ namespace TableTopTally.Tests.MongoDB.Services
         {
             var service = new GameService();
 
-            foreach (var game in mockGames)
+            foreach (var game in fakeGames)
             {
                 game.Url = game.Name.URLFriendly(game.Id);
 
@@ -77,11 +77,11 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             var gamesList = games.ToList();
 
-            Assert.That(gamesList.Count, Is.EqualTo(mockGames.Count));
-            Assert.That(gamesList[0].Name, Is.EqualTo(mockGames[0].Name));
-            Assert.That(gamesList[0].MinimumPlayers, Is.EqualTo(mockGames[0].MinimumPlayers));
-            Assert.That(gamesList[0].MaximumPlayers, Is.EqualTo(mockGames[0].MaximumPlayers));
-            Assert.That(gamesList[0].Url, Is.EqualTo(mockGames[0].Url));
+            Assert.That(gamesList.Count, Is.EqualTo(fakeGames.Count));
+            Assert.That(gamesList[0].Name, Is.EqualTo(fakeGames[0].Name));
+            Assert.That(gamesList[0].MinimumPlayers, Is.EqualTo(fakeGames[0].MinimumPlayers));
+            Assert.That(gamesList[0].MaximumPlayers, Is.EqualTo(fakeGames[0].MaximumPlayers));
+            Assert.That(gamesList[0].Url, Is.EqualTo(fakeGames[0].Url));
         }
 
         [Test(Description = "Test GetById with an Id that exists in the collection")]
@@ -93,14 +93,14 @@ namespace TableTopTally.Tests.MongoDB.Services
             var service = new GameService();
 
             // Act
-            Game game = service.GetById(mockGames[0].Id);
+            Game game = service.GetById(fakeGames[0].Id);
 
             // Assert
             Assert.IsNotNull(game);
-            Assert.That(game.Name, Is.EqualTo(mockGames[0].Name));
-            Assert.That(game.MinimumPlayers, Is.EqualTo(mockGames[0].MinimumPlayers));
-            Assert.That(game.MaximumPlayers, Is.EqualTo(mockGames[0].MaximumPlayers));
-            Assert.That(game.Id, Is.EqualTo(mockGames[0].Id));
+            Assert.That(game.Name, Is.EqualTo(fakeGames[0].Name));
+            Assert.That(game.MinimumPlayers, Is.EqualTo(fakeGames[0].MinimumPlayers));
+            Assert.That(game.MaximumPlayers, Is.EqualTo(fakeGames[0].MaximumPlayers));
+            Assert.That(game.Id, Is.EqualTo(fakeGames[0].Id));
         }
 
         [Test(Description = "Test GetById with an Id that doesn't exist in the collection")]
@@ -112,7 +112,7 @@ namespace TableTopTally.Tests.MongoDB.Services
             var service = new GameService();
 
             // Act
-            Game game = service.GetById(ObjectId.GenerateNewId());
+            Game game = service.GetById(new ObjectId("54a07c8a4a91a323e83d78d2"));
 
             // Assert
             Assert.IsNull(game);
@@ -127,7 +127,7 @@ namespace TableTopTally.Tests.MongoDB.Services
             var service = new GameService();
 
             // Act
-            bool deleted = service.Delete(mockGames[0].Id);
+            bool deleted = service.Delete(fakeGames[0].Id);
 
             // Assert
             Assert.IsTrue(deleted);
@@ -140,7 +140,7 @@ namespace TableTopTally.Tests.MongoDB.Services
             var service = new GameService();
 
             // Act
-            bool deleted = service.Delete(ObjectId.GenerateNewId());
+            bool deleted = service.Delete(new ObjectId("54a07c8a4a91a323e83d78d2"));
 
             // Assert
             Assert.IsFalse(deleted);
@@ -154,7 +154,7 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             Game game = new Game
             {
-                Id = ObjectId.GenerateNewId(),
+                Id = new ObjectId("54a07c8a4a91a323e83d78d2"),
                 Name = "A New Game",
                 MinimumPlayers = 1,
                 MaximumPlayers = 2
@@ -179,13 +179,13 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             Game game = new Game
             {
-                Id = mockGames[0].Id,
+                Id = fakeGames[0].Id,
                 Name = "A invalid new game",
                 MinimumPlayers = 1,
                 MaximumPlayers = 2
             };
 
-            game.Url = game.Name.URLFriendly(mockGames[0].Id);
+            game.Url = game.Name.URLFriendly(fakeGames[0].Id);
 
             var service = new GameService();
 
@@ -204,11 +204,11 @@ namespace TableTopTally.Tests.MongoDB.Services
 
             Game updatedGame = new Game
             {
-                Id = mockGames[0].Id,
-                Name = mockGames[0].Name + " Edit",
+                Id = fakeGames[0].Id,
+                Name = fakeGames[0].Name + " Edit",
                 MinimumPlayers = 3,
                 MaximumPlayers = 5,
-                Url = mockGames[0].Url
+                Url = fakeGames[0].Url
             };
 
             var service = new GameService();
@@ -226,7 +226,7 @@ namespace TableTopTally.Tests.MongoDB.Services
             // Arrange
             Game updatedGame = new Game
             {
-                Id = ObjectId.GenerateNewId(),
+                Id = new ObjectId("54a07c8a4a91a323e83d78d2"),
                 Name = "Invalid Id For Update",
                 MinimumPlayers = 2,
                 MaximumPlayers = 3
@@ -252,15 +252,15 @@ namespace TableTopTally.Tests.MongoDB.Services
             var service = new GameService();
 
             // Act
-            Game game = service.GetGameByUrl(mockGames[0].Url);
+            Game game = service.GetGameByUrl(fakeGames[0].Url);
 
             // Assert
             Assert.IsNotNull(game);
-            Assert.That(game.Id, Is.EqualTo(mockGames[0].Id));
-            Assert.That(game.Name, Is.EqualTo(mockGames[0].Name));
-            Assert.That(game.MinimumPlayers, Is.EqualTo(mockGames[0].MinimumPlayers));
-            Assert.That(game.MaximumPlayers, Is.EqualTo(mockGames[0].MaximumPlayers));
-            Assert.That(game.Url, Is.EqualTo(mockGames[0].Url));
+            Assert.That(game.Id, Is.EqualTo(fakeGames[0].Id));
+            Assert.That(game.Name, Is.EqualTo(fakeGames[0].Name));
+            Assert.That(game.MinimumPlayers, Is.EqualTo(fakeGames[0].MinimumPlayers));
+            Assert.That(game.MaximumPlayers, Is.EqualTo(fakeGames[0].MaximumPlayers));
+            Assert.That(game.Url, Is.EqualTo(fakeGames[0].Url));
         }
 
         [Test(Description = "Test GetGameByUrl with a Url that doesn't exist in the collection")]

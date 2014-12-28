@@ -1,19 +1,21 @@
-﻿using MongoDB.Bson;
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http.Results;
+using MongoDB.Bson;
+using Moq;
+using NUnit.Framework;
 using TableTopTally.Controllers.API;
 using TableTopTally.Models;
 using TableTopTally.MongoDB.Services;
 
-namespace TableTopTally.Tests.Controllers.API
+namespace TableTopTally.Tests.UnitTests.Controllers.API
 {
     [TestFixture]
     public class GamesControllerTest
     {
+        private const string STRING_OBJECT_ID = "53e3a8ad6c46bc0c80ea13b2";
+
         private static Mock<IGameService> GetGameServiceFake()
         {
             var getGameServiceFake = new Mock<IGameService>();
@@ -63,7 +65,7 @@ namespace TableTopTally.Tests.Controllers.API
         [Test(Description = "Test GetGameById with a valid ObjectId that does exist in the DB")]
         public void GetGameById_IdInDb_ReturnsMatchingGame()
         {
-            var game = new Game { Id = ObjectId.GenerateNewId() };
+            var game = new Game { Id = new ObjectId(STRING_OBJECT_ID) };
 
             var gameServiceStub = GetGameServiceFake();
             gameServiceStub.Setup(g => g.GetById(game.Id)).Returns(game);
@@ -80,7 +82,7 @@ namespace TableTopTally.Tests.Controllers.API
         [Test(Description = "Test GetGameById with a valid ObjectId that doesn't exist in the DB")]
         public void GetGameById_IdNotInDb_ReturnsNotFoundResult()
         {
-            ObjectId notInDbId = ObjectId.GenerateNewId();
+            ObjectId notInDbId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
             gameServiceStub.Setup(g => g.GetById(notInDbId)).Returns<Game>(null);
@@ -336,7 +338,7 @@ namespace TableTopTally.Tests.Controllers.API
             GamesController controller = new GamesController(gameServiceStub.Object);
 
             // Act
-            var result = controller.PutGame(ObjectId.GenerateNewId(), updateGame);
+            var result = controller.PutGame(new ObjectId(STRING_OBJECT_ID), updateGame);
 
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
@@ -367,7 +369,7 @@ namespace TableTopTally.Tests.Controllers.API
         [Test(Description = "Test DeleteGame with a valid ObjectId that exists in the DB")]
         public void DeleteGame_DeleteSucceeds_ReturnsNoContentCode()
         {
-            ObjectId validId = ObjectId.GenerateNewId();
+            ObjectId validId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
             gameServiceStub.Setup(g => g.Delete(validId)).Returns(true);
@@ -384,7 +386,7 @@ namespace TableTopTally.Tests.Controllers.API
         [Test(Description = "Test DeleteGame with a valid ObjectId that doesn't exist in the DB")]
         public void DeleteGame_DeleteFails_ReturnsNotFound()
         {
-            ObjectId notInDbId = ObjectId.GenerateNewId();
+            ObjectId notInDbId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
             gameServiceStub.Setup(g => g.Delete(notInDbId)).Returns(false);

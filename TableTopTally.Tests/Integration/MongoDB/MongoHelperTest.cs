@@ -3,7 +3,7 @@ using NUnit.Framework;
 using TableTopTally.Models;
 using TableTopTally.MongoDB;
 
-namespace TableTopTally.Tests.MongoDB
+namespace TableTopTally.Tests.Integration.MongoDB
 {
     [TestFixture]
     public class MongoHelperTest

@@ -6,12 +6,12 @@
  *      Drew Matheson, 2014.08.20: Created
 */
 
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using NUnit.Framework;
-using System.ComponentModel.DataAnnotations;
 using TableTopTally.Helpers;
 
-namespace TableTopTally.Tests.Helpers
+namespace TableTopTally.Tests.UnitTests.Helpers
 {
     [TestFixture]
     public class ObjectIdModelValidatorTest
@@ -20,13 +20,12 @@ namespace TableTopTally.Tests.Helpers
         public void ValidObjectId()
         {
             // Arrange
-            var validObjectId = ObjectId.GenerateNewId();
+            var validObjectId = new ObjectId("54a07c8a4a91a323e83d78d2");
 
             // Act
-            var result = ObjectIdModelValidator.IsValid(validObjectId);
+            ValidationResult result = ObjectIdModelValidator.IsValid(validObjectId);
 
             // Assert
-            Assert.IsNull(result);
             Assert.AreSame(ValidationResult.Success, result);
         }
 
@@ -37,11 +36,10 @@ namespace TableTopTally.Tests.Helpers
             var invalidObjectId = ObjectId.Empty;
 
             // Act
-            var result = ObjectIdModelValidator.IsValid(invalidObjectId);
+            ValidationResult result = ObjectIdModelValidator.IsValid(invalidObjectId);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ValidationResult>(result);
             Assert.That(result.ErrorMessage, Is.EqualTo("The Id must be a valid ObjectId."));
         }
     }
