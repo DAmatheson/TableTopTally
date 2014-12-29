@@ -67,5 +67,34 @@ namespace TableTopTally.Tests.UnitTests.Binders
             Assert.IsNotNull(result);
             Assert.AreEqual(ObjectId.Empty, result.Value);
         }
+
+        [Test]
+        public void BindModel_WithNull_ReturnsEmptyObjectId()
+        {
+            var formCollection = new NameValueCollection
+            {
+                { "Id", null }
+            };
+
+            var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
+            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(FakeMongoEntity));
+
+            var bindingContext = new ModelBindingContext
+            {
+                ModelName = "Id",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
+
+            ObjectIdMvcBinder binder = new ObjectIdMvcBinder();
+
+            ControllerContext controllerContext = new ControllerContext();
+
+            // Act
+            ObjectId? result = binder.BindModel(controllerContext, bindingContext) as ObjectId?;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(ObjectId.Empty, result.Value);
+        }
     }
 }

@@ -7,6 +7,7 @@
 
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
+using System.Web.Http.ValueProviders;
 using MongoDB.Bson;
 
 namespace TableTopTally.Binders
@@ -20,9 +21,9 @@ namespace TableTopTally.Binders
                 return false;
             }
 
-            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            ValueProviderResult value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            if (value == null)
+            if (value == null || value.AttemptedValue == null || value.RawValue == null)
             {
                 return false;
             }
