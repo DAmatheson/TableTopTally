@@ -6,7 +6,7 @@ using TableTopTally.MongoDB;
 namespace TableTopTally.Tests.Integration.MongoDB
 {
     [TestFixture]
-    public class MongoHelperTest
+    public class MongoHelperTests
     {
         [Test(Description = "Test getting a collection from mongo helper")]
         public void GetCollection()

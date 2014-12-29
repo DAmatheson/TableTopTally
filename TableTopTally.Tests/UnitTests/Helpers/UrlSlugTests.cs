@@ -5,7 +5,7 @@ using TableTopTally.Helpers;
 namespace TableTopTally.Tests.UnitTests.Helpers
 {
     [TestFixture]
-    public class UrlSlugTest
+    public class UrlSlugTests
     {
         [TestCase("")]
         [TestCase(null)]

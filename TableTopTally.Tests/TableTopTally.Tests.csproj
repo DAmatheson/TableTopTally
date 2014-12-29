@@ -116,14 +116,14 @@
   <ItemGroup>
     <Compile Include="Helpers\FakeMongoEntity.cs" />
     <Compile Include="UnitTests\Binders\ObjectIdMvcBinderTests.cs" />
-    <Compile Include="UnitTests\Controllers\API\GamesControllerTest.cs" />
-    <Compile Include="UnitTests\Helpers\ObjectIdConverterTest.cs" />
-    <Compile Include="UnitTests\Helpers\ObjectIdModelValidatorTest.cs" />
-    <Compile Include="UnitTests\Helpers\UrlSlugTest.cs" />
-    <Compile Include="Integration\MongoDB\MongoHelperTest.cs" />
-    <Compile Include="Integration\MongoDB\Services\GameServiceTest.cs" />
+    <Compile Include="UnitTests\Controllers\API\GamesControllerTests.cs" />
+    <Compile Include="UnitTests\Helpers\ObjectIdConverterTests.cs" />
+    <Compile Include="UnitTests\Helpers\ObjectIdModelValidatorTests.cs" />
+    <Compile Include="UnitTests\Helpers\UrlSlugTests.cs" />
+    <Compile Include="Integration\MongoDB\MongoHelperTests.cs" />
+    <Compile Include="Integration\MongoDB\Services\GameServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\Controllers\HomeControllerTest.cs" />
+    <Compile Include="UnitTests\Controllers\HomeControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

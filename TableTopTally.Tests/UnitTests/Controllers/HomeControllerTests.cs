@@ -5,7 +5,7 @@ using TableTopTally.Controllers;
 namespace TableTopTally.Tests.UnitTests.Controllers
 {
     [TestFixture]
-    public class HomeControllerTest
+    public class HomeControllerTests
     {
         [Test]
         public void Index()

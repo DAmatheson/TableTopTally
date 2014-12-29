@@ -14,7 +14,7 @@ using TableTopTally.Helpers;
 namespace TableTopTally.Tests.UnitTests.Helpers
 {
     [TestFixture]
-    public class ObjectIdModelValidatorTest
+    public class ObjectIdModelValidatorTests
     {
         [Test(Description = "Test the ObjectIdModelValidator with a valid ObjectId")]
         public void ValidObjectId()

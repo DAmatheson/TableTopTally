@@ -12,7 +12,7 @@ using TableTopTally.MongoDB.Services;
 namespace TableTopTally.Tests.UnitTests.Controllers.API
 {
     [TestFixture]
-    public class GamesControllerTest
+    public class GamesControllerTests
     {
         private const string STRING_OBJECT_ID = "53e3a8ad6c46bc0c80ea13b2";
 

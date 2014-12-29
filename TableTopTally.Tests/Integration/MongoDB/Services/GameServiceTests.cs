@@ -10,7 +10,7 @@ using TableTopTally.MongoDB.Services;
 namespace TableTopTally.Tests.Integration.MongoDB.Services
 {
     [TestFixture]
-    public class GameServiceTest
+    public class GameServiceTests
     {
         private static readonly List<Game> fakeGames = new List<Game>
             {
