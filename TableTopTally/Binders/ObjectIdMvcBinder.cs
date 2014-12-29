@@ -18,9 +18,12 @@ namespace TableTopTally.Binders
     {
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            var result = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            return new ObjectId(result.AttemptedValue);
+            ObjectId result; 
+            ObjectId.TryParse(value.AttemptedValue, out result);
+
+            return result;
         }
     }
 }

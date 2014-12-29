@@ -6,12 +6,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using TableTopTally.Helpers;
-using TableTopTally.MongoDB.Entities;
+using TableTopTally.Tests.Helpers;
 
 namespace TableTopTally.Tests.UnitTests.Helpers
 {
-    public class FakeMongoEntity : MongoEntity { } // Class with only a ObjectId Id property
-
     [TestFixture]
     public class ObjectIdJsonConverterTest
     {

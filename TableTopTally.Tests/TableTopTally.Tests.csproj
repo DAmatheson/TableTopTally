@@ -114,6 +114,8 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\FakeMongoEntity.cs" />
+    <Compile Include="UnitTests\Binders\ObjectIdMvcBinderTests.cs" />
     <Compile Include="UnitTests\Controllers\API\GamesControllerTest.cs" />
     <Compile Include="UnitTests\Helpers\ObjectIdConverterTest.cs" />
     <Compile Include="UnitTests\Helpers\ObjectIdModelValidatorTest.cs" />
