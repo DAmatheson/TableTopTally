@@ -1,4 +1,4 @@
-﻿/* CustomActionValueBinder.cs
+﻿/* FromUriOnGetActionValueBinder.cs
  * Purpose: ActionValueBinder that treats GET action parameters as if they had the [FromUri] attribute
  * 
  * Revision History:
@@ -15,7 +15,7 @@ namespace TableTopTally.Binders
     /// <summary>
     /// Binds GET requests as if the parameters had the [FromUri] attribute
     /// </summary>
-    public class CustomActionValueBinder : DefaultActionValueBinder
+    public class FromUriOnGetActionValueBinder : DefaultActionValueBinder
     {
         protected override HttpParameterBinding GetParameterBinding(HttpParameterDescriptor parameter)
         {

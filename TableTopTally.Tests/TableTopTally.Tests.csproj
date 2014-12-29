@@ -125,6 +125,7 @@
     <Compile Include="Integration\MongoDB\Services\GameServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Controllers\HomeControllerTests.cs" />
+    <Compile Include="UnitTests\RouteConstraints\QueryStringConstraintTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

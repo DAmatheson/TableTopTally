@@ -18,8 +18,8 @@ namespace TableTopTally
             // Set up Unity for dependency injection
             config.DependencyResolver = new UnityResolver(UnityConfig.GetContainer());
 
-            // Replace ActionValueBinder with CustomActionValueBinder which uses [FromUri] on GET
-            config.Services.Replace(typeof(IActionValueBinder), new CustomActionValueBinder());
+            // Replace ActionValueBinder with FromUriOnGetActionValueBinder which uses [FromUri] on GET
+            config.Services.Replace(typeof(IActionValueBinder), new FromUriOnGetActionValueBinder());
 
             // Add the ObjectId binder to the list of binders
             var objectIdProvider = new SimpleModelBinderProvider(typeof(ObjectId), new ObjectIdApiBinder());
