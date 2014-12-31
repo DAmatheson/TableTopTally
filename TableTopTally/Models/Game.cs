@@ -45,7 +45,7 @@ namespace TableTopTally.Models
         /// </summary>
         [Required(ErrorMessage = "Maximum Players number is required.")]
         [Range(1, 99, ErrorMessage =  "Maximum Players must be between 1 and 99.")]
-        [CompareValues("MinimumPlayers", CompareValues.GreatThanOrEqualTo,
+        [CompareValues("MinimumPlayers", ComparisonCriteria.GreatThanOrEqualTo,
             ErrorMessage = "Minimum Players must be less than or equal to Maximum Players.")]
         public int MaximumPlayers { get; set; }
     }

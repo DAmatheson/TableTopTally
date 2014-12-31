@@ -27,14 +27,14 @@ namespace TableTopTally.Attributes
         /// <summary>
         /// The comparison criteria used for this instance
         /// </summary>
-        public CompareValues Criteria { get; set; }
+        public ComparisonCriteria Criteria { get; set; }
 
         /// <summary>
         /// Creates the attribute
         /// </summary>
         /// <param name="otherProperty">The other property to compare to</param>
-        /// <param name="criteria">The CompareValues Enum comparison criteria</param>
-        public CompareValuesAttribute(string otherProperty, CompareValues criteria)
+        /// <param name="criteria">The <see cref="ComparisonCriteria"/> to use when comparing</param>
+        public CompareValuesAttribute(string otherProperty, ComparisonCriteria criteria)
         {
             if (otherProperty == null)
                 throw new ArgumentNullException("otherProperty");
@@ -79,14 +79,14 @@ namespace TableTopTally.Attributes
             var other = property.GetValue(validationContext.ObjectInstance, null);
 
             // Equals to comparison
-            if (Criteria == CompareValues.EqualTo)
+            if (Criteria == ComparisonCriteria.EqualTo)
             {
                 if (Equals(value, other))
                 {
                     return ValidationResult.Success;
                 }
             }
-            else if (Criteria == CompareValues.NotEqualTo)
+            else if (Criteria == ComparisonCriteria.NotEqualTo)
             {
                 if (!Equals(value, other))
                 {
@@ -108,22 +108,22 @@ namespace TableTopTally.Attributes
                 // Compare the objects
                 var result = Comparer.Default.Compare(value, other);
 
-                if (Criteria == CompareValues.GreaterThan && result > 0)
+                if (Criteria == ComparisonCriteria.GreaterThan && result > 0)
                 {
                     return ValidationResult.Success;
                 }
 
-                if (Criteria == CompareValues.LessThan && result < 0)
+                if (Criteria == ComparisonCriteria.LessThan && result < 0)
                 {
                     return ValidationResult.Success;
                 }
 
-                if (Criteria == CompareValues.GreatThanOrEqualTo && result >= 0)
+                if (Criteria == ComparisonCriteria.GreatThanOrEqualTo && result >= 0)
                 {
                     return ValidationResult.Success;
                 }
 
-                if (Criteria == CompareValues.LessThanOrEqualTo && result <= 0)
+                if (Criteria == ComparisonCriteria.LessThanOrEqualTo && result <= 0)
                 {
                     return ValidationResult.Success;
                 }
@@ -149,9 +149,9 @@ namespace TableTopTally.Attributes
     }
 
     /// <summary>
-    /// Indicates a comparison criteria used by the CompareValues attribute
+    /// Indicates a comparison criteria used by the ComparisonCriteria attribute
     /// </summary>
-    public enum CompareValues
+    public enum ComparisonCriteria
     {
         /// <summary>
         /// Check if the values are equal
