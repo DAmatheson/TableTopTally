@@ -3,8 +3,9 @@
  * 
  * Revision History:
  *      Drew Matheson, 2014.06.09: Created
- */ 
+ */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TableTopTally.Models;
@@ -23,6 +24,9 @@ namespace TableTopTally.Helpers
         /// <returns>IEnumerable for the top 3 rankings</returns>
         public static IEnumerable<Ranking> Descending(IEnumerable<Ranking> unranked)
         {
+            if (unranked == null)
+                throw new ArgumentNullException("unranked");
+
             var grouped = unranked.GroupBy(r => r.Score);
             var ordered = grouped.OrderByDescending(g => g.Key);
 

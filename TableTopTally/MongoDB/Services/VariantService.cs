@@ -34,15 +34,15 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the edit completed successfully</returns>
         public bool Edit(Variant variant)
         {
-            // Bug: This might keep adding duplicate ScoreItems to the Variant
-            return !variantCollection.Update(
+            WriteConcernResult result = variantCollection.Update(
                 Query.EQ("_id", variant.Id),
                 Update.
                     Set("Name", variant.Name).
                     Set("Url", variant.Url).
                     Set("TrackScores", variant.TrackScores).
-                    PushEachWrapped("ScoreItems", variant.ScoreItems)).
-                HasLastErrorMessage;
+                    SetWrapped("ScoreItems", variant.ScoreItems));
+
+            return !result.HasLastErrorMessage && result.DocumentsAffected >= 1;
         }
     }
 }
