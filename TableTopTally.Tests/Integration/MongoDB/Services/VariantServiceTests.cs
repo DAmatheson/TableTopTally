@@ -1,37 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using MongoDB.Bson;
 using NUnit.Framework;
 using TableTopTally.Models;
-using TableTopTally.MongoDB;
 using TableTopTally.MongoDB.Services;
 
 namespace TableTopTally.Tests.Integration.MongoDB.Services
 {
     [TestFixture]
-    class VariantServiceTests
+    class VariantServiceTests : BaseMongoServiceTests<VariantService, Variant>
     {
-        //[TearDown]
-        public void DropCollection()
+        protected override VariantService GetService()
         {
-            //Clear db
-            var collection = MongoHelper.GetTableTopCollection<Variant>();
-
-            collection.Drop();
+            return new VariantService();
         }
 
-        private Variant CreateVariant(bool invalidId = false)
+        protected override Variant CreateEntity(string idString)
         {
-            string id = "54a07c8a4a91a323e83d78d2";
-
-            if (invalidId)
-            {
-                id = "";
-            }
             return new Variant
             {
                 GameId = new ObjectId("53e3a8ad6c46bc0c80ea13b2"),
-                Id = new ObjectId(id),
+                Id = new ObjectId(idString),
                 Name = "Variant",
                 TrackScores = true,
                 Url = "FakeUrl",
@@ -42,16 +30,11 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             };
         }
 
-        private VariantService CreateVariantService()
-        {
-            return new VariantService();
-        }
-
         [Test]
         public void Edit_WithValidVariantNotInDb_ReturnsFalse()
         {
-            Variant entry = CreateVariant();
-            VariantService service = CreateVariantService();
+            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            VariantService service = GetService();
 
             bool result = service.Edit(entry);
 
@@ -61,8 +44,8 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         [Test]
         public void Edit_WithValidVariantInDb_ReturnsTrue()
         {
-            Variant entry = CreateVariant();
-            VariantService service = CreateVariantService();
+            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            VariantService service = GetService();
 
             service.Create(entry);
 
@@ -77,8 +60,8 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         [Test]
         public void Edit_WithValidVariantInDb_DoesNotDuplicateScoreItems()
         {
-            Variant entry = CreateVariant();
-            VariantService service = CreateVariantService();
+            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            VariantService service = GetService();
 
             service.Create(entry);
             entry.ScoreItems.Add(entry.ScoreItems[0]);
@@ -93,10 +76,10 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void GetById_AfterEditOfVariant_ReturnsVariant()
+        public void GetById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
         {
-            Variant entry = CreateVariant();
-            VariantService service = CreateVariantService();
+            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            VariantService service = GetService();
 
             service.Create(entry);
             entry.Name = "a";
@@ -111,22 +94,20 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void GetById_WithValidVariantInDb_ReturnsSameVariant()
+        public override void GetById_IdInCollection_ReturnsMatchingEntity()
         {
-            Variant entry = CreateVariant();
-            VariantService service = CreateVariantService();
+            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            VariantService service = GetService();
 
             service.Create(entry);
 
             // Act
-
             Variant retrieved = service.GetById(entry.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entry.Id));
             Assert.That(retrieved.GameId, Is.EqualTo(entry.GameId));
             Assert.That(retrieved.Name, Is.EqualTo(entry.Name));
-            Assert.That(retrieved.TrackScores, Is.EqualTo(entry.TrackScores));
             Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entry.ScoreItems.Count));
         }
     }

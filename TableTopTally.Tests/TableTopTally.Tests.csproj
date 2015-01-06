@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\FakeMongoEntity.cs" />
+    <Compile Include="Integration\MongoDB\Services\BaseMongoServiceTests.cs" />
     <Compile Include="Integration\MongoDB\Services\VariantServiceTests.cs" />
     <Compile Include="UnitTests\Binders\ObjectIdApiBinderTests.cs" />
     <Compile Include="UnitTests\Binders\ObjectIdMvcBinderTests.cs" />
