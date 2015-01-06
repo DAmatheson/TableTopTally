@@ -6,7 +6,8 @@ using TableTopTally.MongoDB.Services;
 
 namespace TableTopTally.Tests.Integration.MongoDB.Services
 {
-    public abstract class BaseMongoServiceTests<TService, TEntity> where TService: IMongoService<TEntity> where TEntity : IMongoEntity
+    public abstract class BaseMongoServiceTests<TService, TEntity> where TService : IMongoService<TEntity>
+                                                                   where TEntity : IMongoEntity
     {
         protected abstract TService GetService();
 
@@ -38,6 +39,19 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             bool result = service.Create(entity);
 
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Create_IdInCollection_ReturnsFalse()
+        {
+            TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
+            TService service = GetService();
+
+            AddEntityToCollection(entity, service);
+
+            bool result = service.Create(entity);
+
+            Assert.IsFalse(result);
         }
 
         [Test]
@@ -89,5 +103,15 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
         }
 
+        [Test]
+        public void GetById_IdNotInCollection_ReturnsNull()
+        {
+            ObjectId id = new ObjectId(VALID_STRING_OBJECT_ID);
+            TService service = GetService();
+
+            TEntity retrieved = service.GetById(id);
+
+            Assert.IsNull(retrieved);
+        }
     }
 }

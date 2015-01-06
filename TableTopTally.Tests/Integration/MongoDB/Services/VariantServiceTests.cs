@@ -31,84 +31,84 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void Edit_WithValidVariantNotInDb_ReturnsFalse()
+        public void Edit_IdNotInDb_ReturnsFalse()
         {
-            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
 
-            bool result = service.Edit(entry);
+            bool result = service.Edit(entity);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void Edit_WithValidVariantInDb_ReturnsTrue()
+        public void Edit_IdInDb_ReturnsTrue()
         {
-            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
 
-            service.Create(entry);
+            AddEntityToCollection(entity, service);
 
-            entry.Name = "UpdatedVariant";
+            entity.Name = "UpdatedVariant";
 
             // Act
-            bool result = service.Edit(entry);
+            bool result = service.Edit(entity);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Edit_WithValidVariantInDb_DoesNotDuplicateScoreItems()
+        public void Edit_IdInDb_DoesNotDuplicateScoreItems()
         {
-            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
 
-            service.Create(entry);
-            entry.ScoreItems.Add(entry.ScoreItems[0]);
-            service.Edit(entry);
+            AddEntityToCollection(entity, service);
+            entity.ScoreItems.Add(entity.ScoreItems[0]);
+            service.Edit(entity);
 
             // Act
-            Variant retrieved = service.GetById(entry.Id);
+            Variant retrieved = service.GetById(entity.Id);
 
             Assert.IsNotNull(retrieved);
-            Assert.That(retrieved.Id, Is.EqualTo(entry.Id));
-            Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entry.ScoreItems.Count));
+            Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
+            Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entity.ScoreItems.Count));
         }
 
         [Test]
         public void GetById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
         {
-            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
 
-            service.Create(entry);
-            entry.Name = "a";
-            service.Edit(entry);
+            AddEntityToCollection(entity, service);
+            entity.Name = "a";
+            service.Edit(entity);
 
             // Act
-            Variant retrieved = service.GetById(entry.Id);
+            Variant retrieved = service.GetById(entity.Id);
 
             Assert.IsNotNull(retrieved);
-            Assert.That(retrieved.Id, Is.EqualTo(entry.Id));
-            Assert.That(retrieved.Name, Is.EqualTo(entry.Name));
+            Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
+            Assert.That(retrieved.Name, Is.EqualTo(entity.Name));
         }
 
         [Test]
         public override void GetById_IdInCollection_ReturnsMatchingEntity()
         {
-            Variant entry = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
 
-            service.Create(entry);
+            AddEntityToCollection(entity, service);
 
             // Act
-            Variant retrieved = service.GetById(entry.Id);
+            Variant retrieved = service.GetById(entity.Id);
 
             Assert.IsNotNull(retrieved);
-            Assert.That(retrieved.Id, Is.EqualTo(entry.Id));
-            Assert.That(retrieved.GameId, Is.EqualTo(entry.GameId));
-            Assert.That(retrieved.Name, Is.EqualTo(entry.Name));
-            Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entry.ScoreItems.Count));
+            Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
+            Assert.That(retrieved.GameId, Is.EqualTo(entity.GameId));
+            Assert.That(retrieved.Name, Is.EqualTo(entity.Name));
+            Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entity.ScoreItems.Count));
         }
     }
 }
