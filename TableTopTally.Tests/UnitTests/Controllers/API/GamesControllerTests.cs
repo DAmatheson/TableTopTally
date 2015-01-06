@@ -68,7 +68,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             var game = new Game { Id = new ObjectId(STRING_OBJECT_ID) };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.GetById(game.Id)).Returns(game);
+            gameServiceStub.Setup(g => g.FindById(game.Id)).Returns(game);
 
             var controller = new GamesController(gameServiceStub.Object);
 
@@ -85,7 +85,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             ObjectId notInDbId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.GetById(notInDbId)).Returns<Game>(null);
+            gameServiceStub.Setup(g => g.FindById(notInDbId)).Returns<Game>(null);
 
             var controller = new GamesController(gameServiceStub.Object);
 
@@ -152,7 +152,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Create(newGame)).Returns(true);
+            gameServiceStub.Setup(g => g.Add(newGame)).Returns(true);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 
@@ -180,7 +180,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Create(newGame)).Returns(true);
+            gameServiceStub.Setup(g => g.Add(newGame)).Returns(true);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
             controller.ModelState.AddModelError("game.Id", "Id is required.");
@@ -204,7 +204,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Create(newGame)).Returns(true);
+            gameServiceStub.Setup(g => g.Add(newGame)).Returns(true);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 
@@ -229,7 +229,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Create(newGame)).Returns(true);
+            gameServiceStub.Setup(g => g.Add(newGame)).Returns(true);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 
@@ -271,7 +271,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Create(newGame)).Returns(false);
+            gameServiceStub.Setup(g => g.Add(newGame)).Returns(false);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 
@@ -372,7 +372,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             ObjectId validId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Delete(validId)).Returns(true);
+            gameServiceStub.Setup(g => g.Remove(validId)).Returns(true);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 
@@ -389,7 +389,7 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             ObjectId notInDbId = new ObjectId(STRING_OBJECT_ID);
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.Delete(notInDbId)).Returns(false);
+            gameServiceStub.Setup(g => g.Remove(notInDbId)).Returns(false);
 
             GamesController controller = new GamesController(gameServiceStub.Object);
 

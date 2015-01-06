@@ -34,11 +34,11 @@ namespace TableTopTally.MongoDB.Services
         }
 
         /// <summary>
-        /// Creates a document in the database
+        /// Adds a document to the database
         /// </summary>
-        /// <param name="entity">Entity to be created</param>
+        /// <param name="entity">Entity to be added</param>
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
-        public virtual bool Create(T entity)
+        public virtual bool Add(T entity)
         {
             //return !collection.Insert(entity).HasLastErrorMessage;
 
@@ -63,17 +63,17 @@ namespace TableTopTally.MongoDB.Services
         /// </summary>
         /// <param name="id">ObjectId of the document to remove</param>
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
-        public virtual bool Delete(ObjectId id)
+        public virtual bool Remove(ObjectId id)
         {
             return collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).DocumentsAffected == 1;
         }
 
         /// <summary>
-        /// Gets a document by its ObjectId
+        /// Finds a document by its ObjectId
         /// </summary>
         /// <param name="id">ObjectId of the document to find</param>
         /// <returns>A deserialization of the document to a <see cref="T"/> object</returns>
-        public virtual T GetById(ObjectId id)
+        public virtual T FindById(ObjectId id)
         {
             T t;
 

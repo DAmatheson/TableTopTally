@@ -51,7 +51,7 @@ namespace TableTopTally.Controllers.API
 
             if (id != ObjectId.Empty)
             {
-                game = gameService.GetById(id);
+                game = gameService.FindById(id);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace TableTopTally.Controllers.API
                 game.Id = ObjectId.GenerateNewId();
                 game.Url = game.Name.URLFriendly(game.Id);
 
-                var success = gameService.Create(game);
+                var success = gameService.Add(game);
 
                 if (success)
                 {
@@ -174,7 +174,7 @@ namespace TableTopTally.Controllers.API
 
             if (id != ObjectId.Empty)
             {
-                removed = gameService.Delete(id);
+                removed = gameService.Remove(id);
             }
 
             if (!removed)

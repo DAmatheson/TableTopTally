@@ -40,7 +40,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         {
             foreach (Game game in games)
             {
-                service.Create(game);
+                service.Add(game);
             }
         }
 
@@ -76,14 +76,14 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public override void GetById_IdInCollection_ReturnsMatchingEntity()
+        public override void FindById_IdInCollection_ReturnsMatchingEntity()
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
             AddEntityToCollection(entity, service);
 
             // Act
-            Game game = service.GetById(entity.Id);
+            Game game = service.FindById(entity.Id);
 
             Assert.IsNotNull(game);
             Assert.That(game.Name, Is.EqualTo(entity.Name));

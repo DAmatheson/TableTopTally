@@ -19,7 +19,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
 
         protected virtual void AddEntityToCollection(TEntity entity, TService service)
         {
-            service.Create(entity);
+            service.Add(entity);
         }
 
         [SetUp]
@@ -31,85 +31,85 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void Create_ValidEntity_ReturnsTrue()
+        public void Add_ValidEntity_ReturnsTrue()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            bool result = service.Create(entity);
+            bool result = service.Add(entity);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Create_IdInCollection_ReturnsFalse()
+        public void Add_IdInCollection_ReturnsFalse()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
             AddEntityToCollection(entity, service);
 
-            bool result = service.Create(entity);
+            bool result = service.Add(entity);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void Create_EmptyId_HasIdAfterInsert()
+        public void Add_EmptyId_HasIdAfterInsert()
         {
             TEntity entity = CreateEntity(EMPTY_OBJECT_ID_STRING);
             TService service = GetService();
 
-            service.Create(entity);
+            service.Add(entity);
 
             Assert.That(entity.Id, Is.Not.EqualTo(ObjectId.Empty));
         }
 
         [Test]
-        public void Delete_IdInCollection_ReturnsTrue()
+        public void Remove_IdInCollection_ReturnsTrue()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
             AddEntityToCollection(entity, service);
 
-            bool result = service.Delete(entity.Id);
+            bool result = service.Remove(entity.Id);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Delete_IdNotInCollection_ReturnsFalse()
+        public void Remove_IdNotInCollection_ReturnsFalse()
         {
             ObjectId id = new ObjectId(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            bool result = service.Delete(id);
+            bool result = service.Remove(id);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public virtual void GetById_IdInCollection_ReturnsMatchingEntity()
+        public virtual void FindById_IdInCollection_ReturnsMatchingEntity()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
             AddEntityToCollection(entity, service);
 
-            TEntity retrieved = service.GetById(entity.Id);
+            TEntity retrieved = service.FindById(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
         }
 
         [Test]
-        public void GetById_IdNotInCollection_ReturnsNull()
+        public void FindById_IdNotInCollection_ReturnsNull()
         {
             ObjectId id = new ObjectId(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            TEntity retrieved = service.GetById(id);
+            TEntity retrieved = service.FindById(id);
 
             Assert.IsNull(retrieved);
         }

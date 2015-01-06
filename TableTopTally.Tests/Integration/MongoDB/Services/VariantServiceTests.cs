@@ -68,7 +68,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             service.Edit(entity);
 
             // Act
-            Variant retrieved = service.GetById(entity.Id);
+            Variant retrieved = service.FindById(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -76,7 +76,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void GetById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
+        public void FindById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
         {
             Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
@@ -86,7 +86,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             service.Edit(entity);
 
             // Act
-            Variant retrieved = service.GetById(entity.Id);
+            Variant retrieved = service.FindById(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -94,7 +94,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public override void GetById_IdInCollection_ReturnsMatchingEntity()
+        public override void FindById_IdInCollection_ReturnsMatchingEntity()
         {
             Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             VariantService service = GetService();
@@ -102,7 +102,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             AddEntityToCollection(entity, service);
 
             // Act
-            Variant retrieved = service.GetById(entity.Id);
+            Variant retrieved = service.FindById(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));

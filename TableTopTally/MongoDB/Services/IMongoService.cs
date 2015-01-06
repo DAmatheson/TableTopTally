@@ -13,10 +13,10 @@ namespace TableTopTally.MongoDB.Services
 {
     public interface IMongoService<T> where T : IMongoEntity
     {
-        bool Create(T entity);
+        bool Add(T entity);
 
-        bool Delete(ObjectId id);
+        bool Remove(ObjectId id);
 
-        T GetById(ObjectId id);
+        T FindById(ObjectId id);
     }
 }
