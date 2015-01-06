@@ -109,13 +109,13 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
 
-        [Test(Description = "Test GetGameByUrl with a valid Url")]
+        [Test(Description = "Test FindByUrl with a valid Url")]
         public void GetGame_ValidUrl_ReturnsMatchingGame()
         {
             var game = new Game { Url = "fake-url-8A801B" };
 
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.GetGameByUrl(game.Url)).Returns(game);
+            gameServiceStub.Setup(g => g.FindByUrl(game.Url)).Returns(game);
 
             var controller = new GamesController(gameServiceStub.Object);
 
@@ -126,11 +126,11 @@ namespace TableTopTally.Tests.UnitTests.Controllers.API
             Assert.That(result.Content, Is.EqualTo(game));
         }
 
-        [Test(Description = "Test GetGameByUrl with an invalid Url")]
+        [Test(Description = "Test FindByUrl with an invalid Url")]
         public void GetGame_InvalidUrl_ReturnsNotFound()
         {
             var gameServiceStub = GetGameServiceFake();
-            gameServiceStub.Setup(g => g.GetGameByUrl("bad-url-8A0")).Returns((Game) null);
+            gameServiceStub.Setup(g => g.FindByUrl("bad-url-8A0")).Returns((Game) null);
 
             var controller = new GamesController(gameServiceStub.Object);
 

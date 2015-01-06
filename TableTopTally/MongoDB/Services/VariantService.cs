@@ -6,6 +6,12 @@
 *      Drew Matheson, 2014.05.29: Created
 */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Ajax.Utilities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using TableTopTally.Models;
@@ -43,6 +49,15 @@ namespace TableTopTally.MongoDB.Services
                     SetWrapped("ScoreItems", variant.ScoreItems));
 
             return !result.HasLastErrorMessage && result.DocumentsAffected >= 1;
+        }
+
+        public IEnumerable<Variant> FindGameVariants(ObjectId gameId)
+        {
+            // Unsure: Throw argument exception or just return empty enumerable
+            if (gameId == ObjectId.Empty)
+                return Enumerable.Empty<Variant>();
+
+            return collection.Find(Query.EQ("GameId", gameId));
         }
     }
 }

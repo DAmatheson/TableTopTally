@@ -52,7 +52,7 @@ namespace TableTopTally.MongoDB.Services
         /// </summary>
         /// <param name="gameUrl">Url value of the game to find</param>
         /// <returns>The Game object or null if a gameUrl is unmatched</returns>
-        public Game GetGameByUrl(string gameUrl)
+        public Game FindByUrl(string gameUrl)
         {
             Game game;
 

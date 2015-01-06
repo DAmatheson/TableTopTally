@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using NUnit.Framework;
 using TableTopTally.Models;
@@ -64,7 +65,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             VariantService service = GetService();
 
             AddEntityToCollection(entity, service);
-            entity.ScoreItems.Add(entity.ScoreItems[0]);
+            entity.ScoreItems.Add(new ScoreItem { Name = "b", Description = "b" });
             service.Edit(entity);
 
             // Act
@@ -109,6 +110,52 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             Assert.That(retrieved.GameId, Is.EqualTo(entity.GameId));
             Assert.That(retrieved.Name, Is.EqualTo(entity.Name));
             Assert.That(retrieved.ScoreItems.Count, Is.EqualTo(entity.ScoreItems.Count));
+        }
+
+        [Test]
+        public void FindGameVariants_EmptyCollection_ReturnsEmptyEnumerable()
+        {
+            VariantService service = GetService();
+
+            // Act
+            IEnumerable<Variant> retrievedVariants = service.FindGameVariants(new ObjectId(VALID_STRING_OBJECT_ID));
+
+            Assert.IsNotNull(retrievedVariants);
+            Assert.That(retrievedVariants.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void FindGameVariants_EmptyId_ReturnsEmptyEnumerable()
+        {
+            VariantService service = GetService();
+
+            // Act
+            IEnumerable<Variant> retrievedVariants = service.FindGameVariants(ObjectId.Empty);
+
+            Assert.IsNotNull(retrievedVariants);
+            Assert.That(retrievedVariants.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void FindGameVariants_GameIdInDb_ReturnsMatchingVariants()
+        {
+            Variant entity = CreateEntity(VALID_STRING_OBJECT_ID);
+            Variant entity2 = CreateEntity("54a4290ed968bc127cdeaf2e");
+            VariantService service = GetService();
+
+            AddEntityToCollection(entity, service);
+            AddEntityToCollection(entity2, service);
+
+            // Act
+            IEnumerable<Variant> retrievedVariants = service.FindGameVariants(entity.GameId);
+
+            Assert.IsNotNull(retrievedVariants);
+
+            List<Variant> variantsList = retrievedVariants.ToList();
+
+            Assert.That(variantsList.Count, Is.EqualTo(2));
+            Assert.That(variantsList[0].Id, Is.EqualTo(entity.Id));
+            Assert.That(variantsList[1].Id, Is.EqualTo(entity2.Id));
         }
     }
 }

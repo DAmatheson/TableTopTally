@@ -40,7 +40,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         {
             foreach (Game game in games)
             {
-                service.Add(game);
+                AddEntityToCollection(game, service);
             }
         }
 
@@ -120,7 +120,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void GetGameByUrl_ValidUrl_ReturnsMatchingGame()
+        public void FindByUrl_ValidUrl_ReturnsMatchingGame()
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
 
@@ -129,7 +129,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             AddEntityToCollection(entity, service);
 
             // Act
-            Game retrieved = service.GetGameByUrl(entity.Url);
+            Game retrieved = service.FindByUrl(entity.Url);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -140,12 +140,12 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void GetGameByUrl_NonExistantUrl_ReturnsNull()
+        public void FindByUrl_NonExistantUrl_ReturnsNull()
         {
             GameService service = GetService();
 
             // Act
-            Game retrieved = service.GetGameByUrl("a-non-existant-url");
+            Game retrieved = service.FindByUrl("a-non-existant-url");
 
             Assert.IsNull(retrieved);
         }

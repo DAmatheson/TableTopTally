@@ -17,6 +17,6 @@ namespace TableTopTally.MongoDB.Services
 
         IEnumerable<Game> GetGames();
 
-        Game GetGameByUrl(string gameUrl);
+        Game FindByUrl(string gameUrl);
     }
 }

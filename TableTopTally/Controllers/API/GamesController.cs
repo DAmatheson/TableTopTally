@@ -76,7 +76,7 @@ namespace TableTopTally.Controllers.API
         [HttpGet]
         public IHttpActionResult GetGameByUrl(string url)
         {
-            Game game = gameService.GetGameByUrl(url);
+            Game game = gameService.FindByUrl(url);
 
             if (game == null)
             {
