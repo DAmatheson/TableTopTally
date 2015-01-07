@@ -20,19 +20,6 @@ namespace TableTopTally.Tests.UnitTests.Attributes
 
     public struct NonComparable { }
 
-    public class TestingCompareValuesAttribute : CompareValuesAttribute
-    {
-        public TestingCompareValuesAttribute(string otherProperty, ComparisonCriteria criteria) 
-            : base(otherProperty, criteria)
-        {
-        }
-
-        public ValidationResult CallIsValid(object value, ValidationContext context)
-        {
-            return IsValid(value, context);
-        }
-    }
-
     [TestFixture]
     public class CompareValuesAttributeTests
     {
@@ -46,32 +33,38 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         }
 
         [Test]
+        public void RequiresValidationContext_IsTrue()
+        {
+            CompareValuesAttribute attribute = new CompareValuesAttribute("property", ComparisonCriteria.EqualTo);
+
+            Assert.That(attribute.RequiresValidationContext);
+        }
+
+        [Test]
         public void Constructor_NullOtherProperty_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new CompareValuesAttribute(null, ComparisonCriteria.EqualTo));
         }
 
         [Test]
-        public void CompareValues_InvalidOtherProperty_ThrowsArgumentException()
+        public void CompareValues_InvalidOtherProperty_ThrowsInvalidOperationException()
         {
             FakeEntity entity = CreateFakeEntity();
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
-            TestingCompareValuesAttribute attribute = new TestingCompareValuesAttribute("InvalidProperty", ComparisonCriteria.EqualTo);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("InvalidProperty", ComparisonCriteria.EqualTo);
 
-            Assert.Throws<ArgumentException>(() => attribute.CallIsValid(entity.Minimum, validationContext));
+            Assert.Throws<InvalidOperationException>(() => attribute.Validate(entity.Minimum, validationContext));
         }
 
         [Test]
-        public void CompareValues_DifferentTypedProperties_IsInvalid()
+        public void CompareValues_DifferentTypedProperties_ThrowsInvalidOperationException()
         {
             FakeEntity entity = CreateFakeEntity();
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
-            TestingCompareValuesAttribute attribute = new TestingCompareValuesAttribute("DifferentType", ComparisonCriteria.EqualTo);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("DifferentType", ComparisonCriteria.EqualTo);
 
             // Act
-            ValidationResult result = attribute.CallIsValid(entity.Minimum, validationContext);
-
-            Assert.That(result.ErrorMessage, Is.StringContaining("types"));
+            Assert.Throws<InvalidOperationException>(() => attribute.Validate(entity.Minimum, validationContext));
         }
 
         [Test]
@@ -79,9 +72,9 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         {
             FakeEntity entity = CreateFakeEntity();
             ValidationContext validationContext = new ValidationContext(entity){ MemberName = "Uncomparable" };
-            TestingCompareValuesAttribute attribute = new TestingCompareValuesAttribute("OtherUncomparable", ComparisonCriteria.LessThan);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("OtherUncomparable", ComparisonCriteria.LessThan);
 
-            ValidationResult result = attribute.CallIsValid(entity.Uncomparable, validationContext);
+            ValidationResult result = attribute.GetValidationResult(entity.Uncomparable, validationContext);
 
             Assert.That(result.ErrorMessage, Is.StringContaining("IComparable"));
         }
@@ -98,10 +91,10 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         {
             FakeEntity entity = CreateFakeEntity(minimum, maximum);
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
-            TestingCompareValuesAttribute attribute = new TestingCompareValuesAttribute("Maximum", criteria);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", criteria);
 
             // Act
-            ValidationResult result = attribute.CallIsValid(entity.Minimum, validationContext);
+            ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
 
             Assert.That(result, Is.EqualTo(ValidationResult.Success));
         }
@@ -116,10 +109,10 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         {
             FakeEntity entity = CreateFakeEntity(minimum, maximum);
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
-            TestingCompareValuesAttribute attribute = new TestingCompareValuesAttribute("Maximum", criteria);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", criteria);
 
             // Act
-            ValidationResult result = attribute.CallIsValid(entity.Minimum, validationContext);
+            ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
 
             Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
         }

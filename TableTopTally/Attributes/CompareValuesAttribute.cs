@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Reflection;
 
 namespace TableTopTally.Attributes
 {
@@ -19,6 +20,14 @@ namespace TableTopTally.Attributes
         AllowMultiple = false)]
     public class CompareValuesAttribute : ValidationAttribute
     {
+        public override bool RequiresValidationContext
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         /// <summary>
         /// The other property to compare to
         /// </summary>
@@ -52,34 +61,35 @@ namespace TableTopTally.Attributes
         /// </summary>
         /// <param name="value">The value of the object to validate</param>
         /// <param name="validationContext">The validation context</param>
-        /// <exception cref="ArgumentException">Thrown if otherProperty can't be found</exception>
         /// <returns>A validation result if the object is invalid, null if the object is valid</returns>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown if otherProperty can't be found or
+        ///     the properties aren't the same type
+        /// </exception>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             // The other property
-            var property = validationContext.ObjectType.GetProperty(OtherProperty);
+            PropertyInfo otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
 
-            // Check it is not null
-            if (property == null)
+            if (otherPropertyInfo == null)
             {
-                throw new ArgumentException(string.Format("The {0} property couldn't be found. The otherProperty" +
-                    " value supplied to the constructor was likely incorrect.", OtherProperty));
-                // Unsure: Which is better: return new ValidationResult(String.Format("Unknown property: {0}.", OtherProperty));
+                throw new InvalidOperationException(string.Format("The {0} property couldn't be found. " +
+                    "The otherProperty value supplied to the constructor must be the name of a property.",
+                    OtherProperty));
             }
 
             // Check types
             if (validationContext.ObjectType.GetProperty(validationContext.MemberName).PropertyType !=
-                property.PropertyType)
+                otherPropertyInfo.PropertyType)
             {
-                return
-                    new ValidationResult(
-                        String.Format(
-                            "The types of {0} and {1} must be the same.", validationContext.DisplayName,
-                            OtherProperty));
+                throw new InvalidOperationException(String.Format(
+                    "The types of the properties {0} and {1} must be the same.",
+                    validationContext.DisplayName,
+                    OtherProperty));
             }
 
             // Get the other value
-            var other = property.GetValue(validationContext.ObjectInstance, null);
+            var other = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
 
             // Equals to comparison
             if (Criteria == ComparisonCriteria.EqualTo)
