@@ -52,6 +52,7 @@ namespace TableTopTally.Attributes
         /// </summary>
         /// <param name="value">The value of the object to validate</param>
         /// <param name="validationContext">The validation context</param>
+        /// <exception cref="ArgumentException">Thrown if otherProperty can't be found</exception>
         /// <returns>A validation result if the object is invalid, null if the object is valid</returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -61,7 +62,9 @@ namespace TableTopTally.Attributes
             // Check it is not null
             if (property == null)
             {
-                return new ValidationResult(String.Format("Unknown property: {0}.", OtherProperty));
+                throw new ArgumentException(string.Format("The {0} property couldn't be found. The otherProperty" +
+                    " value supplied to the constructor was likely incorrect.", OtherProperty));
+                // Unsure: Which is better: return new ValidationResult(String.Format("Unknown property: {0}.", OtherProperty));
             }
 
             // Check types
@@ -96,7 +99,8 @@ namespace TableTopTally.Attributes
             else
             {
                 // Check that both objects implement IComparable
-                if (!(value is IComparable) || !(other is IComparable))
+                // Note: Both must be the same type to get here, so only one check is required
+                if (!(value is IComparable))
                 {
                     return
                         new ValidationResult(
@@ -140,11 +144,12 @@ namespace TableTopTally.Attributes
         /// <returns></returns>
         public override string FormatErrorMessage(string name)
         {
+            // Get the description of the ComparisonCriteria enum value
             var description = (DescriptionAttribute)TypeDescriptor.GetProperties(this)["Criteria"].
                 Attributes[typeof(DescriptionAttribute)];
 
             return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name,
-                OtherProperty, description);
+                OtherProperty, description.Description);
         }
     }
 
