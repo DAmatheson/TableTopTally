@@ -57,14 +57,22 @@ namespace TableTopTally.Helpers
         /// <returns>A collection of the top 3 rankings</returns>
         public static IEnumerable<Ranking> RankSession(PlaySession session)
         {
-            List<Ranking> ranks = (from player in session.Players
-                                   let total =
-                                       session.Rounds.Sum(
-                                           round =>
-                                               round.Scores.Where(
-                                                   playerScore => playerScore.PlayerId == player.Id).
-                                               Sum(playerScore => playerScore.ScoreTotal))
-                                   select new Ranking { PlayerId = player.Id, Score = total }).ToList();
+            if (session == null)
+                throw new ArgumentNullException("session");
+
+            IEnumerable<Ranking> ranks = session.Players.
+                Select(
+                    player => new
+                    {
+                        playerId = player.Id,
+                        total = session.Rounds.
+                        Sum(
+                            round =>
+                                round.Scores.Where(playerScore => playerScore.PlayerId == player.Id).
+                                Sum(playerScore => playerScore.ScoreTotal))
+                    }).
+                Select(player => new Ranking { PlayerId = player.playerId, Score = player.total });//.
+                //ToList();
 
             return Descending(ranks);
         }
