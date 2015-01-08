@@ -3,11 +3,12 @@ using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 
 namespace TableTopTally.Attributes
 {
-    // Note: Slightly modified version of 
+    // Note: Modified version of 
     // http://cncrrnt.com/blog/index.php/2011/01/custom-validationattribute-for-comparing-properties/
 
     /// <summary>
@@ -33,6 +34,8 @@ namespace TableTopTally.Attributes
         /// </summary>
         public string OtherProperty { get; set; }
 
+        public string OtherPropertyDisplayName { get; private set; }
+
         /// <summary>
         /// The comparison criteria used for this instance
         /// </summary>
@@ -44,6 +47,7 @@ namespace TableTopTally.Attributes
         /// <param name="otherProperty">The other property to compare to</param>
         /// <param name="criteria">The <see cref="ComparisonCriteria"/> to use when comparing</param>
         public CompareValuesAttribute(string otherProperty, ComparisonCriteria criteria)
+            : base ("{0} must be {1} {2}")
         {
             if (otherProperty == null)
                 throw new ArgumentNullException("otherProperty");
@@ -78,20 +82,18 @@ namespace TableTopTally.Attributes
                     OtherProperty));
             }
 
-            // Check types
-            if (validationContext.ObjectType.GetProperty(validationContext.MemberName).PropertyType !=
-                otherPropertyInfo.PropertyType)
+            if (value.GetType() != otherPropertyInfo.PropertyType)
             {
+                SetOtherPropertyDisplayName(otherPropertyInfo);
+
                 throw new InvalidOperationException(String.Format(
                     "The types of the properties {0} and {1} must be the same.",
                     validationContext.DisplayName,
-                    OtherProperty));
+                    OtherPropertyDisplayName));
             }
 
-            // Get the other value
-            var other = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
+            object other = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
 
-            // Equals to comparison
             if (Criteria == ComparisonCriteria.EqualTo)
             {
                 if (Equals(value, other))
@@ -108,10 +110,12 @@ namespace TableTopTally.Attributes
             }
             else
             {
-                // Check that both objects implement IComparable
-                // Note: Both must be the same type to get here, so only one check is required
+                // Check that the type being compared implements IComparable
+                // Note: Both must be the same type so only one check is required
                 if (!(value is IComparable))
                 {
+                    SetOtherPropertyDisplayName(otherPropertyInfo);
+
                     return
                         new ValidationResult(
                             String.Format(
@@ -144,6 +148,8 @@ namespace TableTopTally.Attributes
             }
 
             // Got this far must mean the items don't meet the comparison criteria
+            SetOtherPropertyDisplayName(otherPropertyInfo);
+
             return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
         }
 
@@ -154,12 +160,61 @@ namespace TableTopTally.Attributes
         /// <returns></returns>
         public override string FormatErrorMessage(string name)
         {
-            // Get the description of the ComparisonCriteria enum value
-            var description = (DescriptionAttribute)TypeDescriptor.GetProperties(this)["Criteria"].
-                Attributes[typeof(DescriptionAttribute)];
-
             return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name,
-                OtherProperty, description.Description);
+                GetCriteriaDescription(Criteria), OtherPropertyDisplayName ?? OtherProperty);
+        }
+
+        /// <summary>
+        ///     Gets the description value for the supplied ComparisonCriteria value
+        ///     or if it doesn't have a description, its string representation
+        /// </summary>
+        /// <param name="value">The <see cref="ComparisonCriteria"/> value</param>
+        /// <returns>The values description</returns>
+        private static string GetCriteriaDescription(ComparisonCriteria value)
+        {
+            DescriptionAttribute attribute = 
+                (DescriptionAttribute) value.GetType().GetField(value.ToString()).
+                    GetCustomAttributes(typeof(DescriptionAttribute)).FirstOrDefault();
+
+            if (attribute != null)
+            {
+                return attribute.Description; 
+            }
+
+            return value.ToString();
+        }
+
+        /// <summary>
+        ///     Sets the OtherPropertyDisplayName from display name attributes or if non exist,
+        ///     the member name of the OtherProperty
+        /// </summary>
+        /// <param name="info"></param>
+        private void SetOtherPropertyDisplayName(PropertyInfo info)
+        {
+            if (OtherPropertyDisplayName == null)
+            {
+                DisplayNameAttribute displayNameAttribute =
+                    Attribute.GetCustomAttribute(info, typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+
+                if (displayNameAttribute != null)
+                {
+                    OtherPropertyDisplayName = displayNameAttribute.DisplayName;
+                }
+                else
+                {
+                    DisplayAttribute displayAttribute =
+                        Attribute.GetCustomAttribute(info, typeof(DisplayAttribute)) as DisplayAttribute;
+
+                    if (displayAttribute != null)
+                    {
+                        OtherPropertyDisplayName = displayAttribute.GetName();
+                    }
+                    else
+                    {
+                        OtherPropertyDisplayName = info.Name;
+                    }
+                }
+            }
         }
     }
 

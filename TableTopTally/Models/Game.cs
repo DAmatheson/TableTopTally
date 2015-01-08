@@ -6,6 +6,7 @@
  *      Drew Matheson, 2014.05.29: Created
  */
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using TableTopTally.Attributes;
@@ -36,6 +37,7 @@ namespace TableTopTally.Models
         /// <summary>
         /// The Minimum number of players for the game
         /// </summary>
+        [DisplayName("Minimum Players")]
         [Required(ErrorMessage = "Minimum Players number is required.")]
         [Range(1, 99, ErrorMessage = "Minimum Players must be between 1 and 99.")]
         public int MinimumPlayers { get; set; }
@@ -43,6 +45,7 @@ namespace TableTopTally.Models
         /// <summary>
         /// The Maximum number of players for the game
         /// </summary>
+        [DisplayName("Maximum Players")]
         [Required(ErrorMessage = "Maximum Players number is required.")]
         [Range(1, 99, ErrorMessage =  "Maximum Players must be between 1 and 99.")]
         [CompareValues("MinimumPlayers", ComparisonCriteria.GreatThanOrEqualTo,

@@ -1,14 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 using TableTopTally.Attributes;
 
 namespace TableTopTally.Tests.UnitTests.Attributes
 {
-    public class FakeEntity
+    public class ComparisonEntity
     {
+        [DisplayName("MinDisplayName")]
         public int Minimum { get; set; }
 
+        [Display(Name = "MaxDisplay")]
         public int Maximum { get; set; }
 
         public string DifferentType { get; set; }
@@ -23,9 +26,9 @@ namespace TableTopTally.Tests.UnitTests.Attributes
     [TestFixture]
     public class CompareValuesAttributeTests
     {
-        private FakeEntity CreateFakeEntity(int min = 0, int max = 0)
+        private ComparisonEntity CreateComparisonEntity(int min = 0, int max = 0)
         {
-            return new FakeEntity
+            return new ComparisonEntity
             {
                 Minimum = min,
                 Maximum = max
@@ -49,7 +52,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [Test]
         public void CompareValues_InvalidOtherProperty_ThrowsInvalidOperationException()
         {
-            FakeEntity entity = CreateFakeEntity();
+            ComparisonEntity entity = CreateComparisonEntity();
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
             CompareValuesAttribute attribute = new CompareValuesAttribute("InvalidProperty", ComparisonCriteria.EqualTo);
 
@@ -59,7 +62,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [Test]
         public void CompareValues_DifferentTypedProperties_ThrowsInvalidOperationException()
         {
-            FakeEntity entity = CreateFakeEntity();
+            ComparisonEntity entity = CreateComparisonEntity();
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
             CompareValuesAttribute attribute = new CompareValuesAttribute("DifferentType", ComparisonCriteria.EqualTo);
 
@@ -70,7 +73,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [Test]
         public void CompareValues_UncomparableProperties_IsInvalid()
         {
-            FakeEntity entity = CreateFakeEntity();
+            ComparisonEntity entity = CreateComparisonEntity();
             ValidationContext validationContext = new ValidationContext(entity){ MemberName = "Uncomparable" };
             CompareValuesAttribute attribute = new CompareValuesAttribute("OtherUncomparable", ComparisonCriteria.LessThan);
 
@@ -89,7 +92,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [TestCase(ComparisonCriteria.LessThanOrEqualTo, 0, 1)]
         public void CompareValues_MinimumComparedToMaximumWithValidValues_IsValid(ComparisonCriteria criteria, int minimum, int maximum)
         {
-            FakeEntity entity = CreateFakeEntity(minimum, maximum);
+            ComparisonEntity entity = CreateComparisonEntity(minimum, maximum);
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
             CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", criteria);
 
@@ -107,7 +110,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [TestCase(ComparisonCriteria.LessThanOrEqualTo, 1, 0)]
         public void CompareValues_MinimumComparedToMaximumWithInvalidValues_IsInvalid(ComparisonCriteria criteria, int minimum, int maximum)
         {
-            FakeEntity entity = CreateFakeEntity(minimum, maximum);
+            ComparisonEntity entity = CreateComparisonEntity(minimum, maximum);
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
             CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", criteria);
 
@@ -115,6 +118,48 @@ namespace TableTopTally.Tests.UnitTests.Attributes
             ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
 
             Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
+        }
+
+        [Test]
+        public void GetValidationResult_InvalidValues_UsesDisplayNameAttributeValueFromOtherProperty()
+        {
+            ComparisonEntity entity = CreateComparisonEntity(1, 0);
+            ValidationContext validationContext = new ValidationContext(entity) { MemberName = "MinDisplayName" };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", ComparisonCriteria.LessThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
+
+            Assert.That(result.ErrorMessage, Is.StringContaining("MaxDisplay"));
+        }
+
+        [Test]
+        public void GetValidationResult_InvalidValues_UsesDisplayAttributeNameValueFromOtherProperty()
+        {
+            ComparisonEntity entity = CreateComparisonEntity(1, 0);
+            ValidationContext validationContext = new ValidationContext(entity) { MemberName = "MaxDisplay" };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Minimum", ComparisonCriteria.GreaterThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
+
+            Assert.That(result.ErrorMessage, Is.StringContaining("MinDisplayName"));
+        }
+
+        [Test]
+        public void GetValidationResult_InvalidValues_UsesDescriptionOfComparisonCriteria()
+        {
+            ComparisonEntity entity = CreateComparisonEntity(1, 0);
+            ValidationContext validationContext = new ValidationContext(entity)
+            {
+                MemberName = "Minimum"
+            };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", ComparisonCriteria.LessThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
+
+            Assert.That(result.ErrorMessage, Is.StringContaining("<"));
         }
     }
 }
