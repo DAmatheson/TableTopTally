@@ -14,7 +14,9 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         [Display(Name = "MaxDisplay")]
         public int Maximum { get; set; }
 
-        public string DifferentType { get; set; }
+        public string StringType { get; set; }
+
+        public string DefaultToNull { get; set; }
 
         public NonComparable Uncomparable { get; set; }
 
@@ -64,7 +66,7 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         {
             ComparisonEntity entity = CreateComparisonEntity();
             ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
-            CompareValuesAttribute attribute = new CompareValuesAttribute("DifferentType", ComparisonCriteria.EqualTo);
+            CompareValuesAttribute attribute = new CompareValuesAttribute("StringType", ComparisonCriteria.LessThan);
 
             // Act
             Assert.Throws<InvalidOperationException>(() => attribute.Validate(entity.Minimum, validationContext));
@@ -147,6 +149,24 @@ namespace TableTopTally.Tests.UnitTests.Attributes
         }
 
         [Test]
+        public void GetValidationResult_InvalidValuesWithoutDisplayName_UsesNameOfOtherProperty()
+        {
+            ComparisonEntity entity = CreateComparisonEntity();
+            entity.DefaultToNull = "";
+            entity.StringType = "";
+            ValidationContext validationContext = new ValidationContext(entity)
+            {
+                MemberName = "StringType"
+            };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("DefaultToNull", ComparisonCriteria.LessThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(entity.StringType, validationContext);
+
+            Assert.That(result.ErrorMessage, Is.StringContaining("DefaultToNull"));
+        }
+
+        [Test]
         public void GetValidationResult_InvalidValues_UsesDescriptionOfComparisonCriteria()
         {
             ComparisonEntity entity = CreateComparisonEntity(1, 0);
@@ -160,6 +180,32 @@ namespace TableTopTally.Tests.UnitTests.Attributes
             ValidationResult result = attribute.GetValidationResult(entity.Minimum, validationContext);
 
             Assert.That(result.ErrorMessage, Is.StringContaining("<"));
+        }
+
+        [Test]
+        public void GetValidationResult_OneNullValue_IsInvalid()
+        {
+            ComparisonEntity entity = CreateComparisonEntity(min: 1);
+            ValidationContext validationContext = new ValidationContext(entity) { MemberName = "Minimum" };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("Maximum", ComparisonCriteria.LessThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(null, validationContext);
+
+            Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
+        }
+
+        [Test]
+        public void GetValidationResult_BothNull_IsValid()
+        {
+            ComparisonEntity entity = CreateComparisonEntity();
+            ValidationContext validationContext = new ValidationContext(entity) { MemberName = "StringType" };
+            CompareValuesAttribute attribute = new CompareValuesAttribute("DefaultToNull", ComparisonCriteria.LessThan);
+
+            // Act
+            ValidationResult result = attribute.GetValidationResult(entity.StringType, validationContext);
+
+            Assert.That(result, Is.EqualTo(ValidationResult.Success));
         }
     }
 }

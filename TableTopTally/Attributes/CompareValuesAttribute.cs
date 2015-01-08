@@ -82,34 +82,39 @@ namespace TableTopTally.Attributes
                     OtherProperty));
             }
 
-            if (value.GetType() != otherPropertyInfo.PropertyType)
+            object otherValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
+
+            if (value == null && otherValue == null)
             {
-                SetOtherPropertyDisplayName(otherPropertyInfo);
-
-                throw new InvalidOperationException(String.Format(
-                    "The types of the properties {0} and {1} must be the same.",
-                    validationContext.DisplayName,
-                    OtherPropertyDisplayName));
+                return ValidationResult.Success;
             }
-
-            object other = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
 
             if (Criteria == ComparisonCriteria.EqualTo)
             {
-                if (Equals(value, other))
+                if (Equals(value, otherValue))
                 {
                     return ValidationResult.Success;
                 }
             }
             else if (Criteria == ComparisonCriteria.NotEqualTo)
             {
-                if (!Equals(value, other))
+                if (!Equals(value, otherValue))
                 {
                     return ValidationResult.Success;
                 }
             }
-            else
+            else if (value != null)
             {
+                if (value.GetType() != otherPropertyInfo.PropertyType)
+                {
+                    SetOtherPropertyDisplayName(otherPropertyInfo);
+
+                    throw new InvalidOperationException(String.Format(
+                        "The types of the properties {0} and {1} must be the same.",
+                        validationContext.DisplayName,
+                        OtherPropertyDisplayName));
+                }
+
                 // Check that the type being compared implements IComparable
                 // Note: Both must be the same type so only one check is required
                 if (!(value is IComparable))
@@ -124,7 +129,7 @@ namespace TableTopTally.Attributes
                 }
 
                 // Compare the objects
-                var result = Comparer.Default.Compare(value, other);
+                var result = Comparer.Default.Compare(value, otherValue);
 
                 if (Criteria == ComparisonCriteria.GreaterThan && result > 0)
                 {
@@ -208,10 +213,6 @@ namespace TableTopTally.Attributes
                     if (displayAttribute != null)
                     {
                         OtherPropertyDisplayName = displayAttribute.GetName();
-                    }
-                    else
-                    {
-                        OtherPropertyDisplayName = info.Name;
                     }
                 }
             }
