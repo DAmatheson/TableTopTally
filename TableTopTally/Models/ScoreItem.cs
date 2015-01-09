@@ -6,7 +6,6 @@
  *      Drew Matheson, 2014.05.29: Created
  */ 
 
-using MongoDB.Bson;
 using TableTopTally.Annotations;
 using TableTopTally.MongoDB.Entities;
 
@@ -19,18 +18,6 @@ namespace TableTopTally.Models
     {
         [UsedImplicitly]
         public ScoreItem() { }
-
-        /// <summary>
-        /// Initializes a new instance of the ScoreItem class
-        /// </summary>
-        /// <param name="name">The name of the score item</param>
-        /// <param name="description">A description for the score item</param>
-        public ScoreItem(string name, string description)
-        {
-            Id = ObjectId.GenerateNewId();
-            Name = name;
-            Description = description;
-        }
 
         /// <summary>
         /// The ScoreItems Name

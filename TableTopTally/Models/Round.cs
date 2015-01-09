@@ -20,18 +20,6 @@ namespace TableTopTally.Models
         public Round() { }
 
         /// <summary>
-        /// Initializes a new instance of the Round class, optionally auto-initializing properties
-        /// </summary>
-        /// <param name="initialize">bool indicating whether to auto-initialize properties</param>
-        public Round(bool initialize)
-        {
-            if (initialize)
-            {
-                Scores = new List<PlayerScore>();
-            }
-        }
-
-        /// <summary>
         /// The round number
         /// </summary>
         public int Number { get; set; }

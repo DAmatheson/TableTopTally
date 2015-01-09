@@ -26,7 +26,11 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
                 Url = "FakeUrl",
                 ScoreItems = new List<ScoreItem>
                 {
-                    new ScoreItem("a", "a")
+                    new ScoreItem
+                    {
+                        Name = "a",
+                        Description = "a"
+                    }
                 }
             };
         }

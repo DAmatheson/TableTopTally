@@ -23,17 +23,6 @@ namespace TableTopTally.Models
         public PlayerScore() { }
 
         /// <summary>
-        /// Initializes a new instance of the PlayerScore class
-        /// </summary>
-        /// <param name="playerId">ObjectId for the player the instance represents</param>
-        public PlayerScore(ObjectId playerId)
-        {
-            ItemScores = new Dictionary<ObjectId, double>();
-
-            PlayerId = playerId;
-        }
-
-        /// <summary>
         /// The Player's Id
         /// </summary>
         public ObjectId PlayerId { get; set; }

@@ -23,25 +23,6 @@ namespace TableTopTally.Models
         public PlaySession() { }
 
         /// <summary>
-        /// Initializes a new instance of the PlaySession class
-        /// </summary>
-        /// <param name="gameId">ObjectId for the sessions game</param>
-        /// <param name="variantId">ObjectId for the sessions game variant</param>
-        /// <param name="gameGroupId">Objectid for the group who created the session</param>
-        /// <param name="players">IList&lt;Player&gt; containing all the session's players</param>
-        public PlaySession(ObjectId gameId, ObjectId variantId, ObjectId gameGroupId, IList<Player> players)
-        {
-            Id = ObjectId.GenerateNewId();
-            Date = DateTime.Today;
-            Rounds = new List<Round>();
-
-            GameId = gameId;
-            VariantId = variantId;
-            GameGroupId = gameGroupId;
-            Players = players;
-        }
-
-        /// <summary>
         /// The date of the session
         /// </summary>
         public DateTime Date { get; set; }

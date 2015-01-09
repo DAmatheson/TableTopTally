@@ -22,16 +22,6 @@ namespace TableTopTally.Models
         public Player() { }
 
         /// <summary>
-        /// Initializes a new instance of the Player class
-        /// </summary>
-        /// <param name="name">The name of the player</param>
-        public Player(string name)
-        {
-            Id = ObjectId.GenerateNewId();
-            Name = name;
-        }
-
-        /// <summary>
         /// The Player's Name
         /// </summary>
         public string Name { get; set; }
