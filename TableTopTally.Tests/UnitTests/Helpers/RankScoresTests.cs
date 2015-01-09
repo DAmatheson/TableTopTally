@@ -92,7 +92,7 @@ namespace TableTopTally.Tests.UnitTests.Helpers
             // Act
             IEnumerable<Ranking> result = RankScores.Descending(rankings);
 
-            Assert.That(result.Count(), Is.EqualTo(0));
+            Assert.That(result, Is.Empty);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace TableTopTally.Tests.UnitTests.Helpers
             IEnumerable<Ranking> rankings = RankScores.RankSession(session);
 
             Assert.IsNotNull(rankings);
-            Assert.That(rankings.Count(), Is.EqualTo(0));
+            Assert.That(rankings, Is.Empty);
         }
 
         [Test]

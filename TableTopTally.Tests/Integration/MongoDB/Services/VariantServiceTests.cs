@@ -121,7 +121,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             IEnumerable<Variant> retrievedVariants = service.FindGameVariants(new ObjectId(VALID_STRING_OBJECT_ID));
 
             Assert.IsNotNull(retrievedVariants);
-            Assert.That(retrievedVariants.Count(), Is.EqualTo(0));
+            Assert.That(retrievedVariants, Is.Empty);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             IEnumerable<Variant> retrievedVariants = service.FindGameVariants(ObjectId.Empty);
 
             Assert.IsNotNull(retrievedVariants);
-            Assert.That(retrievedVariants.Count(), Is.EqualTo(0));
+            Assert.That(retrievedVariants, Is.Empty);
         }
 
         [Test]

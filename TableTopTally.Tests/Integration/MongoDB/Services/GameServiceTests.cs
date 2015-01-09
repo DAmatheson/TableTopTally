@@ -53,7 +53,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             IEnumerable<Game> games = service.GetGames();
 
             Assert.IsNotNull(games);
-            Assert.That(games.Count(), Is.EqualTo(0));
+            Assert.That(games, Is.Empty);
         }
 
         [Test]

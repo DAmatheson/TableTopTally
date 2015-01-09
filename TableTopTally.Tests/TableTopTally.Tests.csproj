@@ -81,6 +81,7 @@
     <Compile Include="Integration\MongoDB\Services\BaseMongoServiceTests.cs" />
     <Compile Include="Integration\MongoDB\Services\VariantServiceTests.cs" />
     <Compile Include="UnitTests\App_Start\UnityConfigTests.cs" />
+    <Compile Include="UnitTests\App_Start\UnityResolverTests.cs" />
     <Compile Include="UnitTests\Attributes\CompareValuesAttributeTests.cs" />
     <Compile Include="UnitTests\Binders\ObjectIdApiBinderTests.cs" />
     <Compile Include="UnitTests\Binders\ObjectIdMvcBinderTests.cs" />
