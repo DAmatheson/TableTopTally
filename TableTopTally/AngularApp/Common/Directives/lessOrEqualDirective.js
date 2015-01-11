@@ -24,8 +24,10 @@
             {
                 var compareToValue = attrs.lessOrEqual;
 
-                // If the value being compared isn't set, the value is valid
-                if (!compareToValue || viewValue <= compareToValue)
+                var min = parseInt(viewValue);
+                var max = parseInt(compareToValue);
+
+                if (angular.equals(max, NaN) || min <= max)
                 {
                     ngModelController.$setValidity('lessOrEqual', true);
                 }
