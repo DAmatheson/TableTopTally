@@ -10,17 +10,18 @@ An instance of MongoDB listening at 127.0.0.1:27017 (Default configuration)
 
 ##To run the JavaScript tests with Karma
 
-Install Node
-npm install -g karma
-npm install -g karma-cli
-npm install -g karma-chrome-launcher
-npm install -g karma-firefox-launcher
-npm install -g karma-ie-launcher
+* Install Node
+* npm install -g karma
+* npm install -g karma-cli
+* npm install -g karma-chrome-launcher
+* npm install -g karma-firefox-launcher
+* npm install -g karma-ie-launcher
 
-Open up a DOS prompt and move to the base directory containing
+Open up a command prompt and move to the base directory containing
 TableTopTally and TableTopTally.Tests
 
 Then type:
+
 karma start
 
 
