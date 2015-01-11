@@ -31,8 +31,8 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-        'TableTopTally/Scripts/Library/Angular/*.min.js',
-        'TableTopTally/Scripts/Library/Angular/angular-scenario.js'
+      'TableTopTally/Scripts/Library/Angular/*.min.js',
+      'TableTopTally/Scripts/Library/Angular/angular-scenario.js'
     ],
 
 
@@ -67,7 +67,11 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [
+      'Chrome',
+      'Firefox',
+      'IE'
+    ],
 
 
     // Continuous Integration mode
