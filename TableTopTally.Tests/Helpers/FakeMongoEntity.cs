@@ -1,7 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using TableTopTally.Helpers;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Tests.Helpers

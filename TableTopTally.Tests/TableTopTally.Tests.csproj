@@ -98,7 +98,13 @@
     <Compile Include="UnitTests\RouteConstraints\QueryStringConstraintTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularAppUnitTests\Home\homeController.spec.js" />
     <Content Include="App.config" />
+    <Content Include="AngularAppUnitTests\jasmine\boot.js" />
+    <Content Include="AngularAppUnitTests\jasmine\console.js" />
+    <Content Include="AngularAppUnitTests\jasmine\jasmine-html.js" />
+    <Content Include="AngularAppUnitTests\jasmine\jasmine.js" />
+    <None Include="AngularAppUnitTests\_references.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

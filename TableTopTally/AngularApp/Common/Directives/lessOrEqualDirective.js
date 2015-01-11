@@ -24,8 +24,8 @@
             {
                 var compareToValue = attrs.lessOrEqual;
 
-                var min = parseInt(viewValue);
-                var max = parseInt(compareToValue);
+                var min = parseInt(viewValue, 10);
+                var max = parseInt(compareToValue, 10);
 
                 if (angular.equals(max, NaN) || min <= max)
                 {
