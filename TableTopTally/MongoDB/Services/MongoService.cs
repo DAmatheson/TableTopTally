@@ -40,15 +40,11 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
         public virtual bool Add(T entity)
         {
-            //return !collection.Insert(entity).HasLastErrorMessage;
-
             bool created;
 
             try
             {
-                collection.Insert(entity);
-
-                created = true;
+                created = !collection.Insert(entity).HasLastErrorMessage;
             }
             catch (MongoDuplicateKeyException)
             {

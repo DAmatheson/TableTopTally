@@ -6,11 +6,8 @@
 *      Drew Matheson, 2014.05.29: Created
 */
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Ajax.Utilities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;

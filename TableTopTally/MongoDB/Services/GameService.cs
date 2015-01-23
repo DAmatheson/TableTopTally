@@ -41,10 +41,9 @@ namespace TableTopTally.MongoDB.Services
         /// <returns>An IEnumerable of type Game sorted by Name</returns>
         public IEnumerable<Game> GetGames()
         {
-            // Unsure: Sort in mongo or C#? Also: Should I .ToList()? Doing so will take care of disposing the cursor
+            // Unsure: Should I .ToList()? Doing so will take care of disposing the cursor
 
             return collection.FindAll().SetSortOrder(SortBy.Ascending("Name"));
-                //SetFields(Fields.Exclude("Variants")).
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace TableTopTally.MongoDB.Services
             }
             catch (InvalidOperationException)
             {
-                game = null; // Return null when the result returns zero or more than on result
+                game = null; // Return null when the result returns zero or more than one result
             }
 
             return game;

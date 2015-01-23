@@ -5,10 +5,11 @@ Tabletop scorer made with ASP.NET MVC 5, WebAPI 2, AngularJS, and MongoDB
 
 ##Requirements
 
-An instance of MongoDB listening at 127.0.0.1:27017 (Default configuration)
+* An instance of MongoDB listening at 127.0.0.1:27017 (Default configuration)
 
 
-##To run the JavaScript tests with Karma
+##Running JavaScript Tests
+###With Karma
 
 * Install Node
 * npm install -g karma
@@ -20,12 +21,11 @@ An instance of MongoDB listening at 127.0.0.1:27017 (Default configuration)
 Open up a command prompt and move to the base directory containing
 TableTopTally and TableTopTally.Tests
 
-Then type:
-
+Then type:<br>
 karma start
 
 
-##To run the JavaScript tests with ReSharper
+###With ReSharper
 
 ReSharper -> Tools Section -> Unit Testing -> JavaScript Tests -> Check Enable Jasmine support
 ReSharper -> Tools Section -> Unit Testing -> JavaScript Tests -> Set Jasmine version to 2.0
