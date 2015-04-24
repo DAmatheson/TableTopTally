@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using TableTopTally.Annotations;
 
 namespace TableTopTally.Models
 {
@@ -19,7 +18,6 @@ namespace TableTopTally.Models
     /// </summary>
     public class PlayerScore
     {
-        [UsedImplicitly]
         public PlayerScore() { }
 
         /// <summary>

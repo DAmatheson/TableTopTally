@@ -7,7 +7,6 @@
 
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
-using TableTopTally.Annotations;
 
 namespace TableTopTally.Helpers
 {
@@ -22,7 +21,6 @@ namespace TableTopTally.Helpers
         /// </summary>
         /// <param name="id">The ObjectId to validate</param>
         /// <returns>ValidationResult indicating the validity of the id</returns>
-        [UsedImplicitly]
         public static ValidationResult IsValid(ObjectId id)
         {
             if (id == ObjectId.Empty)

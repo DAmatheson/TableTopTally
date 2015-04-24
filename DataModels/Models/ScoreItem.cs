@@ -6,7 +6,6 @@
  *      Drew Matheson, 2014.05.29: Created
  */ 
 
-using TableTopTally.Annotations;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
@@ -16,7 +15,6 @@ namespace TableTopTally.Models
     /// </summary>
     public class ScoreItem : MongoEntity
     {
-        [UsedImplicitly]
         public ScoreItem() { }
 
         /// <summary>

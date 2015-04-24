@@ -7,7 +7,6 @@
  */ 
 
 using System.Collections.Generic;
-using TableTopTally.Annotations;
 
 namespace TableTopTally.Models
 {
@@ -16,7 +15,6 @@ namespace TableTopTally.Models
     /// </summary>
     public class Round
     {
-        [UsedImplicitly]
         public Round() { }
 
         /// <summary>

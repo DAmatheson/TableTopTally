@@ -29,7 +29,6 @@ namespace TableTopTally.MongoDB.Services
             return collection.Update(
                 Query.EQ("_id", game.Id),
                 Update.Set("Name", game.Name).
-                    Set("Url", game.Url).
                     Set("MinimumPlayers", game.MinimumPlayers).
                     Set("MaximumPlayers", game.MaximumPlayers)).
                 UpdatedExisting;

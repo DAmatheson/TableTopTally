@@ -8,13 +8,12 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using TableTopTally.Attributes;
 using TableTopTally.MongoDB.Entities;
 
 namespace TableTopTally.Models
 {
-    [Bind(Include = "Name, MinimumPlayers, MaximumPlayers")]
+    //[Bind(Include = "Name, MinimumPlayers, MaximumPlayers")]
     public class Game : MongoEntity
     {
         /// <summary>
@@ -30,7 +29,7 @@ namespace TableTopTally.Models
 
         /// <summary>
         /// The Url for the Game
-        /// Note: This is only set when the game is first created so that it doesn't change due to edits
+        /// Note: This is only set in the DB when first created so that it doesn't change due to edits
         /// </summary>
         public string Url { get; set; }
 
