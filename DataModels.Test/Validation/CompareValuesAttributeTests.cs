@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 using TableTopTally.Attributes;
 
-namespace TableTopTally.Tests.UnitTests.Attributes
+namespace DataModels.Test.Validation
 {
     public class ComparisonEntity
     {
