@@ -71,8 +71,7 @@ namespace TableTopTally.Helpers
                                 round.Scores.Where(playerScore => playerScore.PlayerId == player.Id).
                                 Sum(playerScore => playerScore.ScoreTotal))
                     }).
-                Select(player => new Ranking { PlayerId = player.playerId, Score = player.total });//.
-                //ToList();
+                Select(player => new Ranking { PlayerId = player.playerId, Score = player.total });
 
             return Descending(ranks);
         }
