@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TableTopTally.DataModels.Models;
 using TableTopTally.Models;
 
 namespace TableTopTally.Helpers

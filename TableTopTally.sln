@@ -7,13 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally", "TableTopTa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.Tests", "TableTopTally.Tests\TableTopTally.Tests.csproj", "{70358B6A-1858-4F78-83BB-F0CF3A15D452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDataAccess", "MongoDataAccess\MongoDataAccess.csproj", "{BA11D25C-CAFF-4DF3-8A02-60BD7705807D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.MongoDataAccess", "TableTopTally.MongoDataAccess\TableTopTally.MongoDataAccess.csproj", "{BA11D25C-CAFF-4DF3-8A02-60BD7705807D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{7A6BE254-AD55-4D7B-A5AC-21B35B061D3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.DataModels", "TableTopTally.DataModels\TableTopTally.DataModels.csproj", "{7A6BE254-AD55-4D7B-A5AC-21B35B061D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels.Tests", "DataModels.Test\DataModels.Tests.csproj", "{E3F7EF52-AB82-497C-B301-A6566921E9B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.DataModels.Tests", "TableTopTally.DataModels.Test\TableTopTally.DataModels.Tests.csproj", "{E3F7EF52-AB82-497C-B301-A6566921E9B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDataAccess.Tests", "MongoDataAccess.Tests\MongoDataAccess.Tests.csproj", "{1C615CC3-2BBD-4AEE-982F-333E2B6771BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.MongoDataAccess.Tests", "TableTopTally.MongoDataAccess.Tests\TableTopTally.MongoDataAccess.Tests.csproj", "{1C615CC3-2BBD-4AEE-982F-333E2B6771BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTopTally.AngularApp.Tests", "TableTopTally.AngularApp.Tests\TableTopTally.AngularApp.Tests.csproj", "{730E284D-1D48-4999-945D-7921F9253BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1C615CC3-2BBD-4AEE-982F-333E2B6771BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C615CC3-2BBD-4AEE-982F-333E2B6771BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C615CC3-2BBD-4AEE-982F-333E2B6771BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{730E284D-1D48-4999-945D-7921F9253BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{730E284D-1D48-4999-945D-7921F9253BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{730E284D-1D48-4999-945D-7921F9253BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{730E284D-1D48-4999-945D-7921F9253BC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

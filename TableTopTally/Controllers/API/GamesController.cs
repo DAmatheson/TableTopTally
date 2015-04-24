@@ -8,9 +8,10 @@
 using MongoDB.Bson;
 using System.Net;
 using System.Web.Http;
+using TableTopTally.MongoDataAccess.Services;
+using TableTopTally.DataModels.Models;
 using TableTopTally.Helpers;
 using TableTopTally.Models;
-using TableTopTally.MongoDB.Services;
 
 namespace TableTopTally.Controllers.API
 {
