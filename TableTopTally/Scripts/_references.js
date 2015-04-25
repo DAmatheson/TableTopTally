@@ -15,6 +15,7 @@
 /// <reference path="../angularapp/common/services/layoutvaluesservice.js" />
 /// <reference path="../angularapp/common/services/tempredirectiondataservice.js" />
 /// <reference path="../angularapp/common/services/valuesservice.js" />
+/// <reference path="../angularapp/common/services/apisuccesshandler.js" />
 /// <reference path="../angularapp/games/controllers/creategamecontroller.js" />
 /// <reference path="../angularapp/games/controllers/deletegamecontroller.js" />
 /// <reference path="../angularapp/games/controllers/gamedetailcontroller.js" />
@@ -42,3 +43,4 @@
 /// <reference path="../angularapp/common/directives/ttapisuccessdisplay/ttapisuccessdisplaydirective.js" />
 /// <reference path="../angularapp/common/directives/ttrandompicker/ttrandompickerdirective.js" />
 /// <reference path="library/jqueryvalidate/jquery.validate.unobtrusive.js" />
+

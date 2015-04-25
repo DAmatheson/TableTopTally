@@ -14,8 +14,8 @@
     // Controller for the partial CreateGame.html
     gamesControllers.controller('CreateGameController',
     [
-        '$scope', '$location', 'gameData', 'layoutValues',
-        function($scope, $location, gameData, layoutValues)
+        '$scope', 'gameData', 'layoutValues', 'apiSuccessHandler',
+        function ($scope, gameData, layoutValues, apiSuccessHandler)
         {
             $scope.title = 'Create a Game';
 
@@ -29,11 +29,10 @@
 
                 if ($scope[$scope.formName].$valid)
                 {
-                    console.log(game);
                     gameData.create(game,
                         function(data) // Success function
                         {
-                            $location.url('/games/' + data.url);
+                            apiSuccessHandler.redirect('/games/' + data.url, data);
                         },
                         function(httpResponse) // Error function
                         {

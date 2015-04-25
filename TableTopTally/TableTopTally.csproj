@@ -224,6 +224,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularApp\Common\Services\apiSuccessHandler.js" />
     <Content Include="AngularApp\NotFound\404.html" />
     <Content Include="AngularApp\NotFound\notFoundController.js" />
     <Content Include="AngularApp\app.js" />

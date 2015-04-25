@@ -13,15 +13,13 @@
 
     // Controller for the partial UpdateGame.html
     gamesControllers.controller('UpdateGameController', [
-        '$scope', '$location', 'game', 'gameData', 'layoutValues',
-        function($scope, $location, game, gameData, layoutValues)
+        '$scope', 'game', 'gameData', 'layoutValues', 'apiSuccessHandler',
+        function($scope, game, gameData, layoutValues, apiSuccessHandler)
         {
             $scope.masterGame = game;
             $scope.game = angular.copy(game);
 
-            console.log(game);
-
-            $scope.formName = "frmEditGame";
+            $scope.formName = 'frmEditGame';
             $scope.title = 'Editing ' + $scope.masterGame.name;
 
             layoutValues.setTitle($scope.title);
@@ -35,7 +33,7 @@
                     gameData.update(updatedGame,
                         function(data) // Success function
                         {
-                            $location.url('/games/' + data.url);
+                            apiSuccessHandler.redirect('/games/' + data.url, data);
                         },
                         function(httpResponse) // Error function
                         {

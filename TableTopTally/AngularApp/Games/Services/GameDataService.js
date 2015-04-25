@@ -18,13 +18,15 @@
         '$resource', '$location', '$q',
         function($resource, $location, $q)
         {
-            return $resource('API/Games/:gameId', null,
+            var baseUrl = 'API/Games/';
+
+            return $resource(baseUrl + ':gameId', null,
             {
                 // Get all the games
                 query: // Example call: gameData.query()
                 {
                     method: 'GET',
-                    url: 'API/Games/',
+                    url: baseUrl,
                     isArray: true
                 },
 
@@ -32,6 +34,7 @@
                 get: // Example call: gameData.get({ gameId: $routeParams.gameId });
                 {
                     method: 'GET',
+                    cache: gameCache,
                     interceptor: // If the response is a 404, redirect to /404 and resolve the promise
                     {
                         responseError: function(httpResponse)
@@ -50,7 +53,7 @@
                 create: // Example call: gameData.create(postData[, successFunction[, errorFunction]]);
                 {
                     method: 'POST',
-                    url: 'API/Games/',
+                    url: baseUrl,
                     timeout: 30000 // 30 second timeout on the request
                 },
 
