@@ -54,7 +54,7 @@
     <Compile Include="Models\ScoreItemHighScore.cs" />
     <Compile Include="Validation\CompareValuesAttribute.cs" />
     <Compile Include="Validation\ObjectIdModelValidator.cs" />
-    <Compile Include="Models\Variant.cs" />
+    <Compile Include="Models\GameVariant.cs" />
     <Compile Include="Models\VariantHighScore.cs" />
   </ItemGroup>
   <ItemGroup>

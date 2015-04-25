@@ -1,4 +1,4 @@
-﻿/* Variant.cs
+﻿/* GameVariant.cs
  * 
  * Purpose: A class for game variants / setups
  * 
@@ -15,9 +15,9 @@ namespace TableTopTally.DataModels.Models
     /// <summary>
     /// A Game variant
     /// </summary>
-    public class Variant : MongoEntity
+    public class GameVariant : MongoEntity
     {
-        public Variant() { }
+        public GameVariant() { }
 
         /// <summary>
         /// The Game the variant is for
@@ -35,17 +35,17 @@ namespace TableTopTally.DataModels.Models
         public bool TrackScores { get; set; }
 
         /// <summary>
-        /// The Variant's Name
+        /// The GameVariant's Name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The Url for the Variant
+        /// The Url for the GameVariant
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// A collection of all  ScoreItems for the Variant
+        /// A collection of all  ScoreItems for the GameVariant
         /// </summary>
         public IList<ScoreItem> ScoreItems { get; set; }
     }

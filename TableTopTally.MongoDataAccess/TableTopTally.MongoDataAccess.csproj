@@ -48,10 +48,10 @@
     <Compile Include="Services\Interfaces\IGameService.cs" />
     <Compile Include="Services\Interfaces\IMongoService.cs" />
     <Compile Include="Services\Interfaces\IPlaySessionService.cs" />
-    <Compile Include="Services\Interfaces\IVariantService.cs" />
+    <Compile Include="Services\Interfaces\IGameVariantService.cs" />
     <Compile Include="Services\MongoService.cs" />
     <Compile Include="Services\PlaySessionService.cs" />
-    <Compile Include="Services\VariantService.cs" />
+    <Compile Include="Services\GameVariantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
