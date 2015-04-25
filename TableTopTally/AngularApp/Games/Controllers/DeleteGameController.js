@@ -14,8 +14,8 @@
     // Controller for the partial DeleteGame.html
     gamesControllers.controller('DeleteGameController',
     [
-        '$scope', 'game', 'gameData', 'layoutValues',
-        function($scope, game, gameData, layoutValues)
+        '$scope', '$location', 'game', 'gameData', 'layoutValues',
+        function($scope, $location, game, gameData, layoutValues)
         {
             $scope.game = game;
             $scope.title = 'Delete ' + $scope.game.name + '?';
@@ -29,8 +29,7 @@
                 gameData.delete({ gameId: game.id }, // Can't get Id via routeParams so must be done here
                     function() // Success function
                     {
-                        // Display message saying update was successful and redirection is happening
-                        $scope.tt.apiSuccessDisplay.show('Removal successful.', '/games');
+                        $location.url('/games');
                     },
                     function(httpResponse) // Error function
                     {

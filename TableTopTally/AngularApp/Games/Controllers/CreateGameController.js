@@ -14,8 +14,8 @@
     // Controller for the partial CreateGame.html
     gamesControllers.controller('CreateGameController',
     [
-        '$scope', 'gameData', 'layoutValues',
-        function($scope, gameData, layoutValues)
+        '$scope', '$location', 'gameData', 'layoutValues',
+        function($scope, $location, gameData, layoutValues)
         {
             $scope.title = 'Create a Game';
 
@@ -29,11 +29,11 @@
 
                 if ($scope[$scope.formName].$valid)
                 {
+                    console.log(game);
                     gameData.create(game,
                         function(data) // Success function
                         {
-                            // Display message saying update was successful and redirection is happening
-                            $scope.tt.apiSuccessDisplay.show('Creation successful.', '/games/' + data.url, data);
+                            $location.url('/games/' + data.url);
                         },
                         function(httpResponse) // Error function
                         {

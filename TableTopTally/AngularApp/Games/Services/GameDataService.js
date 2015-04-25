@@ -27,6 +27,7 @@
                     url: 'API/Games/',
                     isArray: true
                 },
+
                 // Get a single game, redirect to 404 if a game isn't returned
                 get: // Example call: gameData.get({ gameId: $routeParams.gameId });
                 {
@@ -37,32 +38,35 @@
                         {
                             if (httpResponse.status === 404)
                             {
-                                $location.url("/404").replace();
+                                $location.url('/404').replace();
                             }
 
                             return $q.reject(httpResponse);
                         }
                     }
                 },
+
                 // Create a game
-                create: // Example call: gameData.post(postData[, successFunction[, errorFunction]]);
+                create: // Example call: gameData.create(postData[, successFunction[, errorFunction]]);
                 {
                     method: 'POST',
                     url: 'API/Games/',
-                    timeout: 10000 // 10 second timeout on the request
+                    timeout: 30000 // 30 second timeout on the request
                 },
+
                 // Update a game
                 update: // Example call: gameData.update(game[, successFunction[, errorFunction]]);
                 {
                     method: 'PUT',
                     params: { gameId: '@id' }, // set :gameId to the id property of the passed in data
-                    timeout: 10000 // 10 second timeout on the request
+                    timeout: 30000 // 30 second timeout on the request
                 },
+
                 // Delete a game
                 delete: // Example call: gameData.delete([successFunction[, errorFunction]]);
                 {
                     method: 'DELETE',
-                    timeout: 10000 // 10 second timeout on the request
+                    timeout: 30000 // 30 second timeout on the request
                 }
             });
         }
