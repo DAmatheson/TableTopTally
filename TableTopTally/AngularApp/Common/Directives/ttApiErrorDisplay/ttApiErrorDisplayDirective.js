@@ -19,7 +19,7 @@
                 // Controller for the directive
 
                 this.modelErrors = []; // Holds the model error messages
-                this.statusError = ""; // Holds the status error message
+                this.statusError = ''; // Holds the status error message
                 this.statusIsNew = false; // Flag used to show/hide the status alert
 
                 var statusTimeoutPromise;
@@ -48,24 +48,24 @@
                 {
                     // Parses statusCode into a message, sets statusIsNew to true
 
-                    var error = actionDescription + " failed due to ";
+                    var error = actionDescription + ' failed due to ';
 
                     switch (statusCode)
                     {
                         case 0: // Note: 0 seems to be the default status code upon rejection
-                            error += "the server taking too long to respond";
+                            error += 'the server taking too long to respond';
                             break;
                         case 400:
-                            error += "invalid form data";
+                            error += 'invalid form data';
                             break;
                         case 404:
-                            error += "a Not Found error";
+                            error += 'a Not Found error';
                             break;
                         case 405:
-                            error += "the HTTP method not being allowed";
+                            error += 'the HTTP method not being allowed';
                             break;
                         default:
-                            error += "a generic error";
+                            error += 'a generic error';
                             break;
                     }
 
@@ -80,7 +80,7 @@
 
                     if (!httpResponse)
                     {
-                        throw "httpResponse was not passed to ttApiErrorParser's parseResponse function";
+                        throw 'httpResponse was not passed to ttApiErrorParser\'s parseResponse function';
                     }
 
                     if (httpResponse.data && 'modelState' in httpResponse.data)
@@ -90,7 +90,7 @@
 
                     if ('status' in httpResponse) // status can be 0 which == false
                     {
-                        actionDescription = actionDescription.trim() || "The action";
+                        actionDescription = actionDescription.trim() || 'The action';
 
                         this.parseStatusCode(httpResponse.status, actionDescription);
                     }
@@ -139,6 +139,8 @@
 
                 // Assign the controller to tt.randomPicker
                 scope.tt.apiErrorDisplay = apiErrorDisplayController;
+
+                console.log(apiErrorDisplayController);
             };
 
             return {

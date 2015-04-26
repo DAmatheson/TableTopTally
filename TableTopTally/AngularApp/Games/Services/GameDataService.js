@@ -34,7 +34,6 @@
                 get: // Example call: gameData.get({ gameId: $routeParams.gameId });
                 {
                     method: 'GET',
-                    cache: gameCache,
                     interceptor: // If the response is a 404, redirect to /404 and resolve the promise
                     {
                         responseError: function(httpResponse)

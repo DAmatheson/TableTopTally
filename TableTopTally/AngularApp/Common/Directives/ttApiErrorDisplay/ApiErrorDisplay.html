@@ -15,7 +15,7 @@
         {{ tt.apiErrorDisplay.statusError }}
     </div>
     
-    <ul ng-show="tt.apiErrorDisplay.modelErrors" class="list-group-item list-group-item-warning">
+    <ul ng-show="tt.apiErrorDisplay.modelErrors.length" class="list-group-item list-group-item-warning">
         <li ng-repeat="error in tt.apiErrorDisplay.modelErrors">
             {{ error }}
         </li>
