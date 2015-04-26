@@ -17,7 +17,7 @@ namespace TableTopTally.MongoDataAccess
     /// </summary>
     public static class MongoHelper
     {
-        private static readonly MongoDatabase dbTableTopTally;
+        private static readonly IMongoDatabase dbTableTopTally;
 
         /// <summary>
         /// Initializes the static properties of the class
@@ -28,9 +28,8 @@ namespace TableTopTally.MongoDataAccess
             var url = new MongoUrl(connString);
 
             var client = new MongoClient(url);
-            var server = client.GetServer();
 
-            dbTableTopTally = server.GetDatabase(url.DatabaseName);
+            dbTableTopTally = client.GetDatabase(url.DatabaseName);
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace TableTopTally.MongoDataAccess
         /// </summary>
         /// <typeparam name="T">The default document type and the collection to get</typeparam>
         /// <returns>The collection for type T</returns>
-        public static MongoCollection<T> GetTableTopCollection<T>() where T : IMongoEntity
+        public static IMongoCollection<T> GetTableTopCollection<T>() where T : IMongoEntity
         {
             return dbTableTopTally.GetCollection<T>(typeof (T).Name.ToLower() + 's');
         }

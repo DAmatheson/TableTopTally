@@ -8,9 +8,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using TableTopTally.DataModels.Models;
 
 namespace TableTopTally.MongoDataAccess.Services
@@ -25,26 +25,28 @@ namespace TableTopTally.MongoDataAccess.Services
         /// </summary>
         /// <param name="variant">GameVariant representing the variant to update</param>
         /// <returns>Returns a bool representing if the edit completed successfully</returns>
-        public bool Edit(GameVariant variant)
+        public async Task<bool> EditAsync(GameVariant variant)
         {
-            WriteConcernResult result = collection.Update(
-                Query.EQ("_id", variant.Id),
-                Update.
-                    Set("Name", variant.Name).
-                    Set("Url", variant.Url).
-                    Set("TrackScores", variant.TrackScores).
-                    SetWrapped("ScoreItems", variant.ScoreItems));
+            UpdateResult result = await collection.UpdateOneAsync(
+                Builders<GameVariant>.Filter.
+                    Eq(gv => gv.Id, variant.Id),
+                Builders<GameVariant>.Update.
+                    Set(gv => gv.Name, variant.Name).
+                    Set(gv => gv.Url, variant.Url).
+                    Set(gv => gv.TrackScores, variant.TrackScores).
+                    Set(gv => gv.ScoreItems, variant.ScoreItems));
 
-            return !result.HasLastErrorMessage && result.DocumentsAffected >= 1;
+            return result.ModifiedCount >= 1;
         }
 
-        public IEnumerable<GameVariant> FindGameVariants(ObjectId gameId)
+        public async Task<IEnumerable<GameVariant>> FindGameVariantsAsync(ObjectId gameId)
         {
             // Unsure: Throw argument exception or just return empty enumerable
             if (gameId == ObjectId.Empty)
                 return Enumerable.Empty<GameVariant>();
 
-            return collection.Find(Query.EQ("GameId", gameId));
+            return await collection.
+                Find(Builders<GameVariant>.Filter.Eq(gv => gv.GameId, gameId)).ToListAsync();
         }
     }
 }

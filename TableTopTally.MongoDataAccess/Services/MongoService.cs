@@ -5,11 +5,9 @@
  *      Drew Matheson, 2014.06.17: Created
  */
 
-using System;
-using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using TableTopTally.DataModels.MongoDB.Entities;
 
 namespace TableTopTally.MongoDataAccess.Services
@@ -23,7 +21,7 @@ namespace TableTopTally.MongoDataAccess.Services
         /// <summary>
         /// MongoCollection for type T
         /// </summary>
-        protected readonly MongoCollection<T> collection;
+        protected readonly IMongoCollection<T> collection;
 
         /// <summary>
         /// Initializes collection with the MongoCollection for type <see cref="T"/>
@@ -38,15 +36,21 @@ namespace TableTopTally.MongoDataAccess.Services
         /// </summary>
         /// <param name="entity">Entity to be added</param>
         /// <returns>Returns a bool representing if the creation completed successfully</returns>
-        public virtual bool Add(T entity)
+        public virtual async Task<bool> AddAsync(T entity)
         {
             bool created;
 
             try
             {
-                created = !collection.Insert(entity).HasLastErrorMessage;
+                // TODO: Figure out best way to ensure the insert succeeded
+                //created = !collection.Insert(entity).HasLastErrorMessage;
+
+                await collection.InsertOneAsync(entity);
+
+                created = true;
+
             }
-            catch (MongoDuplicateKeyException)
+            catch (MongoWriteException)
             {
                 created = false;
             }
@@ -59,30 +63,27 @@ namespace TableTopTally.MongoDataAccess.Services
         /// </summary>
         /// <param name="id">ObjectId of the document to remove</param>
         /// <returns>Returns a bool representing if the deletion completed successfully</returns>
-        public virtual bool Remove(ObjectId id)
+        public virtual async Task<bool> RemoveAsync(ObjectId id)
         {
-            return collection.Remove(Query.EQ("_id", id), RemoveFlags.Single).DocumentsAffected == 1;
+            // Note: Other Ways to do the same query
+            //var filter = Builders<T>.Filter.Eq("_id", id);
+            //var result = await collection.DeleteOneAsync(filter);
+
+            //DeleteResult result = await collection.DeleteOneAsync(item => item.Id == id);
+
+            DeleteResult result = await collection.DeleteOneAsync(Builders<T>.Filter.Eq(item => item.Id, id));
+
+            return result.DeletedCount == 1;
         }
 
         /// <summary>
-        /// Finds a document by its ObjectId
+        /// Finds a document by its ObjectId. If no match is found, null is returned
         /// </summary>
         /// <param name="id">ObjectId of the document to find</param>
         /// <returns>A deserialization of the document to a <see cref="T"/> object</returns>
-        public virtual T FindById(ObjectId id)
+        public virtual async Task<T> FindByIdAsync(ObjectId id)
         {
-            T t;
-
-            try
-            {
-                t = collection.Find(Query.EQ("_id", id)).Single();
-            }
-            catch (InvalidOperationException)
-            {
-                t = null;
-            }
-
-            return t;
+            return await collection.Find(item => item.Id == id).FirstOrDefaultAsync();
         }
     }
 }

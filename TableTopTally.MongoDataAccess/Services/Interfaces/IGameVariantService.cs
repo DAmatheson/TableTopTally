@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using TableTopTally.DataModels.Models;
 
@@ -14,8 +15,8 @@ namespace TableTopTally.MongoDataAccess.Services
 {
     interface IGameVariantService : IMongoService<GameVariant>
     {
-        bool Edit(GameVariant variant);
+        Task<bool> EditAsync(GameVariant variant);
 
-        IEnumerable<GameVariant> FindGameVariants(ObjectId gameId);
+        Task<IEnumerable<GameVariant>> FindGameVariantsAsync(ObjectId gameId);
     }
 }

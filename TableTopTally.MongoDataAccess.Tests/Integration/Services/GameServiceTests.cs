@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TableTopTally.MongoDataAccess.Services;
-using TableTopTally.DataModels.Models;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
+using TableTopTally.DataModels.Models;
+using TableTopTally.MongoDataAccess.Services;
 
-namespace TableTopTally.Tests.Integration.MongoDB.Services
+namespace MongoDataAccess.Tests.Integration.Services
 {
     [TestFixture]
     public class GameServiceTests : BaseMongoServiceTests<GameService, Game>
@@ -36,34 +37,34 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             return game;
         }
 
-        private void FillGamesCollection(GameService service, IEnumerable<Game> games)
+        private async Task FillGamesCollection(GameService service, IEnumerable<Game> games)
         {
             foreach (Game game in games)
             {
-                AddEntityToCollection(game, service);
+                await AddEntityToCollection(game, service);
             }
         }
 
         [Test]
-        public void GetGames_EmptyCollection_ReturnsEmptyEnumerable()
+        public async Task GetGames_EmptyCollection_ReturnsEmptyEnumerable()
         {
             GameService service = GetService();
 
             // Act
-            IEnumerable<Game> games = service.GetGames();
+            IEnumerable<Game> games = await service.GetGamesAsync();
 
             Assert.IsNotNull(games);
             Assert.That(games, Is.Empty);
         }
 
         [Test]
-        public void GetGames_FilledCollection_ReturnsSameGames()
+        public async Task GetGames_FilledCollection_ReturnsSameGames()
         {
             GameService service = GetService();
-            FillGamesCollection(service, fakeGames);
+            await FillGamesCollection(service, fakeGames);
 
             // Act
-            IEnumerable<Game> retrievedGames = service.GetGames();
+            IEnumerable<Game> retrievedGames = await service.GetGamesAsync();
 
             Assert.IsNotNull(retrievedGames);
 
@@ -76,14 +77,14 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public override void FindById_IdInCollection_ReturnsMatchingEntity()
+        public override async Task FindById_IdInCollection_ReturnsMatchingEntity()
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
             AddEntityToCollection(entity, service);
 
             // Act
-            Game game = service.FindById(entity.Id);
+            Game game = await service.FindByIdAsync(entity.Id);
 
             Assert.IsNotNull(game);
             Assert.That(game.Name, Is.EqualTo(entity.Name));
@@ -93,7 +94,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void Edit_IdInDb_ReturnsTrue()
+        public async Task Edit_IdInDb_ReturnsTrue()
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
@@ -102,25 +103,25 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             entity.Name = "Game Edited";
 
             // Act
-            bool success = service.Edit(entity);
+            bool success = await service.EditAsync(entity);
 
             Assert.IsTrue(success);
         }
 
         [Test]
-        public void Edit_IdNotInDb_ReturnsFalse()
+        public async Task Edit_IdNotInDb_ReturnsFalse()
         {
             Game updatedGame = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
 
             // Act
-            bool success = service.Edit(updatedGame);
+            bool success = await service.EditAsync(updatedGame);
 
             Assert.IsFalse(success);
         }
 
         [Test]
-        public void FindByUrl_ValidUrl_ReturnsMatchingGame()
+        public async Task FindByUrl_ValidUrl_ReturnsMatchingGame()
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
 
@@ -129,7 +130,7 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
             AddEntityToCollection(entity, service);
 
             // Act
-            Game retrieved = service.FindByUrl(entity.Url);
+            Game retrieved = await service.FindByUrlAsync(entity.Url);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -140,12 +141,12 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void FindByUrl_NonExistantUrl_ReturnsNull()
+        public async Task FindByUrl_NonExistantUrl_ReturnsNull()
         {
             GameService service = GetService();
 
             // Act
-            Game retrieved = service.FindByUrl("a-non-existant-url");
+            Game retrieved = await service.FindByUrlAsync("a-non-existant-url");
 
             Assert.IsNull(retrieved);
         }

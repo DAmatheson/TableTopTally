@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using TableTopTally.DataModels.Models;
 
@@ -14,8 +15,8 @@ namespace TableTopTally.MongoDataAccess.Services
 {
     public interface IPlaySessionService : IMongoService<PlaySession>
     {
-        bool Edit(PlaySession session);
+        Task<bool> EditAsync(PlaySession session);
 
-        IEnumerable<PlaySession> GetSessions(ObjectId creatorId);
+        Task<IEnumerable<PlaySession>> GetSessionsAsync(ObjectId creatorId);
     }
 }

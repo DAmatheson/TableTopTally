@@ -35,12 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson, Version=1.9.2.235, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
+    <Reference Include="MongoDB.Bson, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.0.0\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MongoDB.Driver, Version=1.9.2.235, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
-      <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Driver.dll</HintPath>
+    <Reference Include="MongoDB.Driver, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.0.0\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.0.0.828, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.0.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -58,10 +62,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Integration\MongoDB\MongoHelperTests.cs" />
-    <Compile Include="Integration\MongoDB\Services\BaseMongoServiceTests.cs" />
-    <Compile Include="Integration\MongoDB\Services\GameServiceTests.cs" />
-    <Compile Include="Integration\MongoDB\Services\VariantServiceTests.cs" />
+    <Compile Include="Integration\MongoHelperTests.cs" />
+    <Compile Include="Integration\Services\BaseMongoServiceTests.cs" />
+    <Compile Include="Integration\Services\GameServiceTests.cs" />
+    <Compile Include="Integration\Services\VariantServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +81,9 @@
       <Project>{BA11D25C-CAFF-4DF3-8A02-60BD7705807D}</Project>
       <Name>TableTopTally.MongoDataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

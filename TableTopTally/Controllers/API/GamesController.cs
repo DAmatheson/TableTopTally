@@ -5,13 +5,14 @@
  *      Drew Matheson, 2014.08.07: Created
 */
 
-using MongoDB.Bson;
+using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
-using TableTopTally.MongoDataAccess.Services;
+using MongoDB.Bson;
 using TableTopTally.DataModels.Models;
 using TableTopTally.Helpers;
-using TableTopTally.Models;
+using TableTopTally.MongoDataAccess.Services;
 
 namespace TableTopTally.Controllers.API
 {
@@ -31,9 +32,9 @@ namespace TableTopTally.Controllers.API
         /// </summary>
         /// <returns>List of all the games</returns>
         [HttpGet]
-        public IHttpActionResult GetAllGames()
+        public async Task<IHttpActionResult> GetAllGames()
         {
-            var games = gameService.GetGames();
+            IEnumerable<Game> games = await gameService.GetGamesAsync();
 
             return Ok(games);
         }
@@ -46,13 +47,13 @@ namespace TableTopTally.Controllers.API
         /// <returns>The Game</returns>
         [Route("{id:objectId}")]
         [HttpGet]
-        public IHttpActionResult GetGameById(ObjectId id)
+        public async Task<IHttpActionResult> GetGameById(ObjectId id)
         {
             Game game;
 
             if (id != ObjectId.Empty)
             {
-                game = gameService.FindById(id);
+                game = await gameService.FindByIdAsync(id);
             }
             else
             {
@@ -75,9 +76,9 @@ namespace TableTopTally.Controllers.API
         /// <returns>The Game</returns>
         [Route("{url}")]
         [HttpGet]
-        public IHttpActionResult GetGameByUrl(string url)
+        public async Task<IHttpActionResult> GetGameByUrl(string url)
         {
-            Game game = gameService.FindByUrl(url);
+            Game game = await gameService.FindByUrlAsync(url);
 
             if (game == null)
             {
@@ -94,7 +95,7 @@ namespace TableTopTally.Controllers.API
         /// <param name="game">Game to add</param>
         /// <returns>Status code and location of added resource</returns>
         [HttpPost]
-        public IHttpActionResult PostGame(Game game)
+        public async Task<IHttpActionResult> PostGame(Game game)
         {
             // Remove game.Id model error because POST actions don't include an Id for game
             if (ModelState.ContainsKey("game.Id"))
@@ -107,7 +108,7 @@ namespace TableTopTally.Controllers.API
                 game.Id = ObjectId.GenerateNewId();
                 game.Url = game.Name.URLFriendly(game.Id);
 
-                var success = gameService.Add(game);
+                var success = await gameService.AddAsync(game);
 
                 if (success)
                 {
@@ -129,14 +130,14 @@ namespace TableTopTally.Controllers.API
         /// <returns>Status code and if successful, the new game</returns>
         [Route("{id:objectId}")]
         [HttpPut]
-        public IHttpActionResult PutGame([FromUri]ObjectId id, Game game)
+        public async Task<IHttpActionResult> PutGame([FromUri]ObjectId id, Game game)
         {
             IHttpActionResult result;
 
             // Unsure: Does making the id and game.Id match really prevent exploitation?
             if (ModelState.IsValid && id == game.Id)
             {
-                var success = gameService.Edit(game);
+                var success = await gameService.EditAsync(game);
 
                 if (success)
                 {
@@ -169,13 +170,13 @@ namespace TableTopTally.Controllers.API
         /// <param name="id">The id of the game to delete</param>
         [Route("{id:objectId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteGame([FromUri]ObjectId id)
+        public async Task<IHttpActionResult> DeleteGame([FromUri]ObjectId id)
         {
             bool removed = false;
 
             if (id != ObjectId.Empty)
             {
-                removed = gameService.Remove(id);
+                removed = await gameService.RemoveAsync(id);
             }
 
             if (!removed)

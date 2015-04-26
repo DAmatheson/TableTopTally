@@ -6,10 +6,10 @@
 *      Drew Matheson, 2014.05.29: Created
 */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using MongoDB.Driver.Builders;
+using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using TableTopTally.DataModels.Models;
 
 namespace TableTopTally.MongoDataAccess.Services
@@ -24,46 +24,39 @@ namespace TableTopTally.MongoDataAccess.Services
         /// </summary>
         /// <param name="game">Game representing the game to be update</param>
         /// <returns>A bool representing if the edit completed successfully</returns>
-        public bool Edit(Game game)
+        public async Task<bool> EditAsync(Game game)
         {
-            return collection.Update(
-                Query.EQ("_id", game.Id),
-                Update.Set("Name", game.Name).
-                    Set("MinimumPlayers", game.MinimumPlayers).
-                    Set("MaximumPlayers", game.MaximumPlayers)).
-                UpdatedExisting;
+            var result = await collection.UpdateOneAsync(g => g.Id == game.Id,
+                Builders<Game>.Update.
+                    Set(g => g.Name, game.Name).
+                    Set(g => g.MinimumPlayers, game.MinimumPlayers).
+                    Set(g => g.MaximumPlayers, game.MaximumPlayers));
+
+            return result.MatchedCount == 1;
         }
 
         /// <summary>
         /// Gets all of the games in the database sorted by Name
         /// </summary>
         /// <returns>An IEnumerable of type Game sorted by Name</returns>
-        public IEnumerable<Game> GetGames()
+        public async Task<IEnumerable<Game>> GetGamesAsync()
         {
-            // Unsure: Should I .ToList()? Doing so will take care of disposing the cursor
-
-            return collection.FindAll().SetSortOrder(SortBy.Ascending("Name"));
+            return await collection.
+                Find(new BsonDocument()). // new BsonDocument() is an empty filter in this situation
+                Sort(Builders<Game>.Sort.Ascending(g => g.Name)).
+                ToListAsync();
         }
 
         /// <summary>
-        /// Gets a game by its Url value and returns the result
+        /// Gets a game by its Url value and returns the result.  If no match is found, null is returned
         /// </summary>
         /// <param name="gameUrl">Url value of the game to find</param>
         /// <returns>The Game object or null if a gameUrl is unmatched</returns>
-        public Game FindByUrl(string gameUrl)
+        public async Task<Game> FindByUrlAsync(string gameUrl)
         {
-            Game game;
-
-            try
-            {
-                game = collection.Find(Query.EQ("Url", gameUrl)).Single();
-            }
-            catch (InvalidOperationException)
-            {
-                game = null; // Return null when the result returns zero or more than one result
-            }
-
-            return game;
+            return await collection.
+                Find(Builders<Game>.Filter.Eq(g => g.Url, gameUrl)).
+                FirstOrDefaultAsync();
         }
     }
 }

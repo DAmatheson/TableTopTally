@@ -7,16 +7,17 @@
  */
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TableTopTally.DataModels.Models;
 
 namespace TableTopTally.MongoDataAccess.Services
 {
     public interface IGameService : IMongoService<Game>
     {
-        bool Edit(Game game);
+        Task<bool> EditAsync(Game game);
 
-        IEnumerable<Game> GetGames();
+        Task<IEnumerable<Game>> GetGamesAsync();
 
-        Game FindByUrl(string gameUrl);
+        Task<Game> FindByUrlAsync(string gameUrl);
     }
 }

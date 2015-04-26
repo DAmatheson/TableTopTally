@@ -1,10 +1,11 @@
-﻿using TableTopTally.MongoDataAccess;
-using TableTopTally.MongoDataAccess.Services;
-using TableTopTally.DataModels.MongoDB.Entities;
+﻿using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
+using TableTopTally.DataModels.MongoDB.Entities;
+using TableTopTally.MongoDataAccess;
+using TableTopTally.MongoDataAccess.Services;
 
-namespace TableTopTally.Tests.Integration.MongoDB.Services
+namespace MongoDataAccess.Tests.Integration.Services
 {
     public abstract class BaseMongoServiceTests<TService, TEntity> where TService : IMongoService<TEntity>
                                                                    where TEntity : IMongoEntity
@@ -17,99 +18,101 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
 
         protected readonly string EMPTY_OBJECT_ID_STRING = ObjectId.Empty.ToString();
 
-        protected virtual void AddEntityToCollection(TEntity entity, TService service)
+        protected readonly BsonDocument EMPTY_FILTER = new BsonDocument();
+
+        protected virtual async Task AddEntityToCollection(TEntity entity, TService service)
         {
-            service.Add(entity);
+            await service.AddAsync(entity);
         }
 
         [SetUp]
-        public virtual void SetUp_ClearCollection()
+        public virtual async void SetUp_ClearCollection()
         {
             var collection = MongoHelper.GetTableTopCollection<TEntity>();
 
-            collection.RemoveAll();
+            await collection.DeleteManyAsync(EMPTY_FILTER);
         }
 
         [Test]
-        public void Add_ValidEntity_ReturnsTrue()
+        public async Task Add_ValidEntity_ReturnsTrue()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            bool result = service.Add(entity);
+            bool result = await service.AddAsync(entity);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Add_IdInCollection_ReturnsFalse()
+        public async Task Add_IdInCollection_ReturnsFalse()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
-            bool result = service.Add(entity);
+            bool result = await service.AddAsync(entity);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void Add_EmptyId_HasIdAfterInsert()
+        public async Task Add_EmptyId_HasIdAfterInsert()
         {
             TEntity entity = CreateEntity(EMPTY_OBJECT_ID_STRING);
             TService service = GetService();
 
-            service.Add(entity);
+            await service.AddAsync(entity);
 
             Assert.That(entity.Id, Is.Not.EqualTo(ObjectId.Empty));
         }
 
         [Test]
-        public void Remove_IdInCollection_ReturnsTrue()
+        public async Task Remove_IdInCollection_ReturnsTrue()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
             AddEntityToCollection(entity, service);
 
-            bool result = service.Remove(entity.Id);
+            bool result = await service.RemoveAsync(entity.Id);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Remove_IdNotInCollection_ReturnsFalse()
+        public async Task Remove_IdNotInCollection_ReturnsFalse()
         {
             ObjectId id = new ObjectId(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            bool result = service.Remove(id);
+            bool result = await service.RemoveAsync(id);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public virtual void FindById_IdInCollection_ReturnsMatchingEntity()
+        public virtual async Task FindById_IdInCollection_ReturnsMatchingEntity()
         {
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
             AddEntityToCollection(entity, service);
 
-            TEntity retrieved = service.FindById(entity.Id);
+            TEntity retrieved = await service.FindByIdAsync(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
         }
 
         [Test]
-        public void FindById_IdNotInCollection_ReturnsNull()
+        public async Task FindById_IdNotInCollection_ReturnsNull()
         {
             ObjectId id = new ObjectId(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            TEntity retrieved = service.FindById(id);
+            TEntity retrieved = await service.FindByIdAsync(id);
 
             Assert.IsNull(retrieved);
         }

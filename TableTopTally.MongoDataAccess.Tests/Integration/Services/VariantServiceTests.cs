@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TableTopTally.MongoDataAccess.Services;
-using TableTopTally.DataModels.Models;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
+using TableTopTally.DataModels.Models;
+using TableTopTally.MongoDataAccess.Services;
 
-namespace TableTopTally.Tests.Integration.MongoDB.Services
+namespace MongoDataAccess.Tests.Integration.Services
 {
     [TestFixture]
     class VariantServiceTests : BaseMongoServiceTests<GameVariantService, GameVariant>
@@ -36,44 +37,44 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void Edit_IdNotInDb_ReturnsFalse()
+        public async Task Edit_IdNotInDb_ReturnsFalse()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariantService service = GetService();
 
-            bool result = service.Edit(entity);
+            bool result = await service.EditAsync(entity);
 
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void Edit_IdInDb_ReturnsTrue()
+        public async Task Edit_IdInDb_ReturnsTrue()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariantService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             entity.Name = "UpdatedVariant";
 
             // Act
-            bool result = service.Edit(entity);
+            bool result = await service.EditAsync(entity);
 
             Assert.IsTrue(result);
         }
 
         [Test]
-        public void Edit_IdInDb_DoesNotDuplicateScoreItems()
+        public async Task Edit_IdInDb_DoesNotDuplicateScoreItems()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariantService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
             entity.ScoreItems.Add(new ScoreItem { Name = "b", Description = "b" });
-            service.Edit(entity);
+            await service.EditAsync(entity);
 
             // Act
-            GameVariant retrieved = service.FindById(entity.Id);
+            GameVariant retrieved = await service.FindByIdAsync(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -81,17 +82,17 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void FindById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
+        public async Task FindById_AfterEditOfVariant_SuccessfullyDeserializesVariant()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariantService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
             entity.Name = "a";
-            service.Edit(entity);
+            await service.EditAsync(entity);
 
             // Act
-            GameVariant retrieved = service.FindById(entity.Id);
+            GameVariant retrieved = await service.FindByIdAsync(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -99,15 +100,15 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public override void FindById_IdInCollection_ReturnsMatchingEntity()
+        public override async Task FindById_IdInCollection_ReturnsMatchingEntity()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariantService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             // Act
-            GameVariant retrieved = service.FindById(entity.Id);
+            GameVariant retrieved = await service.FindByIdAsync(entity.Id);
 
             Assert.IsNotNull(retrieved);
             Assert.That(retrieved.Id, Is.EqualTo(entity.Id));
@@ -117,41 +118,41 @@ namespace TableTopTally.Tests.Integration.MongoDB.Services
         }
 
         [Test]
-        public void FindGameVariants_EmptyCollection_ReturnsEmptyEnumerable()
+        public async Task FindGameVariants_EmptyCollection_ReturnsEmptyEnumerable()
         {
             GameVariantService service = GetService();
 
             // Act
-            IEnumerable<GameVariant> retrievedVariants = service.FindGameVariants(new ObjectId(VALID_STRING_OBJECT_ID));
+            IEnumerable<GameVariant> retrievedVariants = await service.FindGameVariantsAsync(new ObjectId(VALID_STRING_OBJECT_ID));
 
             Assert.IsNotNull(retrievedVariants);
             Assert.That(retrievedVariants, Is.Empty);
         }
 
         [Test]
-        public void FindGameVariants_EmptyId_ReturnsEmptyEnumerable()
+        public async Task FindGameVariants_EmptyId_ReturnsEmptyEnumerable()
         {
             GameVariantService service = GetService();
 
             // Act
-            IEnumerable<GameVariant> retrievedVariants = service.FindGameVariants(ObjectId.Empty);
+            IEnumerable<GameVariant> retrievedVariants = await service.FindGameVariantsAsync(ObjectId.Empty);
 
             Assert.IsNotNull(retrievedVariants);
             Assert.That(retrievedVariants, Is.Empty);
         }
 
         [Test]
-        public void FindGameVariants_GameIdInDb_ReturnsMatchingVariants()
+        public async Task FindGameVariants_GameIdInDb_ReturnsMatchingVariants()
         {
             GameVariant entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameVariant entity2 = CreateEntity("54a4290ed968bc127cdeaf2e");
             GameVariantService service = GetService();
 
-            AddEntityToCollection(entity, service);
-            AddEntityToCollection(entity2, service);
+            await AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity2, service);
 
             // Act
-            IEnumerable<GameVariant> retrievedVariants = service.FindGameVariants(entity.GameId);
+            IEnumerable<GameVariant> retrievedVariants = await service.FindGameVariantsAsync(entity.GameId);
 
             Assert.IsNotNull(retrievedVariants);
 

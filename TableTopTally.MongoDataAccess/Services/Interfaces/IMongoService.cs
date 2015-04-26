@@ -6,6 +6,7 @@
  *      Drew Matheson, 2014.06.03: Created
  */
 
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using TableTopTally.DataModels.MongoDB.Entities;
 
@@ -13,10 +14,10 @@ namespace TableTopTally.MongoDataAccess.Services
 {
     public interface IMongoService<T> where T : IMongoEntity
     {
-        bool Add(T entity);
+        Task<bool> AddAsync(T entity);
 
-        bool Remove(ObjectId id);
+        Task<bool> RemoveAsync(ObjectId id);
 
-        T FindById(ObjectId id);
+        Task<T> FindByIdAsync(ObjectId id);
     }
 }
