@@ -74,7 +74,7 @@ namespace MongoDataAccess.Tests.Integration.Services
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             bool result = await service.RemoveAsync(entity.Id);
 
@@ -98,7 +98,7 @@ namespace MongoDataAccess.Tests.Integration.Services
             TEntity entity = CreateEntity(VALID_STRING_OBJECT_ID);
             TService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             TEntity retrieved = await service.FindByIdAsync(entity.Id);
 

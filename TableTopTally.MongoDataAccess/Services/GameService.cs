@@ -8,7 +8,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using TableTopTally.DataModels.Models;
 
@@ -42,7 +41,7 @@ namespace TableTopTally.MongoDataAccess.Services
         public async Task<IEnumerable<Game>> GetGamesAsync()
         {
             return await collection.
-                Find(new BsonDocument()). // new BsonDocument() is an empty filter in this situation
+                Find(EmptyFilter).
                 Sort(Builders<Game>.Sort.Ascending(g => g.Name)).
                 ToListAsync();
         }

@@ -81,7 +81,7 @@ namespace MongoDataAccess.Tests.Integration.Services
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             // Act
             Game game = await service.FindByIdAsync(entity.Id);
@@ -98,7 +98,7 @@ namespace MongoDataAccess.Tests.Integration.Services
         {
             Game entity = CreateEntity(VALID_STRING_OBJECT_ID);
             GameService service = GetService();
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             entity.Name = "Game Edited";
 
@@ -127,7 +127,7 @@ namespace MongoDataAccess.Tests.Integration.Services
 
             GameService service = GetService();
 
-            AddEntityToCollection(entity, service);
+            await AddEntityToCollection(entity, service);
 
             // Act
             Game retrieved = await service.FindByUrlAsync(entity.Url);
