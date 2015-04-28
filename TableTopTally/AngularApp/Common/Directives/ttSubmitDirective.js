@@ -1,8 +1,5 @@
 ﻿/* ttSubmitDirective.js
  * Purpose: Angular directive to simplify form validation
- * 
- * Revision History:
- *      Drew Matheson, 2014.08.14
  */
 
 (function()
@@ -19,7 +16,7 @@
                 restrict: 'A', // Restrict this directive to attributes
                 require: ['ttSubmit', '?form'], // The directive requires the controllers ttSubmit and the form's controller
                 controller:
-                    function()
+                    function ttSubmitController()
                     {
                         this.attempted = false;
 
@@ -40,6 +37,13 @@
                             if (!formController)
                             {
                                 return false;
+                            }
+
+                            // Allow this directive to work in ng-if by passing in the string 
+                            // name of the field rather than its controller
+                            if (typeof fieldModelController === 'string')
+                            {
+                                fieldModelController = formController[fieldModelController];
                             }
 
                             if (fieldModelController)

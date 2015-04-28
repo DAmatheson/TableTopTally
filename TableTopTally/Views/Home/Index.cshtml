@@ -1,8 +1,5 @@
 ﻿@*{ Index.cshtml
         Purpose: Layout for TableTopTally's Angular app
-
-        Revision History:
-            Drew Matheson, 2014.5.1: Created
 }*@
 
 <!DOCTYPE html>
@@ -26,17 +23,23 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="/">TableTop Tally</a>
+                <a class="navbar-brand" href="/"><img src="~/favicon.ico" alt="TableTopTally Logo" height="20"/></a>
             </div>
-            <div class="navbar-collapse collapse" id="tt-navbar-collapse">
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="games">Games</a>
                     </li>
+                    <li class="disabled">
+                        <a href="sessions">Sessions</a>
+                    </li>
+                    <li class="disabled">
+                        <a href="groups">Groups</a>
+                    </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    <li class="disabled">
                         <a href="Account/Register">Register</a>
                     </li>
                 </ul>

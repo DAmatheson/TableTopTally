@@ -17,8 +17,10 @@ namespace TableTopTally
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/Scripts/Library/Angular/angular.js",
                         //"~/Scripts/Library/Angular/angular-animate.js", // Currently only for Ionic
+                        //"~/Scripts/Library/Angular/angular-aria.js",
                         //"~/Scripts/Library/Angular/angular-cookies.js",
                         //"~/Scripts/Library/Angular/angular-loader.js",
+                        "~/Scripts/Library/Angular/angular-messages.js",
                         "~/Scripts/Library/Angular/angular-resource.js",
                         "~/Scripts/Library/Angular/angular-route.js",
                         //"~/Scripts/Library/Angular/angular-sanitize.js", // Currently only for Ionic

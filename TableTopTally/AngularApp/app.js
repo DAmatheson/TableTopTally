@@ -1,8 +1,5 @@
 ﻿/* app.js
  *  Purpose: Angular app for TableTop Tally
- *
- *  Revision History:
- *      Drew Matheson, 2014.08.03: Created
 */
 
 (function()
@@ -41,5 +38,5 @@
     // Define common modules here rather than in their own files so that they don't override each other
     // or require a specific loading order to prevent overriding
     angular.module('tableTopTally.services', ['ngResource']); // tt.services requires ngResource
-    angular.module('tableTopTally.directives', []);
+    angular.module('tableTopTally.directives', ['ngMessages']); // tt.directives requires ngMessages
 })();

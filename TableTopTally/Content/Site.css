@@ -20,3 +20,12 @@ textarea {
 {
     margin-bottom: 20px;
 }
+
+/* Remove bottom margin from error message uls except for the last one. For ng-messages containers */
+div.text-danger.error-messages ul {
+    margin-bottom: 0;
+}
+
+div.text-danger.error-messages ul:last-child {
+    margin-bottom: 10px;
+}

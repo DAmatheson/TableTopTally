@@ -1,9 +1,6 @@
 ﻿/* games.js
  *  Purpose: Angular sub-module for games in TableTop Tally
- *
- *  Revision History:
- *      Drew Matheson, 2014.08.20: Created
-*/
+ */
 
 (function()
 {
