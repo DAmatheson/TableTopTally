@@ -254,6 +254,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Library\AngularLoadingBar\loading-bar.css" />
+    <Content Include="Scripts\Library\AngularLoadingBar\loading-bar.js" />
     <Content Include="Scripts\Library\Angular\angular-animate.js" />
     <Content Include="Scripts\Library\Angular\angular-animate.min.js" />
     <Content Include="Scripts\Library\Angular\angular-aria.js" />

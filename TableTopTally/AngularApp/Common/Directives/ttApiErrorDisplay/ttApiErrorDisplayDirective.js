@@ -139,8 +139,6 @@
 
                 // Assign the controller to tt.randomPicker
                 scope.tt.apiErrorDisplay = apiErrorDisplayController;
-
-                console.log(apiErrorDisplayController);
             };
 
             return {

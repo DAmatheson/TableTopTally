@@ -16,12 +16,13 @@
         'games',
         'notFound.controllers',
         'tableTopTally.services',
-        'tableTopTally.directives'
+        'tableTopTally.directives',
+        'angular-loading-bar'
     ]);
 
     ttApp.config([
-        '$locationProvider', '$routeProvider',
-        function($locationProvider, $routeProvider)
+        '$locationProvider', '$routeProvider', 'cfpLoadingBarProvider',
+        function ($locationProvider, $routeProvider, cfpLoadingBarProvider)
         {
             // 404 page with link back to '/'
             $routeProvider.otherwise(
@@ -32,6 +33,8 @@
 
             // use HTML5 History API (Removes /#/ after domain but requires proper handling on the server)
             $locationProvider.html5Mode(true);
+
+            cfpLoadingBarProvider.includeBar = false;
         }
     ]);
 

@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-static-top">
+<div class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tt-navbar-collapse">
@@ -68,22 +68,9 @@
     @Scripts.Render("~/bundles/angular")
 
     <script type="text/javascript">
-        // Fix for bootstrap navbar responsive dropdown not collapsing when a link in it is clicked
-        $(document).on('click', '.navbar-collapse.in', function (e)
+        $(document).on('click', 'a', function()
         {
-            if ($(e.target).is('a'))
-            {
-                $(this).collapse('hide');
-            }
-        });
-
-        // Also collapse the navbar responsive dropdown menu if you click the navbar brand link
-        $(document).on('click', '.navbar-brand', function (e)
-        {
-            if ($(e.target).is('a'))
-            {
-                $('.navbar-collapse.in').collapse('hide');
-            }
+            $('.navbar-collapse.in').collapse('hide');
         });
     </script>
 </body>

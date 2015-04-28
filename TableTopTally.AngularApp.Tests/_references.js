@@ -11,6 +11,7 @@
 /// <reference path="~/../TableTopTally/scripts/library/angular/angular-resource.js" />
 /// <reference path="~/../TableTopTally/scripts/library/angular/angular-route.js" />
 /// <reference path="~/../TableTopTally/scripts/library/angular/angular-mocks.js" />
+/// <reference path="~/../TableTopTally/scripts/library/angularloadingbar/loading-bar.js" />
 
 /// <reference path="~/../TableTopTally/AngularApp/app.js" />
 /// <reference path="~/../TableTopTally/AngularApp/Common/Services/ValuesService.js" />

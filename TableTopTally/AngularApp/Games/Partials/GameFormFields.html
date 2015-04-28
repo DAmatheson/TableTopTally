@@ -15,7 +15,8 @@
                 Minimum Players must not exceed the Maximum Players.
             </div>
 
-            <div ng-show="{{ formName }}.minimumPlayers.$error.required">
+            <div ng-show="{{ formName }}.minimumPlayers.$error.required ||
+                  {{ formName }}.minimumPlayers.$error.number">
                 Enter the game's minimum number of players.
                 
                 <span ng-show="{{ formName }}.minimumPlayers.$error.number">
@@ -30,9 +31,10 @@
         </li>
 
         <li ng-show="tt.{{ formName }}.hasError({{ formName }}.maximumPlayers)">
-            <div ng-show="{{ formName }}.maximumPlayers.$error.required">
+            <div ng-show="{{ formName }}.maximumPlayers.$error.required ||
+                  {{ formName }}.maximumPlayers.$error.number">
                 Enter the game's maximum number of players.
-                
+
                 <span ng-show="{{ formName }}.maximumPlayers.$error.number">
                     Not a valid number.
                 </span>

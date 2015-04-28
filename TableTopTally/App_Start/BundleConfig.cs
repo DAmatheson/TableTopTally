@@ -16,13 +16,23 @@ namespace TableTopTally
             // Drew added this - Note: No idea if it works or is proper!
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                         "~/Scripts/Library/Angular/angular.js",
-                        //"~/Scripts/Library/Angular/angular-animate.js",
+                        //"~/Scripts/Library/Angular/angular-animate.js", // Currently only for Ionic
                         //"~/Scripts/Library/Angular/angular-cookies.js",
                         //"~/Scripts/Library/Angular/angular-loader.js",
                         "~/Scripts/Library/Angular/angular-resource.js",
-                        "~/Scripts/Library/Angular/angular-route.js"
-                        //"~/Scripts/Library/Angular/angular-sanitize.js",
+                        "~/Scripts/Library/Angular/angular-route.js",
+                        //"~/Scripts/Library/Angular/angular-sanitize.js", // Currently only for Ionic
                         //"~/Scripts/Library/Angular/angular-touch.js"
+
+                        // Ionic scripts
+                        //"~/Scripts/Library/Ionic/js/angular-ui/angular-ui-router.js",
+                        //"~/Scripts/Library/Ionic/js/ionic.js",
+                        //"~/Scripts/Library/Ionic/js/ionic-bundle.js",
+                        //"~/Scripts/Library/Ionic/js/ionic-angular.js",
+                        //"~/Scripts/Library/Ionic/js/ionic-angular.js"
+
+                        // Loading Bar
+                        "~/Scripts/Library/AngularLoadingBar/loading-bar.js"
                         ).
                         IncludeDirectory("~/AngularApp", "*.js", true));
 
@@ -36,6 +46,8 @@ namespace TableTopTally
                       "~/Scripts/Library/respond/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      //"~/Scripts/Library/Ionic/css/ionic.css",
+                      "~/Scripts/Library/AngularLoadingBar/loading-bar.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 

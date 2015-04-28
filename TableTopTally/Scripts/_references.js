@@ -45,3 +45,4 @@
 /// <reference path="../angularapp/common/directives/ttapisuccessdisplay/ttapisuccessdisplaydirective.js" />
 /// <reference path="../angularapp/common/directives/ttrandompicker/ttrandompickerdirective.js" />
 /// <reference path="library/jqueryvalidate/jquery.validate.unobtrusive.js" />
+/// <reference path="library/angularloadingbar/loading-bar.js" />
