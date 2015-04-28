@@ -21,11 +21,15 @@ module.exports = function(config) {
       'TableTopTally/Scripts/Library/Angular/angular-resource.js',
       'TableTopTally/Scripts/Library/Angular/angular-route.js',
       'TableTopTally/Scripts/Library/Angular/angular-mocks.js',
+      'TableTopTally/Scripts/Library/Angular/angular-messages.js',
+      'TableTopTally/Scripts/Library/AngularLoadingBar/loading-bar.js',
+      
       'TableTopTally/AngularApp/*.js',
       'TableTopTally/AngularApp/*/*.js',
       'TableTopTally/AngularApp/**/*.js',
-      'TableTopTally.Tests/AngularAppUnitTests/*.spec.js',
-      'TableTopTally.Tests/AngularAppUnitTests/**/*.spec.js'
+      
+      'TableTopTally.AngularApp.Tests/*.spec.js',
+      'TableTopTally.AngularApp.Tests/**/*.spec.js'
     ],
 
 

@@ -2,43 +2,33 @@
 
 describe('Controller: homeController', function ()
 {
-    var scope;
+    var $scope;
     var homeController;
     var layoutValues;
 
-    beforeEach(module('tableTopTally'));
+    beforeEach(module('home'));
 
     beforeEach(inject(
         function ($rootScope, $controller, _layoutValues_)
         {
-            scope = $rootScope.$new();
+            $scope = {};
             layoutValues = _layoutValues_;
 
             homeController = $controller('homeController',
             {
-                $scope: scope,
+                $scope: $scope,
                 layoutValues: layoutValues
             });
         }
     ));
 
-    it('should have scope defined', function ()
+    it('sets $scope.title', function()
     {
-        expect(scope).toBeDefined();
+        expect($scope.title).toEqual('Home');
     });
 
-    it('should set scope.title', function()
+    it('sets layoutValues.title to be the same title as $scope.title', function()
     {
-        expect(scope.title).toEqual('Home');
-    });
-
-    it('should set layoutValues.title', function()
-    {
-        expect(layoutValues.title()).toMatch('Home');
-    });
-
-    it('should set layoutValues.title to contain the same title as scope.title', function()
-    {
-        expect(layoutValues.title()).toMatch(scope.title);
+        expect(layoutValues.title()).toMatch($scope.title);
     });
 });

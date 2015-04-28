@@ -1,8 +1,5 @@
 ﻿/* home.js
  *  Purpose: Angular sub-module for the home page in TableTop Tally
- *
- *  Revision History:
- *      Drew Matheson, 2014.08.20: Created
 */
 
 (function()
@@ -15,5 +12,6 @@
         'home.controllers'
     ]);
 
-    angular.module('home.controllers', []);
+    // Depends upon tableTopTally.services for layoutValues
+    angular.module('home.controllers', ['tableTopTally.services']);
 })();

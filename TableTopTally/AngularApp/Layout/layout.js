@@ -14,5 +14,6 @@
         'layout.controller'
     ]);
 
-    angular.module('layout.controller', []);
+    // Depends upon tableTopTally.services for layoutValues
+    angular.module('layout.controller', ['tableTopTally.services']);
 })();

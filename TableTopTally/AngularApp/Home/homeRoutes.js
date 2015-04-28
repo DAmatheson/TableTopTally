@@ -1,8 +1,5 @@
 ﻿/* homeRoutes.js
  *  Purpose: Routes for the home module
- * 
- *  Revision History:
- *      Drew Matheson, 2014.08.21: Created
  */
 
 (function()
@@ -15,7 +12,7 @@
         '$routeProvider',
         function($routeProvider)
         {
-            $routeProvider.when("/",
+            $routeProvider.when('/',
             {
                 templateUrl: 'AngularApp/Home/Home.html',
                 controller: 'homeController'
