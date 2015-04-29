@@ -49,8 +49,8 @@
     <None Include="_references.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Home\homeController.spec.js" />
-    <Content Include="Home\homeRoutes.spec.js" />
+    <Content Include="app.spec.js" />
+    <Content Include="Home\home.spec.js" />
     <Content Include="jasmine\boot.js" />
     <Content Include="jasmine\console.js" />
     <Content Include="jasmine\jasmine-html.js" />

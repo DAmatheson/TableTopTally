@@ -18,6 +18,9 @@ Tabletop scorer made with ASP.NET MVC 5, WebAPI 2, AngularJS, and MongoDB
 * npm install -g karma-firefox-launcher
 * npm install -g karma-ie-launcher
 
+#### Optional to have an HTML report available at localhost:9876/debug.html
+* npm install -g karma-jasmine-html-reporter
+
 Open up a command prompt and move to the base directory containing
 TableTopTally and TableTopTally.Tests
 
