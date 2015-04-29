@@ -1,5 +1,7 @@
 ﻿/// <autosync enabled="true" />
 
+/// <reference path="~/jasmine/IntelliSense/jasmine.d.ts"/>
+
 /// <reference path="~/jasmine/jasmine.js" />
 /// <reference path="~/jasmine/jasmine-html.js" />
 /// <reference path="~/jasmine/boot.js" />

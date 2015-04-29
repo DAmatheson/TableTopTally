@@ -55,6 +55,10 @@
     <Content Include="jasmine\console.js" />
     <Content Include="jasmine\jasmine-html.js" />
     <Content Include="jasmine\jasmine.js" />
+    <Content Include="NotFound\notFoundController.spec.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="jasmine\IntelliSense\jasmine.d.ts" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

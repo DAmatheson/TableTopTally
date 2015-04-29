@@ -24,7 +24,7 @@ describe('Module: home', function()
             }
         ));
 
-        it('sets $scope.title', function ()
+        it('sets $scope.title to Home', function ()
         {
             expect($scope.title).toEqual('Home');
         });
