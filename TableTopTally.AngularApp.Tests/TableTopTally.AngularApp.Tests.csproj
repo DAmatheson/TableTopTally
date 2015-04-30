@@ -51,14 +51,15 @@
   <ItemGroup>
     <Content Include="app.spec.js" />
     <Content Include="Home\home.spec.js" />
-    <Content Include="jasmine\boot.js" />
-    <Content Include="jasmine\console.js" />
-    <Content Include="jasmine\jasmine-html.js" />
-    <Content Include="jasmine\jasmine.js" />
+    <Content Include="Layout\layout.spec.js" />
+    <Content Include="_jasmine\boot.js" />
+    <Content Include="_jasmine\console.js" />
+    <Content Include="_jasmine\jasmine-html.js" />
+    <Content Include="_jasmine\jasmine.js" />
     <Content Include="NotFound\notFoundController.spec.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="jasmine\IntelliSense\jasmine.d.ts" />
+    <TypeScriptCompile Include="_jasmine\IntelliSense\jasmine.d.ts" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

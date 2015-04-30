@@ -1,8 +1,5 @@
 ﻿/* layoutController.js
  * Purpose: Controller for the layout
- * 
- * Revision History:
- *      Drew Matheson, 2014.08.15: Created
  */
 
 (function()
@@ -11,7 +8,7 @@
 
     var layoutModule = angular.module('layout.controller');
 
-    // Controller for the layout page
+    // Controller for the page layout
     layoutModule.controller('layoutController', ['$scope', 'layoutValues',
         function($scope, layoutValues)
         {

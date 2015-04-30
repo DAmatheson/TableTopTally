@@ -1,11 +1,11 @@
 ﻿/// <autosync enabled="true" />
 
-/// <reference path="~/jasmine/IntelliSense/jasmine.d.ts"/>
+/// <reference path="~/_jasmine/IntelliSense/jasmine.d.ts"/>
 
-/// <reference path="~/jasmine/jasmine.js" />
-/// <reference path="~/jasmine/jasmine-html.js" />
-/// <reference path="~/jasmine/boot.js" />
-/// <reference path="~/jasmine/console.js" />
+/// <reference path="~/_jasmine/jasmine.js" />
+/// <reference path="~/_jasmine/jasmine-html.js" />
+/// <reference path="~/_jasmine/boot.js" />
+/// <reference path="~/_jasmine/console.js" />
 
 /// <reference path="~/../TableTopTally/scripts/library/modernizr-2.7.2.js" />
 /// <reference path="~/../TableTopTally/scripts/library/jquery/jquery-2.1.1.js" />

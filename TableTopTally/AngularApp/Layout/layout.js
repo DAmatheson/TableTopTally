@@ -1,8 +1,5 @@
 ﻿/* layout.js
  *  Purpose: Angular sub-module for changing values in the layout
- *
- *  Revision History:
- *      Drew Matheson, 2014.08.20: Created
 */
 
 (function()
