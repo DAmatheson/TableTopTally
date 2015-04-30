@@ -6,6 +6,7 @@
 /// <reference path="~/_jasmine/jasmine-html.js" />
 /// <reference path="~/_jasmine/boot.js" />
 /// <reference path="~/_jasmine/console.js" />
+/// <reference path="~/_jasmine/Helpers/jasmine-helpers.js"/>
 
 /// <reference path="~/../TableTopTally/scripts/library/modernizr-2.7.2.js" />
 /// <reference path="~/../TableTopTally/scripts/library/jquery/jquery-2.1.1.js" />

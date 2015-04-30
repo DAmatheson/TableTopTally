@@ -1,8 +1,5 @@
 ﻿/* layoutValuesService.js
  *  Purpose: Service module for various layout values such as title
- * 
- *  Revision History:
- *      Drew Matheson, 2014.08.27: Created
  */
 
 (function () 
@@ -23,7 +20,13 @@
             },
             setTitle: function(newTitle)
             {
-                if (newTitle) // If the new title isn't an empty string
+                if (typeof (newTitle) === 'string')
+                {
+                    newTitle = newTitle.trim();
+                }
+
+                // If the new title isn't an empty string or other falsy value
+                if (newTitle)
                 {
                     title = newTitle + ' - TableTop Tally';
                 }

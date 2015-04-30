@@ -50,10 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.spec.js" />
+    <Content Include="Common\Services\layoutValuesService.spec.js" />
     <Content Include="Home\home.spec.js" />
     <Content Include="Layout\layout.spec.js" />
     <Content Include="_jasmine\boot.js" />
     <Content Include="_jasmine\console.js" />
+    <Content Include="_jasmine\Helpers\jasmine-helpers.js" />
     <Content Include="_jasmine\jasmine-html.js" />
     <Content Include="_jasmine\jasmine.js" />
     <Content Include="NotFound\notFoundController.spec.js" />

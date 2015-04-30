@@ -16,7 +16,7 @@
 
     // Declare modules that are defined in more than one file here rather than in their own files so
     // that they don't override each other or require a specific loading order to prevent overriding
-    angular.module('games.services', ['ngResource']); // games.services requires ngResource
-    angular.module('games.directives', []);
+    angular.module('games.services', ['ngResource']); // GameDataService requires ngResource
+    angular.module('games.directives', ['ngMessages']); // GameFormFieldsDirective requires ngMessages
     angular.module('games.controllers', []);
 })();

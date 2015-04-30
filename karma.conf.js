@@ -15,6 +15,8 @@ module.exports = function(config) {
     
     // list of files / patterns to load in the browser
     files: [
+      'TableTopTally.AngularApp.Tests/_jasmine/Helpers/jasmine-helpers.js',
+    
       'TableTopTally/Scripts/Library/modernizr-2.7.2.js',
       'TableTopTally/Scripts/Library/jQuery/jquery-2.1.1.js',
       'TableTopTally/Scripts/Library/Angular/angular.js',
