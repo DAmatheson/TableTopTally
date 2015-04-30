@@ -1,8 +1,5 @@
 ﻿/* tempRedirectionDataService.js
  *  Purpose: Service module for temporary storage of data when redirecting between controllers
- * 
- *  Revision History:
- *      Drew Matheson, 2014.08.07: Created
  */
 
 (function()
@@ -23,10 +20,13 @@
             },
             getData: function()
             {
-                // Auto clear out temp data so stale data isn't used
                 var holdingCache = tempCache;
 
-                tempCache = null;
+                // Clear out temp data so stale data isn't used
+                if (tempCache !== null)
+                {
+                    tempCache = null;
+                }
 
                 return holdingCache;
             },
