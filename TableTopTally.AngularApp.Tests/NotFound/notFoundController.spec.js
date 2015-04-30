@@ -11,7 +11,7 @@ describe('Module: notFound', function ()
         beforeEach(module('notFound.controllers'));
 
         beforeEach(inject(
-            function ($rootScope, $controller, _layoutValues_)
+            function ($controller, _layoutValues_)
             {
                 $scope = {};
                 layoutValues = _layoutValues_;

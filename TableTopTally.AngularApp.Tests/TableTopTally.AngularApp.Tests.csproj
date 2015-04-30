@@ -51,6 +51,7 @@
   <ItemGroup>
     <Content Include="app.spec.js" />
     <Content Include="Common\Services\layoutValuesService.spec.js" />
+    <Content Include="Common\Services\apiSuccessHandler.spec.js" />
     <Content Include="Common\Services\tempRedirectionDataService.spec.js" />
     <Content Include="Home\home.spec.js" />
     <Content Include="Layout\layout.spec.js" />

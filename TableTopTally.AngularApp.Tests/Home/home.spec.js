@@ -11,7 +11,7 @@ describe('Module: home', function()
         beforeEach(module('home'));
 
         beforeEach(inject(
-            function ($rootScope, $controller, _layoutValues_)
+            function ($controller, _layoutValues_)
             {
                 $scope = {};
                 layoutValues = _layoutValues_;

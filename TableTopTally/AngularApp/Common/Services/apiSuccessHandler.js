@@ -1,8 +1,5 @@
 ﻿/* apiSuccessHandler.js
  *  Purpose: Service module for handling API Success results
- * 
- *  Revision History:
- *      Drew Matheson, 2015.04.25: Created
  */
 
 (function ()
