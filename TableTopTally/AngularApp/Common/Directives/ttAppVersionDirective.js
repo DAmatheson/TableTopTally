@@ -1,8 +1,5 @@
 ﻿/* ttVersionDirective.js
- *  Purpose: Angular version number directive
- *
- *  Revision History:
- *      Drew Matheson, 2014.08.07: Created
+ *  Purpose: Angular version number attribute directive
 */
 
 (function()
@@ -16,7 +13,8 @@
         function(version)
         {
             return {
-                template: "TableTop Tally v" + version
+                restrict: 'A', // Restrict it to be only an attribute
+                template: 'TableTop Tally v' + version
             };
         }
     ]);

@@ -1032,7 +1032,7 @@
     <Content Include="AngularApp\Games\Directives\GameDetailsDirective.js" />
     <Content Include="AngularApp\Games\Directives\GameFormFieldsDirective.js" />
     <Content Include="AngularApp\Common\Directives\ttSubmitDirective.js" />
-    <Content Include="AngularApp\Common\Directives\ttVersionDirective.js" />
+    <Content Include="AngularApp\Common\Directives\ttAppVersionDirective.js" />
     <Content Include="AngularApp\Games\Services\GameDataService.js" />
     <Content Include="Scripts\Library\bootstrap\bootstrap.js" />
     <Content Include="Scripts\Library\bootstrap\bootstrap.min.js" />

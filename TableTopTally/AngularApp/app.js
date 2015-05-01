@@ -38,5 +38,5 @@
     // Define common modules here rather than in their own files so that they don't override each other
     // or require a specific loading order to prevent overriding
     angular.module('tableTopTally.services', []);
-    angular.module('tableTopTally.directives', []);
+    angular.module('tableTopTally.directives', ['tableTopTally.services']); // ttAppVersionDirective required ValuesService
 })();
