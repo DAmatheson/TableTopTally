@@ -2,13 +2,13 @@
 
 <hr />
 
-<form name="{{ formName }}" class="form-horizontal" tt-submit novalidate>
+<form name="{{ formName }}" class="form-horizontal" tt-submit="submitGame(game);" novalidate>
     <tt-api-error-display></tt-api-error-display>
     <game-form-fields></game-form-fields>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" ng-click="submitGame(game)">
+            <button class="btn btn-primary">
                 Update Game
             </button>
         </div>
