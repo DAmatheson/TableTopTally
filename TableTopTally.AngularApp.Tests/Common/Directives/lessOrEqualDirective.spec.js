@@ -2,12 +2,6 @@
 
 describe('Module: lessOrEqualDirective', function()
 {
-    // get ngModelController
-    // check $error state for lessOrEqual
-    // change value and make sure it revalidates
-    // check that a validator gets passed into $parser?
-    // $observe vs $parsers
-
     var $scope;
     var $compile;
     var form;
