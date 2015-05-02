@@ -1,8 +1,5 @@
 ﻿/* lessOrEqualDirective.js
  * Purpose: Angular directive to validate that one field is less than or equal to another
- * 
- * Revision History:
- *      Drew Matheson, 2014.08.14
  */
 
 (function()
