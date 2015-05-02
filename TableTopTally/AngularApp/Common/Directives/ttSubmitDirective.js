@@ -8,6 +8,7 @@
 
     var ttDirectives = angular.module('tableTopTally.directives');
 
+    // Provides helper functions to check for errors and prevents form submission of invalid data
     ttDirectives.directive('ttSubmit', [
         '$parse',
         function($parse)
@@ -29,16 +30,17 @@
 
                         this.setFormController = function(controller)
                         {
+                            if (controller === null)
+                            {
+                                throw Error('ttSubmit requires a form controller to work. ' +
+                                    'Only use tt-submit on form elements.');
+                            }
+
                             formController = controller;
                         };
 
                         this.hasError = function(fieldModelController)
                         {
-                            if (!formController)
-                            {
-                                return false;
-                            }
-
                             // Allow this directive to work in ng-if by passing in the string 
                             // name of the field rather than its controller
                             if (typeof fieldModelController === 'string')
@@ -53,8 +55,7 @@
                             }
                             else
                             {
-                                return formController &&
-                                    formController.$invalid &&
+                                return formController.$invalid &&
                                     (formController.$dirty || this.attempted);
                             }
                         };
@@ -81,7 +82,9 @@
                         {
                             var submitController = controllers[0];
                             var formController = (controllers.length > 1) ? controllers[1] : null;
-                            var fn = $parse(attributes.ttSubmit); // Parse tt-submit attribute Ang expression
+
+                            // Converts the attribute value of tt-submit into a function
+                            var fn = $parse(attributes.ttSubmit);
 
                             var formSubmitHandler = function(event)
                             {
@@ -94,14 +97,16 @@
 
                                 if (!formController.$valid) // If the form is invalid
                                 {
-                                    return false; // return false to cancel form submission
+                                    event.preventDefault();
+
+                                    return;
                                 }
 
                                 // Only called if the form is valid
                                 scope.$apply(function()
                                 {
                                     // Call the parsed angular expression from the tt-submit attribute
-                                    fn(scope, { $event: event });
+                                    fn(scope);
                                 });
                             };
 

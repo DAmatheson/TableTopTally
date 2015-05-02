@@ -52,6 +52,7 @@
     <Content Include="app.spec.js" />
     <Content Include="Common\Directives\lessOrEqualDirective.spec.js" />
     <Content Include="Common\Directives\ttAppVersionDirective.spec.js" />
+    <Content Include="Common\Directives\ttSubmitDirective.spec.js" />
     <Content Include="Common\Services\layoutValuesService.spec.js" />
     <Content Include="Common\Services\apiSuccessHandler.spec.js" />
     <Content Include="Common\Services\tempRedirectionDataService.spec.js" />
