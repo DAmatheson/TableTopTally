@@ -29,6 +29,7 @@ karma start
 
 
 ###With ReSharper
+####(Not all tests work properly with ReSharper)
 
 ReSharper -> Tools Section -> Unit Testing -> JavaScript Tests -> Check Enable Jasmine support
 ReSharper -> Tools Section -> Unit Testing -> JavaScript Tests -> Set Jasmine version to 2.0
