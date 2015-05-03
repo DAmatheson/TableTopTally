@@ -241,7 +241,7 @@
     <Content Include="AngularApp\Home\Home.html" />
     <Content Include="AngularApp\Home\home.js" />
     <Content Include="AngularApp\Common\Directives\ttRandomPicker\RandomPicker.html" />
-    <Content Include="AngularApp\Common\Directives\ttRandomPicker\ttrandomPickerDirective.js" />
+    <Content Include="AngularApp\Common\Directives\ttRandomPicker\ttRandomPickerDirective.js" />
     <Content Include="AngularApp\Home\homeController.js" />
     <Content Include="AngularApp\Home\homeRoutes.js" />
     <Content Include="AngularApp\Layout\layoutController.js" />

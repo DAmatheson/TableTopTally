@@ -1,8 +1,5 @@
 ﻿/* ttRandomPickerDirective.js
  * Purpose: Directive to randomly pick a value from text input
- * 
- * Revision History:
- *      Drew Matheson, 2014.08.21: Created
  */
 
 (function()
@@ -18,16 +15,14 @@
             {
                 // controller for the directive
 
-                this.randomResult = "";
+                this.randomResult = '';
 
-                this.randomValues = randomNames; // intialize the value
+                this.randomValues = randomNames; // initialize the value
 
-                this.pickValue = function pickValue()
+                function getRandomInt(min, max)
                 {
-                    var output = randomValue(this.randomValues) + " " + dateFilter(new Date(), "MM/dd @ h:mm:ss a");
-
-                    this.randomResult = output;
-                };
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
 
                 function randomValue(randomValues)
                 {
@@ -46,10 +41,19 @@
                     return pickedValue;
                 }
 
-                function getRandomInt(min, max)
+                this.pickValue = function pickValue()
                 {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                }
+                    if (!this.randomValues || !this.randomValues.trim())
+                    {
+                        this.randomResult = 'Please enter comma or space seperated values to pick from.';
+                    }
+                    else
+                    {
+                        var output = randomValue(this.randomValues) + ' ' + dateFilter(new Date(), 'MM/dd @ h:mm:ss a');
+
+                        this.randomResult = output;
+                    }
+                };
             };
 
             var link = function(scope, element, attributes, randomPickerController)

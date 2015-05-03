@@ -52,6 +52,7 @@
     <Content Include="app.spec.js" />
     <Content Include="Common\Directives\lessOrEqualDirective.spec.js" />
     <Content Include="Common\Directives\ttAppVersionDirective.spec.js" />
+    <Content Include="Common\Directives\ttRandomPicker\ttRandomPickerDirective.spec.js" />
     <Content Include="Common\Directives\ttSubmitDirective.spec.js" />
     <Content Include="Common\Services\layoutValuesService.spec.js" />
     <Content Include="Common\Services\apiSuccessHandler.spec.js" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="_jasmine\IntelliSense\jasmine.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
